@@ -1,6 +1,9 @@
-.Rproj.user
-.Rhistory
+# R session files
 .RData
-.Ruserdata
-.DS_Store
+.Rhistory
 .Rapp.history
+.Ruserdata
+.Rproj.user/
+
+# macOS
+.DS_Store
