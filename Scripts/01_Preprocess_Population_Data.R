@@ -129,3 +129,10 @@ pop_clean <- df %>%
   arrange(geo_code, year, age_code, sex)
 
 View(pop_clean)
+
+dir.create("data_processed", showWarnings = FALSE)
+
+saveRDS(
+  pop_clean,
+  file = "data_processed/population_kreis.rds"
+)
