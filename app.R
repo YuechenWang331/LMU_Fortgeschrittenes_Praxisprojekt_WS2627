@@ -2,6 +2,7 @@ library(shiny)
 library(leaflet)
 library(sf)
 library(dplyr)
+library(shinyWidgets)
 
 # ------------------------------------------------------------
 # Daten einlesen
@@ -47,21 +48,17 @@ ui <- fluidPage(
         selected = "80+"
       ),
       
-      sliderInput(
-        "month_index",
-        "Monat:",
-        min = 1,
-        max = length(months),
-        value = match(as.Date("2022-03-01"), months),
-        step = 1,
+      sliderTextInput(
+        inputId = "month_index",
+        label = "Monat:",
+        choices = format(months, "%m/%Y"),
+        selected = "03/2022",
+        grid = FALSE,
         animate = animationOptions(
           interval = 1500,
           loop = FALSE
-        ),
-        sep = ""
+        )
       ),
-      
-      strong(textOutput("month_label")),
       
       hr(),
       
@@ -114,7 +111,10 @@ server <- function(input, output, session) {
   selected_code <- reactiveVal("09162")
   
   selected_month <- reactive({
-    months[as.integer(input$month_index)]
+    as.Date(
+      paste0("01/", input$month_index),
+      format = "%d/%m/%Y"
+    )
   })
   
   map_values <- reactive({
@@ -132,10 +132,6 @@ server <- function(input, output, session) {
     right = FALSE,
     na.color = "#bdbdbd"
   )
-  
-  output$month_label <- renderText({
-    format(selected_month(), "%m/%Y")
-  })
   
   output$map <- renderLeaflet({
     leaflet() %>%
@@ -229,7 +225,7 @@ server <- function(input, output, session) {
     )
     
     abline(
-      v = as.numeric(selected_month()),
+      v = selected_month(),
       col = "#e6550d",
       lty = 2,
       lwd = 2
