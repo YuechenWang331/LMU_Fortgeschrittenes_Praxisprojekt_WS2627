@@ -3,6 +3,7 @@ library(leaflet)
 library(dplyr)
 library(sf)
 library(htmltools)
+library(shinyWidgets)
 
 # ------------------------------------------------------------
 # Vorbereitete Daten einlesen
@@ -229,14 +230,12 @@ ui <- fluidPage(
         selected = "80+"
       ),
       
-      sliderInput(
-        "month_index",
-        "Monat auswaehlen:",
-        min = 1,
-        max = length(months),
-        value = default_month,
-        step = 1,
-        ticks = FALSE,
+      sliderTextInput(
+        inputId = "month_index",
+        label = "Monat auswaehlen:",
+        choices = format(months, "%m/%Y"),
+        selected = format(months[default_month], "%m/%Y"),
+        grid = FALSE,
         animate = animationOptions(
           interval = 1500,
           loop = FALSE
@@ -415,7 +414,14 @@ server <- function(input, output, session) {
   selected_month <- reactive({
     req(input$month_index)
     
-    months[as.integer(input$month_index)]
+    month_position <- match(
+      input$month_index,
+      format(months, "%m/%Y")
+    )
+    
+    req(!is.na(month_position))
+    
+    months[month_position]
   })
   
   selected_name <- reactive({
