@@ -85,28 +85,7 @@ Aus dem Arbeitsblatt `Kreisreferenz` liest das Projektskript regionale Codes und
 
 Die Tabelle umfasst amtliche Flächenangaben für Kreise zu bestimmten Stichtagen. Im lokalen Aufbereitungsskript werden `geo_code`, `geo_name`, `year` und `area_km2` erstellt.
 
-**Geplante Verwendung:** Berechnung der Bevölkerungsdichte als regionaler Strukturindikator:
-
-
-Die Bevölkerungsdichte wird wie folgt berechnet:
-
-$$
-\text{Bevölkerungsdichte}_{k,t}
-=
-\frac{\text{Bevölkerung}_{k,t}}
-{\text{Gebietsfläche}_{k,t}}
-$$
-
-Dabei bezeichnet:
-
-- $k$: Landkreis
-- $t$: Jahr
-- $\text{Bevölkerung}_{k,t}$: Einwohnerzahl des Landkreises $k$ im Jahr $t$
-- $\text{Gebietsfläche}_{k,t}$: Fläche des Landkreises $k$ im Jahr $t$ (in km²)
-
-Die Bevölkerungsdichte wird in Einwohnern pro km² angegeben.
-
-Dabei muss der Zeit- und Gebietsstand von Zähler und Nenner übereinstimmen.
+**Geplante Verwendung:** Berechnung der Bevölkerungsdichte als regionaler Strukturindikator.
 
 ---
 
