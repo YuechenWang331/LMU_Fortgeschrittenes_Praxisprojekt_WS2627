@@ -1,4 +1,4 @@
-# Datenquellen und Quellenprüfung (ohne RKI)
+# Datenquellen
 
 **Projekt:** Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen  
 **Veranstaltung:** Fortgeschrittenes Praxisprojekt, LMU München, WS 2026/27  
