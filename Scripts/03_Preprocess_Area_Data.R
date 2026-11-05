@@ -1,7 +1,9 @@
 # Prepare GENESIS district area data;
+
 library(readr)
 library(dplyr)
 
+# Read raw area data
 area_kreis <- read_delim(
   "data_raw/11111-0002 Gebietsfläche nach Kreise.csv",
   delim = ";",
@@ -11,20 +13,32 @@ area_kreis <- read_delim(
 ) %>%
   transmute(
     geo_code = `1_variable_attribute_code`,
-    geo_name = `1_variable_attribute_label`,
     year = as.integer(substr(time, 1, 4)),
-    area_km2 = parse_number(value, locale = locale(decimal_mark = ",", grouping_mark = "."))
+    area_km2 = parse_number(
+      value,
+      locale = locale(
+        decimal_mark = ",",
+        grouping_mark = "."
+      )
+    )
   ) %>%
-  filter(!is.na(area_km2)) %>%
-  arrange(year, geo_code)
+  # Keep only 2023
+  filter(year == 2023, !is.na(area_km2)) %>%
+  select(geo_code, area_km2) %>%
+  arrange(geo_code)
 
-# Check the district-year key and the area values before saving.
+# Data quality checks
 stopifnot(
-  !anyDuplicated(area_kreis[c("year", "geo_code")]),
-  is.numeric(area_kreis$area_km2),
-  !anyNA(area_kreis$area_km2)
+  nrow(area_kreis) == 400,
+  !anyDuplicated(area_kreis$geo_code),
+  !anyNA(area_kreis),
+  all(is.finite(area_kreis$area_km2)),
+  all(area_kreis$area_km2 > 0)
 )
 
-print(count(area_kreis, year))
-cat("Total:", nrow(area_kreis), "rows;", ncol(area_kreis), "columns\n")
-saveRDS(area_kreis, "data_processed/area_kreis.rds")
+# Save cleaned data
+saveRDS(
+  area_kreis,
+  "data_processed/area_kreis_2023.rds"
+)
+
