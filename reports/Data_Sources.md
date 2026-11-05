@@ -8,11 +8,12 @@
 
 ## 1. Kurzüberblick
 
-| Nr. | Datensatz                                                             | Originalinstitution                                      | Offizielle Referenz           | Lokale Rohdatei                                                                  | Quellenstatus                                              |
-| --- | --------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 1   | Bevölkerung nach Kreisen, Geschlecht und Altersgruppen                | Statistisches Bundesamt (Destatis)                       | GENESIS-Online **12411-0018** | `data_raw/12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv` | Primärquelle verifiziert; lokale Version offen             |
-| 2   | Siedlungs- und raumstrukturelle Kreisgliederungen (Gebietsstand 2023) | Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR) | *Referenzen Raumabgrenzungen* | `data_raw/raumgliederungen-referenzen-2023.xlsx`                                 | Herausgeber/Referenzseite verifiziert; Dateiabgleich offen |
-| 3   | Gebietsfläche nach Kreisen                                            | Statistisches Bundesamt (Destatis)                       | GENESIS-Online **11111-0002** | `data_raw/11111-0002 Gebietsfläche nach Kreise.csv`                              | Primärquelle verifiziert; lokale Version offen             |
+| Nr. | Datensatz                                                             | Originalinstitution                                      | Offizielle Referenz           | Lokale Rohdatei                                                                  |
+| --- | --------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------- |
+| 1   | Bevölkerung nach Kreisen, Geschlecht und Altersgruppen                | Statistisches Bundesamt (Destatis)                       | GENESIS-Online **12411-0018** | `data_raw/12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv` |
+| 2   | Siedlungs- und raumstrukturelle Kreisgliederungen (Gebietsstand 2023) | Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR) | *Referenzen Raumabgrenzungen* | `data_raw/raumgliederungen-referenzen-2023.xlsx`                                 |
+| 3   | Gebietsfläche nach Kreisen                                            | Statistisches Bundesamt (Destatis)                       | GENESIS-Online **11111-0002** | `data_raw/11111-0002 Gebietsfläche nach Kreise.csv`                              |
+
 
 
 ---
