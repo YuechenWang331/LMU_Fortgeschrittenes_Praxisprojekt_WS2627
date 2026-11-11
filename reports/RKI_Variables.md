@@ -84,5 +84,3 @@ Der Datensatz enthält wöchentliche COVID-19-Meldedaten aus **SurvStat@RKI 2.0*
 - Robert Koch-Institut (RKI): [SurvStat@RKI 2.0](https://survstat.rki.de/), [Inhaltliche Hinweise](https://survstat.rki.de/Content/Instruction/Content.aspx) und [Variablenübersicht](https://survstat.rki.de/Docs/Attributes.pdf).
 - `rsurvstat`: [Paketdokumentation](https://cran.r-universe.dev/rsurvstat/doc/manual.html).
 - Projektdateien: `data_raw/00_Download_Skript.R`, `Scripts/04_Preprocess_RKI_Data.R`, `data_raw/CountyKey71Map.csv`.
-
-*Hinweis: Die Definitionen sollten vor der Abgabe anhand der Originaldaten geprüft und die KI-Unterstützung gemäß den LMU-Richtlinien dokumentiert werden.*
