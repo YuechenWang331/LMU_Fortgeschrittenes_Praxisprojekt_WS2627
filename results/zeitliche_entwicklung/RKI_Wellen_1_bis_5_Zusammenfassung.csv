@@ -1,0 +1,6 @@
+welle,rki_bezeichnung,beginn,ende,anzahl_wochen,gemeldete_faelle,maximum_meldewoche,maximum_wochenbeginn,maximum_wochenfaelle
+1,Erste COVID-19-Welle,2020-03-02,2020-05-17,11,176271,2020-KW14,2020-03-30,36287
+2,Zweite COVID-19-Welle,2020-09-28,2021-02-28,22,2160300,2020-KW51,2020-12-14,174698
+3,Dritte COVID-19-Welle (Alpha),2021-03-01,2021-06-13,15,1268246,2021-KW16,2021-04-19,144772
+4,Vierte COVID-19-Welle (Delta),2021-08-02,2021-12-26,21,3243323,2021-KW47,2021-11-22,403425
+5,Fuenfte COVID-19-Welle (Omikron BA.1/BA.2),2021-12-27,2022-05-29,22,19307560,2022-KW12,2022-03-21,1589134
