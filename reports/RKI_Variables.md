@@ -12,7 +12,7 @@ Der Datensatz enthält wöchentliche COVID-19-Meldedaten aus **SurvStat@RKI 2.0*
 - **Gebiete:** 400 Kreiseinheiten; die zwölf Berliner Bezirke sind zu Berlin zusammengefasst.
 - **Altersgruppen:** Einzelalter 0–79, `80+` und unbekanntes Alter (`"NA"`).
 - **Zeitraum:** ISO-Meldejahre 2020–2024.
-- **Variablen:** 8.
+- **Variablen:** 7.
 
 ## 2. Variablenverzeichnis
 
@@ -22,14 +22,6 @@ Der Datensatz enthält wöchentliche COVID-19-Meldedaten aus **SurvStat@RKI 2.0*
 - **Datentyp:** `character`
 - **Einheit / Werte:** Fünf Ziffern als Text, z. B. `"01001"`; gesamtes Berlin: `"11000"`.
 - **Fehlwerte / Besonderheiten:** Führende Nullen müssen erhalten bleiben. Fehlende Werte wurden nicht separat ausgewertet.
-- **Quelle:** `CountyKey71Map.csv`, aufbereitet im Projektskript.
-
-### `geo_name`
-
-- **Definition:** Name des Kreises bzw. der kreisfreien Stadt.
-- **Datentyp:** `character`
-- **Einheit / Werte:** Kreisname, z. B. `"Berlin"`.
-- **Fehlwerte / Besonderheiten:** Der Name für das aggregierte Berlin wird im Skript gesetzt; tatsächliche Fehlwerte sind nicht geprüft.
 - **Quelle:** `CountyKey71Map.csv`, aufbereitet im Projektskript.
 
 ### `age_group`
