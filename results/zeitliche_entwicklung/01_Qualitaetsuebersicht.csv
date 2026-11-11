@@ -1,0 +1,10 @@
+merkmal,wert
+Anzahl Kreise,400
+Anzahl ISO-Wochen,209
+Wochen vollstaendig (2020-2023),TRUE
+Beobachtungen gesamt,6855200
+Beobachtungen mit bekanntem Alter,6771600
+Fehlende Fallzahlen (bekanntes Alter),0
+Ungueltige/fehlende Bevoelkerungsnenner (bekanntes Alter),1513
+Nicht verwendbare Beobachtungen,1513
+Kleinste Zellabdeckung,0.9968
