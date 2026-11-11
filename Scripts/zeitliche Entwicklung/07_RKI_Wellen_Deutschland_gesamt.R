@@ -163,7 +163,7 @@ p_waves <- ggplot(weekly, aes(x = week_start, y = incidence)) +
     expand = expansion(mult = c(0, 0))
   ) +
   labs(
-    title = "COVID-19: Woechentliche Inzidenz in Deutschland (2020-2023)",
+    title = "Gemeldete COVID-19-Faelle und RKI-Welleneinteilung",
     subtitle = "RKI-Wellen 1-5 farbig hervorgehoben; uebriger Zeitverlauf grau",
     x = "Meldewoche (Montag)",
     y = "Gemeldete Faelle je 100.000 Einwohner / Woche"
