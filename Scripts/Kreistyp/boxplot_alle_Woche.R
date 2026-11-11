@@ -1,0 +1,180 @@
+library(dplyr)
+library(ggplot2)
+
+regional_weekly <- readRDS(
+  "data_processed/regional_weekly_summary_2020_2024.rds"
+)
+
+district_labels <- c(
+  "Alle Kreise" = "Alle Kreise",
+  "Kreisfreie Großstädte" = "Kreisfreie\nGroßstädte",
+  "Städtische Kreise" = "Städtische\nKreise",
+  "Ländliche Kreise mit Verdichtungsansätzen" =
+    "Ländliche Kreise mit\nVerdichtungsansätzen",
+  "Dünn besiedelte ländliche Kreise" =
+    "Dünn besiedelte\nländliche Kreise"
+)
+
+district_colors <- c(
+  "Alle Kreise" = "#9CA3AF",
+  "Kreisfreie Großstädte" = "#084594",
+  "Städtische Kreise" = "#2171B5",
+  "Ländliche Kreise mit Verdichtungsansätzen" = "#6BAED6",
+  "Dünn besiedelte ländliche Kreise" = "#C6DBEF"
+)
+
+all_weeks <- regional_weekly %>%
+  filter(iso_year %in% 2020:2024, is.finite(incidence))
+
+plot_data <- bind_rows(
+  all_weeks %>%
+    transmute(incidence, district_type = "Alle Kreise"),
+  all_weeks %>%
+    filter(kreistyp_name %in% names(district_labels)[-1]) %>%
+    transmute(incidence, district_type = as.character(kreistyp_name))
+) %>%
+  mutate(
+    district_type = factor(district_type, levels = names(district_labels))
+  )
+
+district_counts <- table(plot_data$district_type)
+box_width <- 0.52
+format_number <- scales::label_number(
+  accuracy = 1,
+  big.mark = ".",
+  decimal.mark = ","
+)
+
+ggplot(plot_data, aes(x = district_type, y = incidence)) +
+  geom_vline(
+    xintercept = 1.5,
+    colour = "#D9E0E8",
+    linewidth = 0.4,
+    linetype = "dashed"
+  ) +
+  geom_boxplot(
+    aes(colour = district_type),
+    width = box_width,
+    fill = "white",
+    linewidth = 0.45,
+    outlier.shape = 16,
+    outlier.size = 0.65,
+    outlier.alpha = 0.15
+  ) +
+  stat_summary(
+    fun = median,
+    fun.min = median,
+    fun.max = median,
+    geom = "crossbar",
+    width = box_width,
+    colour = "#475569",
+    linewidth = 0.65
+  ) +
+  stat_summary(
+    aes(colour = district_type),
+    fun = median,
+    fun.min = median,
+    fun.max = median,
+    geom = "crossbar",
+    width = box_width,
+    linewidth = 0.45
+  ) +
+  scale_colour_manual(values = district_colors, guide = "none") +
+  scale_x_discrete(
+    labels = function(x) {
+      paste0(
+        district_labels[x],
+        "\n(n = ", format_number(as.integer(district_counts[x])), ")"
+      )
+    }
+  ) +
+  scale_y_continuous(labels = format_number) +
+  labs(
+    title = "COVID-19-Meldeinzidenz nach Kreistyp",
+    subtitle = "Deutschland · Alle Kalenderwochen 2020–2024",
+    x = NULL,
+    y = "Gemeldete Fälle je 100.000 Einwohner",
+    caption = paste(
+      "n = Anzahl der Kreis-Wochen.",
+      "Linie = Median. Punkte = Ausreißer nach der Boxplot-Regel."
+    )
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 10, lineheight = 0.95),
+    plot.title = element_text(face = "bold"),
+    plot.caption = element_text(colour = "#64748B", hjust = 0)
+  )
+
+
+
+#-------------------------------------------------------------------------------
+
+
+ggplot(plot_data, aes(x = district_type, y = incidence)) +
+  geom_vline(
+    xintercept = 1.5,
+    colour = "#D9E0E8",
+    linewidth = 0.4,
+    linetype = "dashed"
+  ) +
+  geom_boxplot(
+    aes(colour = district_type),
+    width = box_width,
+    fill = "white",
+    linewidth = 0.45,
+    outlier.shape = 16,
+    outlier.size = 0.65,
+    outlier.alpha = 0.15
+  ) +
+  stat_summary(
+    fun = median,
+    fun.min = median,
+    fun.max = median,
+    geom = "crossbar",
+    width = box_width,
+    colour = "#475569",
+    linewidth = 0.65
+  ) +
+  stat_summary(
+    aes(colour = district_type),
+    fun = median,
+    fun.min = median,
+    fun.max = median,
+    geom = "crossbar",
+    width = box_width,
+    linewidth = 0.45
+  ) +
+  scale_colour_manual(values = district_colors, guide = "none") +
+  scale_x_discrete(
+    labels = function(x) {
+      paste0(
+        district_labels[x],
+        "\n(n = ", format_number(as.integer(district_counts[x])), ")"
+      )
+    }
+  ) +
+  scale_y_continuous(labels = format_number) +
+  coord_cartesian(ylim = c(0, 200)) +
+  labs(
+    title = "COVID-19-Meldeinzidenz nach Kreistyp",
+    subtitle = "Deutschland · Alle Kalenderwochen 2020–2024",
+    x = NULL,
+    y = "Gemeldete Fälle je 100.000 Einwohner",
+    caption = paste(
+      "n = Anzahl der Kreis-Wochen.",
+      "Linie = Median. Punkte = Ausreißer nach der Boxplot-Regel.",
+      "Vergrößerter Ausschnitt (0–200). Alle Beobachtungen gehen in die Berechnung ein."
+    )
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 10, lineheight = 0.95),
+    plot.title = element_text(face = "bold"),
+    plot.caption = element_text(colour = "#64748B", hjust = 0)
+  )
+
