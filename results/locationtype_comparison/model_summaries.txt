@@ -1,0 +1,53 @@
+=== Lineares Modell ===
+
+Call:
+lm(formula = cases_per_100k ~ location_type_label + year_centered, 
+    data = loc_type_year_model)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-14867  -7840  -4384   3502  24258 
+
+Coefficients:
+                                 Estimate Std. Error t value Pr(>|t|)
+(Intercept)                       11351.7     8467.3   1.341    0.207
+location_type_labelzentral          534.8    11974.5   0.045    0.965
+location_type_labelperipher         858.4    11974.5   0.072    0.944
+location_type_labelsehr peripher    219.0    11974.5   0.018    0.986
+year_centered                      2913.6     3786.7   0.769    0.458
+
+Residual standard error: 16930 on 11 degrees of freedom
+Multiple R-squared:  0.05155,	Adjusted R-squared:  -0.2933 
+F-statistic: 0.1495 on 4 and 11 DF,  p-value: 0.9594
+
+
+=== Poisson-Modell ===
+
+Call:
+glm(formula = count ~ location_type_label + year_centered + offset(log(population)), 
+    family = poisson, data = poisson_df)
+
+Coefficients:
+                                   Estimate Std. Error  z value Pr(>|z|)    
+(Intercept)                      -2.2155231  0.0002410 -9194.49   <2e-16 ***
+location_type_labelzentral        0.0469698  0.0003751   125.22   <2e-16 ***
+location_type_labelperipher       0.0731910  0.0004227   173.14   <2e-16 ***
+location_type_labelsehr peripher  0.0177873  0.0009952    17.87   <2e-16 ***
+year_centered                     0.2477183  0.0001472  1683.31   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 52143570  on 1599  degrees of freedom
+Residual deviance: 49201269  on 1595  degrees of freedom
+AIC: 49218676
+
+Number of Fisher Scoring iterations: 6
+
+
+=== Modell-Interpretation ===
+- Das lineare Modell ist ein grober erster Überblick, aber für echte Zählwerte eher suboptimal.
+- Das Poisson-Modell ist für COVID-Fallzahlen mit Bevölkerungs-Offset besser geeignet.
+- Die Koeffizienten geben an, wie sich die erwartete Fallzahl im Vergleich zur Referenzgruppe verändert.
+- Die Zeitvariable zeigt, ob die Fallzahlen im Zeitverlauf insgesamt steigen oder fallen.
