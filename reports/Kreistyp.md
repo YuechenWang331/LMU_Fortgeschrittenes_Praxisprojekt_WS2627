@@ -2,7 +2,7 @@
 
 **Wochenbericht zum Praxisprojekt · Stand 12. November 2026**
 
-Ich habe die COVID-19-Meldedaten für 2020–2023 auf Kreisebene aufbereitet, zwei Shiny-Karten erstellt und untersucht, wie sich die wöchentliche Meldeinzidenz zwischen den vier siedlungsstrukturellen Kreistypen unterscheidet.
+kurz Überblick: Ich habe die COVID-19-Meldedaten für 2020–2023 auf Kreisebene aufbereitet, zwei Shiny-Karten erstellt und untersucht, wie sich die wöchentliche Meldeinzidenz zwischen den vier siedlungsstrukturellen Kreistypen unterscheidet.
 
 ## 1. Datenaufbereitung für 2020–2023
 
@@ -22,7 +22,7 @@ Die **wöchentliche COVID-19-Meldeinzidenz** ist die Zahl der gemeldeten Fälle 
 ## 3. Zwei interaktive Shiny-Karten
 
 | Anwendung | Was sich damit erkunden lässt |
-|----|----|
+|----------------------|--------------------------------------------------|
 | [Meldeinzidenz-Karte](../data_processed/Kreistyp/incidence_map_Shiny.R) | Vergleich der Meldeinzidenz zwischen Kreisen nach Woche, Monat oder Jahr. Die App bietet eine Kreissuche und zeigt für Deutschland auch die Gesamtrate aus der Summe der Fälle und der Gesamtbevölkerung. |
 | [Kreistyp-Karte](../data_processed/Kreistyp/Kreistyp_geo.R) | Räumliche Verteilung der vier Kreistypen und jährliche Zuordnung der einzelnen Kreise von 2020 bis 2023. Die App bietet einen animierbaren Jahresregler, eine Kreissuche und die Anzahl der Kreise je Typ. |
 
@@ -35,8 +35,6 @@ shiny::runApp("data_processed/Kreistyp/incidence_map_Shiny.R")
 shiny::runApp("data_processed/Kreistyp/Kreistyp_geo.R")
 ```
 
-Beide Apps verwenden die R-Pakete `shiny`, `leaflet`, `sf` und `dplyr` sowie die Kreisgrenzen in `data_geo/landkreise_simplify200.geojson`. Die Meldeinzidenz-Karte liest die Wochenübersicht im Skriptordner. Die Kreistyp-Karte benötigt im Unterordner `Kreistyp_prepare/` die Datei `population_Kreistyp_Raumtyp_2020_2024.rds` und verwendet daraus die Jahre 2020–2023. Für einen direkten Start im Browser braucht die App eine bereitgestellte Shiny-URL.
-
 ## 4. Deskriptive Analyse nach Kreistyp
 
 Ich habe die Verteilungen über alle Kreis-Wochen, die Verteilungen in einer einzelnen Woche und den Verlauf der wöchentlichen Kreistyp-Mediane verglichen. Für die Differenzkurven habe ich vom jeweiligen Kreistyp-Median entweder den bundesweiten Median aller Kreiswerte oder den Median der kreisfreien Großstädte derselben Woche abgezogen. Jeder Kreis geht mit demselben Gewicht in den jeweiligen Median ein.
@@ -45,36 +43,36 @@ Ich habe die Verteilungen über alle Kreis-Wochen, die Verteilungen in einer ein
 
 In KW 11/2022 lag der Median aller 400 Kreise bei ungefähr **2.000** Fällen je 100.000 Einwohner. Die Mediane der kreisfreien Großstädte und der städtischen Kreise lagen bei etwa **1.630** bzw. **1.900**, die der beiden ländlichen Kreistypen jeweils bei rund **2.200**. Die Verteilungen überlappen sich deutlich. Auch innerhalb der Kreistypen streuen die Werte stark.
 
-![Abb. 1 – Boxplots und Kreiswerte für KW 11/2022](images/03_boxplot_2022_KW11.png)
+![](../results/Kreistyp/03_boxplot_2022_KW11.png)
 
 ### 4.2 Verteilung über alle Wochen
 
 Die gepoolten Verteilungen sind bei allen vier Kreistypen rechtsschief. Einzelne Kreis-Wochen liegen über 4.000 gemeldeten Fällen je 100.000 Einwohner. Die vergrößerte Ansicht zeigt, dass die vier Mediane ungefähr zwischen **55 und 65** Fällen je 100.000 Einwohner liegen. Der Median ist bei den kreisfreien Großstädten etwas höher als bei den beiden ländlichen Kreistypen. Beide Abbildungen basieren auf denselben Beobachtungen.
 
-![Abb. 2 – Boxplots aller Kreis-Wochen, vollständige Skala](images/01_boxplot_alle_wochen.png)
+![](../results/Kreistyp/01_boxplot_alle_wochen.png)
 
-![Abb. 3 – Dieselben Boxplots, vergrößerter Ausschnitt](images/02_boxplot_alle_wochen_zoom.png)
+![](../results/Kreistyp/02_boxplot_alle_wochen_zoom.png)
 
 ### 4.3 Zeitlicher Verlauf der wöchentlichen Mediane
 
 Die Kurven zeigen weitgehend dieselben Anstiegs- und Rückgangsphasen. Ende 2021 lagen die ländlichen Kreistypen zeitweise höher. Anfang 2022 erreichten zunächst die kreisfreien Großstädte einen höheren ersten Gipfel. Beim darauffolgenden Gipfel lagen beide ländlichen Kreistypen mit rund **2.200** Fällen je 100.000 Einwohner vorne. Im Jahr 2023 waren die Meldeinzidenzen und die absoluten Unterschiede zwischen den Kurven insgesamt geringer.
 
-![Abb. 4 – Wöchentliche Mediane nach Kreistyp](images/04_woechentliche_mediane.png)
+![](../results/Kreistyp/04_woechentliche_mediane.png)
 
 ### 4.4 Abweichungen vom bundesweiten Median der Kreiswerte
 
 Die größten Abweichungen lagen Anfang 2022. Der Median der kreisfreien Großstädte wechselte innerhalb weniger Wochen von rund **+350** auf rund **−410** Fälle je 100.000 Einwohner relativ zum bundesweiten Kreismedian. Beide ländlichen Kreistypen lagen zeitweise rund **200** Fälle je 100.000 Einwohner darüber. Die städtischen Kreise blieben näher an der Referenz. Die Einzelpanels verwenden dieselbe Skala und machen den Unterschied in der Schwankungsbreite sichtbar.
 
-![Abb. 5 – Wöchentliche Differenzen zum bundesweiten Kreismedian](images/05_differenz_bundesmedian.png)
+![](../results/Kreistyp/05_differenz_bundesmedian.png)
 
-![Abb. 6 – Dieselben Differenzen in Einzelpanels mit gemeinsamer Skala](images/06_differenz_bundesmedian_facetten.png)
+![](../results/Kreistyp/06_differenz_bundesmedian_facetten.png)
 
 ### 4.5 Kreisfreie Großstädte als Referenz
 
 Gegenüber dem jeweiligen Großstadtmedian wechselten die beiden ländlichen Kreistypen Anfang 2022 von ungefähr **−500** auf zeitweise **+600** Fälle je 100.000 Einwohner. Der Vergleich mit derselben Referenz pro Woche zeigt damit einen deutlichen Wechsel der relativen Position. Die Ergebnisse beschreiben gemeldete Fälle auf Kreisebene.
 
-![Abb. 7 – Wöchentliche Differenzen zum Median der kreisfreien Großstädte](images/07_differenz_grossstaedte.png)
+![](../results/Kreistyp/07_differenz_grossstaedte.png)
 
 ## 5. Fazit
 
-Über den gesamten Zeitraum liegen die vier Mediane nah beieinander. Im Wochenvergleich ändert sich die Rangfolge, besonders deutlich Anfang 2022. Die Ergebnisse beziehen sich auf alle Altersgruppen zusammen. Die von der Projektgruppe untersuchten Altersmuster bieten einen Ansatzpunkt, um im nächsten Schritt zu prüfen, ob die zeitlichen Unterschiede zwischen den Kreistypen je nach Altersgruppe unterschiedlich ausfallen.
+Die über alle Kreis-Wochen von 2020 bis 2023 berechneten Mediane der vier Kreistypen liegen mit rund 55 bis 65 gemeldeten Fällen je 100.000 Einwohner nahe beieinander. Im Wochenvergleich zeigt sich jedoch, dass sich die Rangfolge im Zeitverlauf änderte. Besonders deutlich war das Anfang 2022. In KW 11/2022 lagen die Mediane der beiden ländlichen Kreistypen bei rund 2.200 Fällen je 100.000 Einwohner, der Median der kreisfreien Großstädte bei rund 1.630. Zugleich überlappten sich die Verteilungen der einzelnen Kreiswerte deutlich.
