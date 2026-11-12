@@ -30,7 +30,7 @@ Die **wöchentliche Meldeinzidenz** bezieht sich auf eine vollständige Meldewoc
 
 ### Abbildung 1 – Wöchentliche Inzidenz in Deutschland
 
-![](../results/zeitliche_entwicklung/plot/01_Deutschland_gesamt.png)
+![](../results/zeitliche_entwicklung/01_Deutschland_gesamt.png)
 
 Auf der X-Achse steht die Zeit (Wochenbeginn), auf der Y-Achse die **gemeldeten Fälle je 100.000 Einwohner pro Woche**. Es handelt sich um eine bevölkerungsbezogene Rate für die bekannten Altersgruppen.
 
@@ -40,7 +40,7 @@ Der Verlauf ist durch mehrere starke Anstiege und Rückgänge gekennzeichnet. Di
 
 ### Abbildung 2 – Absolute Wochenfallzahlen und Jahresmaxima
 
-![](../results/zeitliche_entwicklung/plot/02_Zeitverlauf_Wochenfaelle_Peaks_KW.png)
+![](../results/zeitliche_entwicklung/Zeitverlauf_Wochenfaelle_Peaks_KW.png)
 
 Die Y-Achse enthält die **absolute Zahl gemeldeter Fälle pro Woche**. Die roten Punkte markieren das Maximum innerhalb des jeweiligen ISO-Jahres; die Beschriftung nennt die Kalenderwoche.
 
@@ -57,7 +57,7 @@ Das mit Abstand höchste Wochenmaximum des Untersuchungszeitraums liegt in **KW 
 
 ### Abbildung 3 – Jahressummen der gemeldeten Fälle
 
-![](../results/zeitliche_entwicklung/plot/03_Zeitverlauf_Jahressummen_mit_Zahlen.png)
+![](../results/zeitliche_entwicklung/Zeitverlauf_Jahressummen_mit_Zahlen.png)
 
 **Was wird gezeigt?** Summe aller wöchentlich gemeldeten Fälle je **ISO-Meldejahr**, mit exakten Zahlen über den Balken.
 
@@ -74,7 +74,7 @@ Das mit Abstand höchste Wochenmaximum des Untersuchungszeitraums liegt in **KW 
 
 ### Abbildung 4 – Jahresverläufe mit freien Y-Skalen
 
-![](../results/zeitliche_entwicklung/plot/04_Zeitverlauf_Jahresfacetten_FreeY.png)
+![](../results/zeitliche_entwicklung/Zeitverlauf_Jahresfacetten_FreeY.png)
 
 Dieselben wöchentlichen **absoluten Fallzahlen**, aufgeteilt in vier Jahresfenster. **Jedes Jahr hat einen eigenen Y-Achsenbereich** (*freie Y-Skalen*).
 
@@ -84,7 +84,7 @@ Auch in den Jahren mit vergleichsweise niedrigen Meldezahlen sind eigenständige
 
 ### Abbildung 5 – Jahresverläufe mit einheitlicher Y-Skala
 
-![](../results/zeitliche_entwicklung/plot/05_Zeitverlauf_Jahresfacetten_FixedY.png)
+![](../results/zeitliche_entwicklung/Zeitverlauf_Jahresfacetten_FixedY.png)
 
 Die **exakt gleichen Wochenfallzahlen wie in Abbildung 4**, diesmal jedoch mit **identischer Y-Skala in allen vier Teilgrafiken**.
 
@@ -94,7 +94,7 @@ Der Größenunterschied wird unmittelbar sichtbar: Der Jahrespeak 2022 liegt wei
 
 ### Abbildung 6 – RKI-Wellen 1–5 auf einer durchgehenden Zeitachse
 
-![](../results/zeitliche_entwicklung/plot/06_RKI_Wellen_Deutschland_gesamt_Farben.png)
+![](../results/zeitliche_entwicklung/RKI_Wellen_Deutschland_gesamt_Farben.png)
 
 Die bundesweite **wöchentliche Meldeinzidenz (Fälle je 100.000 Einwohner)** zusammen mit **fünf farbig markierten Zeitabschnitten**, deren Grenzen aus der retrospektiven Phaseneinteilung des RKI übernommen wurden.
 
@@ -112,7 +112,7 @@ Besonders deutlich hebt sich die fünfte Welle im Frühjahr 2022 ab. Innerhalb d
 
 ### Abbildung 7 – RKI-Wellen in den vier Jahresansichten
 
-![](../results/zeitliche_entwicklung/plot/07_RKI_Phasen_Zeitverlauf_2020_2023.png)
+![](../results/zeitliche_entwicklung/RKI_Phasen_Zeitverlauf_2020_2023.png)
 
 Die RKI-Zeitabschnitte W1–W5 als **schattierte Bereiche**, diesmal auf der Grundlage von **absoluten Wochenfallzahlen**. Die vier Teilgrafiken haben unterschiedliche Y-Skalen, um die einzelnen Jahresverläufe lesbar zu halten.
 

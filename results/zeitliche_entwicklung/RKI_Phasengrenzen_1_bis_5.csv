@@ -1,6 +1,0 @@
-wave,description,start_year,start_week,end_year,end_week,start_date,end_date
-1,Erste COVID-19-Welle,2020,10,2020,20,2020-03-02,2020-05-17
-2,Zweite COVID-19-Welle,2020,40,2021,8,2020-09-28,2021-02-28
-3,Dritte COVID-19-Welle (Alpha),2021,9,2021,23,2021-03-01,2021-06-13
-4,Vierte COVID-19-Welle (Delta),2021,31,2021,51,2021-08-02,2021-12-26
-5,Fuenfte COVID-19-Welle (Omikron BA.1/BA.2),2021,52,2022,21,2021-12-27,2022-05-29
