@@ -1,28 +1,23 @@
+# Setup ----
 library(shiny)
 library(leaflet)
 library(sf)
 library(dplyr)
 
-# 1. Locate the project
-project_dir <- if (dir.exists("data_processed")) {
-  normalizePath(".")
-} else if (dir.exists("../data_processed")) {
-  normalizePath("..")
-} else {
-  stop("Open the RStudio project before running this app.")
+analysis_years <- 2020:2023
+
+# 1. Locate the project ----
+project_candidates <- c(".", "..", "../..")
+project_matches <- dir.exists(file.path(project_candidates, "data_processed")) &
+  dir.exists(file.path(project_candidates, "data_geo"))
+
+if (!any(project_matches)) {
+  stop("Run the app from the project root or data_processed/Kreistyp.")
 }
 
-# 2. Read annual classifications
-regional_files <- list.files(
-  file.path(project_dir, "data_processed"),
-  pattern = "^population_Kreistyp_Raumtyp_.*\\.rds$",
-  full.names = TRUE
-)
+project_dir <- normalizePath(project_candidates[project_matches][1L])
 
-if (length(regional_files) != 1L) {
-  stop("Expected exactly one population_Kreistyp_Raumtyp_*.rds file.")
-}
-
+# 2. Read annual classifications ----
 normalize_code <- function(x) {
   x <- trimws(as.character(x))
   
@@ -33,7 +28,15 @@ normalize_code <- function(x) {
   sprintf("%05d", as.integer(x))
 }
 
-regional <- readRDS(regional_files) %>%
+regional <- readRDS(
+  file.path(
+    project_dir,
+    "data_processed",
+    "Kreistyp",
+    "Kreistyp_prepare",
+    "population_Kreistyp_Raumtyp_2020_2024.rds"
+  )
+) %>%
   ungroup()
 
 stopifnot(
@@ -49,12 +52,12 @@ regional <- regional %>%
     year = as.integer(as.character(year)),
     kreistyp_code = as.integer(as.character(kreistyp_code))
   ) %>%
-  filter(year %in% 2020:2024)
+  filter(year %in% analysis_years)
 
 stopifnot(
-  nrow(regional) == 2000L,
+  nrow(regional) == length(analysis_years) * 400L,
   !anyDuplicated(regional[c("geo_code", "year")]),
-  setequal(regional$year, 2020:2024),
+  setequal(regional$year, analysis_years),
   !anyNA(regional),
   all(regional$kreistyp_code %in% 1:4),
   all(count(regional, year)$n == 400L)
@@ -78,13 +81,13 @@ regional <- regional %>%
   mutate(kreistyp_name = type_names[kreistyp_code])
 
 district_choices <- regional %>%
-  filter(year == 2020) %>%
+  filter(year == min(analysis_years)) %>%
   arrange(geo_name) %>%
   mutate(
     label = paste0(geo_name, " (", geo_code, ")")
   )
 
-# 3. Prepare district boundaries
+# 3. Prepare district boundaries ----
 district_map <- st_read(
   file.path(
     project_dir,
@@ -144,7 +147,7 @@ escape_html <- function(x) {
   as.character(htmltools::htmlEscape(as.character(x)))
 }
 
-# 4. User interface
+# 4. User interface ----
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
@@ -315,7 +318,10 @@ ui <- fluidPage(
   
   div(
     class = "page-subtitle",
-    "Jährliche BBSR-Klassifikation · 2020–2024"
+    paste0(
+      "Jährliche BBSR-Klassifikation · ",
+      min(analysis_years), "–", max(analysis_years)
+    )
   ),
   
   div(
@@ -333,9 +339,9 @@ ui <- fluidPage(
         sliderInput(
           "year",
           "Jahr",
-          min = 2020,
-          max = 2024,
-          value = 2020,
+          min = min(analysis_years),
+          max = max(analysis_years),
+          value = min(analysis_years),
           step = 1,
           sep = "",
           animate = animationOptions(
@@ -395,7 +401,7 @@ ui <- fluidPage(
   )
 )
 
-# 5. Server
+# 5. Server ----
 server <- function(input, output, session) {
   
   annual_data <- reactive({
@@ -589,4 +595,5 @@ server <- function(input, output, session) {
   })
 }
 
+# 6. Launch the app ----
 shinyApp(ui = ui, server = server)

@@ -1,16 +1,21 @@
+# Setup ----
 library(shiny)
 library(leaflet)
 library(sf)
 library(dplyr)
 
-# 1. Locate the project
-project_dir <- if (dir.exists("data_processed")) {
-  normalizePath(".")
-} else if (dir.exists("../data_processed")) {
-  normalizePath("..")
-} else {
-  stop("Open the RStudio project before running this app.")
+analysis_years <- 2020:2023
+
+# 1. Locate the project ----
+project_candidates <- c(".", "..", "../..")
+project_matches <- dir.exists(file.path(project_candidates, "data_processed")) &
+  dir.exists(file.path(project_candidates, "data_geo"))
+
+if (!any(project_matches)) {
+  stop("Run the app from the project root or data_processed/Kreistyp.")
 }
+
+project_dir <- normalizePath(project_candidates[project_matches][1L])
 
 normalize_code <- function(x) {
   x <- trimws(as.character(x))
@@ -36,15 +41,16 @@ format_number <- function(x, digits = 0) {
   )
 }
 
-# 2. Read weekly data
+# 2. Read weekly data ----
 source_file <- file.path(
   project_dir,
   "data_processed",
-  "regional_weekly_summary_2020_2024.rds"
+  "Kreistyp",
+  "regional_weekly_summary_2020_2023.rds"
 )
 
 if (!file.exists(source_file)) {
-  stop("Missing regional_weekly_summary_2020_2024.rds.")
+  stop("Weekly summary not found: ", source_file)
 }
 
 weekly <- readRDS(source_file) %>%
@@ -68,17 +74,17 @@ weekly <- weekly %>%
     cases_total,
     population_total
   ) %>%
-  filter(iso_year %in% 2020:2024)
+  filter(iso_year %in% analysis_years)
 
 stopifnot(
-  nrow(weekly) == 104400L,
+  nrow(weekly) == 83600L,
   !anyNA(weekly),
   !anyDuplicated(weekly[c("geo_code", "iso_year", "iso_week")]),
   all(is.finite(weekly$cases_total)),
   all(weekly$cases_total >= 0),
   all(is.finite(weekly$population_total)),
   all(weekly$population_total > 0),
-  setequal(weekly$iso_year, 2020:2024),
+  setequal(weekly$iso_year, analysis_years),
   all(as.integer(format(weekly$week_start, "%G")) == weekly$iso_year),
   all(as.integer(format(weekly$week_start, "%V")) == weekly$iso_week)
 )
@@ -116,7 +122,7 @@ stopifnot(
   !anyDuplicated(week_dates[c("iso_year", "iso_week")])
 )
 
-# 3. Aggregate weekly data
+# 3. Aggregate weekly data ----
 # Monthly allocation follows the week's Monday.
 # ISO boundary weeks are assigned to January or December
 # of their ISO year to preserve annual totals.
@@ -184,9 +190,9 @@ monthly_check <- monthly_data %>%
   )
 
 stopifnot(
-  nrow(monthly_data) == 24000L,
-  nrow(annual_data) == 2000L,
-  nrow(monthly_check) == 2000L,
+  nrow(monthly_data) == 19200L,
+  nrow(annual_data) == 1600L,
+  nrow(monthly_check) == 1600L,
   all(
     monthly_check$monthly_cases ==
       monthly_check$annual_cases
@@ -209,7 +215,7 @@ district_choices <- weekly %>%
     label = paste0(geo_name, " (", geo_code, ")")
   )
 
-# 4. Prepare district boundaries
+# 4. Prepare district boundaries ----
 district_map <- st_read(
   file.path(
     project_dir,
@@ -262,7 +268,7 @@ district_map <- district_map %>%
 
 map_bounds <- st_bbox(district_map)
 
-# 5. Fixed colour classes
+# 5. Fixed colour classes ----
 # Visualization intervals, not official risk thresholds.
 colour_values <- c(
   "#FFF7BC",
@@ -312,7 +318,7 @@ metric_names <- c(
   year = "Jährliche kumulative Inzidenz"
 )
 
-# 6. User interface
+# 6. User interface ----
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
@@ -493,7 +499,10 @@ ui <- fluidPage(
   
   div(
     class = "subtitle",
-    "Gemeldete Fälle je 100.000 Einwohner · Alle Altersgruppen · 2020–2024"
+    paste0(
+      "Gemeldete Fälle je 100.000 Einwohner · Alle Altersgruppen · ",
+      min(analysis_years), "–", max(analysis_years)
+    )
   ),
   
   div(
@@ -522,8 +531,8 @@ ui <- fluidPage(
         selectInput(
           "year",
           "Jahr",
-          choices = 2020:2024,
-          selected = 2020
+          choices = analysis_years,
+          selected = min(analysis_years)
         ),
         
         conditionalPanel(
@@ -610,7 +619,7 @@ ui <- fluidPage(
   )
 )
 
-# 7. Server
+# 7. Server ----
 server <- function(input, output, session) {
   
   # Adapt the time selector
@@ -987,5 +996,5 @@ server <- function(input, output, session) {
   })
 }
 
-# 8. Launch the app
+# 8. Launch the app ----
 shinyApp(ui = ui, server = server)

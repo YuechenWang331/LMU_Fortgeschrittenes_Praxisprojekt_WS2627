@@ -2,11 +2,11 @@ library(dplyr)
 library(ggplot2)
 
 regional_weekly <- readRDS(
-  "data_processed/regional_weekly_summary_2020_2024.rds"
+  "data_processed/Kreistyp/regional_weekly_summary_2020_2023.rds"
 )
 
 week_data <- regional_weekly %>%
-  filter(iso_year == 2022, iso_week == 10, is.finite(incidence))
+  filter(iso_year == 2022, iso_week == 11, is.finite(incidence))
 
 plot_data <- bind_rows(
   week_data %>%
@@ -46,7 +46,7 @@ district_colors <- c(
 district_counts <- table(plot_data$district_type)
 box_width <- 0.52
 
-ggplot(plot_data, aes(x = district_type, y = incidence)) +
+boxplot_kw10 <- ggplot(plot_data, aes(x = district_type, y = incidence)) +
   geom_vline(
     xintercept = 1.5,
     colour = "#D9E0E8",
@@ -103,7 +103,7 @@ ggplot(plot_data, aes(x = district_type, y = incidence)) +
   ) +
   labs(
     title = "COVID-19-Meldeinzidenz nach Kreistyp",
-    subtitle = "Deutschland · Kalenderwoche 10, 2022",
+    subtitle = "Deutschland · Kalenderwoche 11, 2022",
     x = NULL,
     y = "Gemeldete Fälle je 100.000 Einwohner",
     caption = "Jeder Punkt entspricht einem Kreis. Die Linie im Kasten zeigt den Median."
@@ -117,3 +117,18 @@ ggplot(plot_data, aes(x = district_type, y = incidence)) +
     plot.caption = element_text(colour = "#64748B", hjust = 0)
   )
 
+print(boxplot_kw10)
+
+# Export figures ----
+output_dir <- file.path("results", "Kreistyp")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+ggsave(
+  filename = file.path(output_dir, "03_boxplot_2022_KW11.png"),
+  plot = boxplot_kw10,
+  width = 13,
+  height = 7,
+  units = "in",
+  dpi = 300,
+  bg = "white"
+)
