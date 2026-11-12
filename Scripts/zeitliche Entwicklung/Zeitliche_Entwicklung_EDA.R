@@ -4,10 +4,9 @@
 # Start: im Projektverzeichnis (RStudio-Projekt) ausfuehren.
 # Benoetigte Pakete: data.table, ggplot2
 
-suppressPackageStartupMessages({
-  library(data.table)
-  library(ggplot2)
-})
+library(data.table)
+library(ggplot2)
+
 
 # -----------------------------------------------------------------------------
 # 1. Eingaben / Ausgaben
@@ -221,8 +220,7 @@ p_all <- ggplot(plot_all, aes(x = week_start, y = incidence)) +
   labs(
     title = "COVID-19: Woechentliche Inzidenz in Deutschland",
     subtitle = "Alle bekannten Altersgruppen, 2020–2023 (ISO-Kalenderwochen)",
-    x = "Woche (Montag)", y = "Gemeldete Faelle je 100.000 / Woche",
-    caption = "Quelle: RKI; gewichtete Neuberechnung aus Faellen und Jahresbevoelkerung"
+    x = "Woche (Montag)", y = "Gemeldete Faelle je 100.000 / Woche"
   ) + common_theme
 
 ggsave(file.path(out_dir, "01_Deutschland_gesamt.png"),
@@ -239,8 +237,8 @@ p_age <- ggplot(plot_age, aes(x = week_start, y = incidence,
     color = "Altersgruppe"
   ) + common_theme
 
-ggsave(file.path(out_dir, "02_Altersgruppen_gleiche_Skala.png"),
-       p_age, width = 11, height = 6, dpi = 180)
+##ggsave(file.path(out_dir, "02_Altersgruppen_gleiche_Skala.png"),
+##       p_age, width = 11, height = 6, dpi = 180)
 
 p_facets <- ggplot(plot_age, aes(x = week_start, y = incidence)) +
   geom_line(color = "#265A84", linewidth = 0.5) +
@@ -252,8 +250,8 @@ p_facets <- ggplot(plot_age, aes(x = week_start, y = incidence)) +
     x = "Woche (Montag)", y = "Faelle je 100.000 / Woche"
   ) + common_theme
 
-ggsave(file.path(out_dir, "03_Altersgruppen_Verlaeufe_Facets.png"),
-       p_facets, width = 10, height = 10, dpi = 180)
+##ggsave(file.path(out_dir, "03_Altersgruppen_Verlaeufe_Facets.png"),
+##       p_facets, width = 10, height = 10, dpi = 180)
 
 p_heat <- ggplot(plot_age, aes(x = week_start, y = age_bin, fill = incidence)) +
   geom_tile(width = 7, height = 0.90) +
@@ -266,8 +264,8 @@ p_heat <- ggplot(plot_age, aes(x = week_start, y = age_bin, fill = incidence)) +
     fill = "Faelle / 100.000"
   ) + common_theme
 
-ggsave(file.path(out_dir, "04_Altersgruppen_Heatmap.png"),
-       p_heat, width = 11, height = 4.5, dpi = 180)
+##ggsave(file.path(out_dir, "04_Altersgruppen_Heatmap.png"),
+##       p_heat, width = 11, height = 4.5, dpi = 180)
 
 # -----------------------------------------------------------------------------
 # 6. Explorative Peak-Tabelle (Jahresmaxima, keine Definition von Epidemiewellen)

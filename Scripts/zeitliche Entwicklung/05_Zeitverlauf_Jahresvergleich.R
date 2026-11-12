@@ -1,7 +1,7 @@
 # Fortgeschrittenes Praxisprojekt - Explorative zeitliche Entwicklung (2020-2023)
 # Deutschlandweit aggregierte Meldewochen; keine Alters- oder Kreistypvergleiche.
 # Im RStudio-Projektstamm ausfuehren:
-# source("Scripts/05_Zeitverlauf_Jahresvergleich.R")
+# source("Scripts/zeitliche Entwicklung/05_Zeitverlauf_Jahresvergleich.R")
 # Lokale Daten nicht in externe KI-Dienste hochladen.
 
 suppressPackageStartupMessages({
@@ -69,31 +69,68 @@ setorder(yearly_overview, iso_year)
 fwrite(weekly_total, file.path(output_dir, "Zeitverlauf_Wochenfaelle_Deutschland.csv"))
 fwrite(yearly_overview, file.path(output_dir, "Zeitverlauf_Jahresuebersicht.csv"))
 
-# Jahres-Facetten: y-Skalen werden absichtlich freigegeben, um 2020/2021/2023
-# sichtbar zu machen. Absolute Hoehen nur mit gemeinsamen Skalen vergleichen!
-facet_plot <- ggplot(weekly_total, aes(x = iso_week, y = weekly_cases)) +
+# ============================================================
+# Jahres-Facetten: zwei Darstellungen derselben Wochenfallzahlen
+#   FreeY:  zeitliche Muster innerhalb der einzelnen Jahre
+#   FixedY: direkter Vergleich der absoluten Wochenfallzahlen
+# ============================================================
+
+peak_weeks <- weekly_total[, .SD[which.max(weekly_cases)], by = iso_year]
+
+facet_base <- ggplot(weekly_total, aes(x = iso_week, y = weekly_cases)) +
   geom_line(color = "#215E83", linewidth = 0.9) +
   geom_point(
-    data = weekly_total[, .SD[which.max(weekly_cases)], by = iso_year],
+    data = peak_weeks,
     color = "#B34B3C", size = 2.0
   ) +
-  facet_wrap(~iso_year, scales = "free_y", ncol = 2) +
-  scale_x_continuous(breaks = c(1, 13, 26, 39, 52)) +
-  scale_y_continuous(labels = function(values) format(
-    round(values), big.mark = ".", scientific = FALSE, trim = TRUE
-  )) +
+  scale_x_continuous(
+    breaks = c(1, 13, 26, 39, 52),
+    limits = c(1, 53)
+  ) +
+  scale_y_continuous(
+    labels = function(values) format(
+      round(values), big.mark = ".", scientific = FALSE, trim = TRUE
+    ),
+    expand = expansion(mult = c(0, 0.06))
+  ) +
   labs(
     title = "Gemeldete COVID-19-Faelle nach ISO-Meldejahr",
-    subtitle = "Jahresansichten mit eigenen y-Skalen – nur fuer zeitliche Muster, nicht fuer Hoehenvergleich",
-    x = "ISO-Meldewoche", y = "Gemeldete Faelle pro Woche",
-    caption = "Quelle: RKI/SurvStat via rsurvstat; 400 harmonisierte Kreise; inklusive unbekanntem Alter."
+    x = "ISO-Meldewoche",
+    y = "Gemeldete Faelle pro Woche"
   ) +
   theme_minimal(base_size = 12) +
   theme(panel.grid.minor = element_blank())
 
+# Plot 3A: Freie y-Skalen zeigen auch kleinere Ausschlaege deutlich.
+plot_free_y <- facet_base +
+  facet_wrap(~iso_year, scales = "free_y", ncol = 2) +
+  labs(
+    subtitle = paste(
+      "Unterschiedliche y-Skalen je Jahr:",
+      "zeitliche Muster innerhalb der Jahre"
+    )
+  )
+
 ggsave(
-  filename = file.path(output_dir, "Zeitverlauf_Jahresfacetten.png"),
-  plot = facet_plot, width = 12, height = 8, dpi = 200
+  filename = file.path(output_dir, "Zeitverlauf_Jahresfacetten_FreeY.png"),
+  plot = plot_free_y,
+  width = 12, height = 8, dpi = 200
+)
+
+# Plot 3B: Gemeinsame y-Skala erlaubt den absoluten Hoehenvergleich.
+plot_fixed_y <- facet_base +
+  facet_wrap(~iso_year, scales = "fixed", ncol = 2) +
+  labs(
+    subtitle = paste(
+      "Einheitliche y-Skala:",
+      "direkter Vergleich der Wochenfallzahlen"
+    )
+  )
+
+ggsave(
+  filename = file.path(output_dir, "Zeitverlauf_Jahresfacetten_FixedY.png"),
+  plot = plot_fixed_y,
+  width = 12, height = 8, dpi = 200
 )
 
 # Vergleich der absoluten Jahressummen. Durch Veraenderungen im Test- und
@@ -109,10 +146,8 @@ bar_plot <- ggplot(yearly_overview,
   ) +
   labs(
     title = "Gesamte gemeldete COVID-19-Faelle pro ISO-Jahr",
-    subtitle = "Summen der Wochenfaelle; Test- und Meldepraxis koennen sich zwischen Jahren unterscheiden",
-    x = "ISO-Meldejahr", y = "Gemeldete Faelle insgesamt",
-    caption = "Quelle: RKI/SurvStat via rsurvstat; 400 harmonisierte Kreise; inklusive unbekanntem Alter."
-  ) + theme_minimal(base_size = 12) +
+    x = "ISO-Meldejahr", y = "Gemeldete Faelle insgesamt"
+    ) + theme_minimal(base_size = 12) +
   theme(panel.grid.minor = element_blank())
 
 ggsave(
@@ -124,4 +159,5 @@ cat("\nZeitliche Entwicklung: deutschlandweiter Jahresvergleich\n")
 cat("Wochen:", nrow(weekly_total), "| Kreise:", uniqueN(observations$geo_code), "\n\n")
 print(yearly_overview)
 cat("\nErgebnisse in:", output_dir, "\n")
+cat("Jahresfacetten: FreeY und FixedY wurden separat gespeichert.\n")
 cat("Die Jahresmaxima sind keine automatisch definierten Infektionswellen.\n")

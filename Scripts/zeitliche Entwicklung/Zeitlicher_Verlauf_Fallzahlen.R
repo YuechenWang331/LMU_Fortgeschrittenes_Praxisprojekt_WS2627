@@ -101,8 +101,8 @@ annual[, anteil_alter_unbekannt_prozent := fifelse(
   NA_real_
 )]
 
-fwrite(weekly, file.path(out_dir, "Qian01_Nationale_Wochenfaelle.csv"))
-fwrite(annual, file.path(out_dir, "Qian02_Jahresuebersicht.csv"))
+fwrite(weekly, file.path(out_dir, "Nationale_Wochenfaelle.csv"))
+fwrite(annual, file.path(out_dir, "Jahresuebersicht.csv"))
 
 # 5. Eine klare Grafik fuer die persoenliche Teilaufgabe ---------------------
 peak_weeks <- weekly[, .SD[which.max(faelle_gesamt)], by = iso_year]
@@ -118,19 +118,15 @@ plot_main <- ggplot(weekly, aes(x = week_start, y = faelle_gesamt)) +
     title = "Gemeldete COVID-19-Faelle in Deutschland, 2020-2023",
     subtitle = "Wochenfallzahlen nach ISO-Meldewoche; Punkte: jeweiliges Jahresmaximum",
     x = "Meldewoche (Beginn: Montag)",
-    y = "Gemeldete Faelle pro Woche",
-    caption = paste(
-      "Quelle: RKI/SurvStat via rsurvstat; 400 harmonisierte Kreise.",
-      "Inklusive unbekannter Altersangaben; Datenstand des lokalen Exports pruefen."
-    )
-  ) +
+    y = "Gemeldete Faelle pro Woche"
+     ) +
   theme_minimal(base_size = 12) +
   theme(panel.grid.minor = element_blank())
 
-ggsave(file.path(out_dir, "Qian03_Wochenfaelle_Deutschland.png"),
+ggsave(file.path(out_dir, "Wochenfaelle_Deutschland.png"),
        plot_main, width = 12, height = 5.8, dpi = 200)
 
-cat("\nQian: Zeitlicher Verlauf der COVID-19-Faelle\n")
+cat("\nZeitlicher Verlauf der COVID-19-Faelle\n")
 cat("Wochen:", nrow(weekly), "| Kreise:", uniqueN(w$geo_code), "\n")
 cat("Dateien im Ordner:", out_dir, "\n\n")
 print(annual)

@@ -148,18 +148,14 @@ plot_waves <- ggplot(weekly_cases, aes(x = week_start, y = weekly_cases)) +
       "Schattiert: Wellen 1-5 gemaess RKI (Stand 15.09.2022).",
       "Gestrichelte Linie: Beginn der sechsten Welle (KW 22/2022)."
     ),
-    x = "Meldewoche (Montag)", y = "Gemeldete Faelle pro Woche",
-    caption = paste(
-      "Quelle: RKI/SurvStat via rsurvstat; RKI Epid. Bull. 38/2022, Tab. 1.",
-      "Freie y-Skalen; W6-Ende im Quellenstand offen; 2023 ohne Phasenzuordnung."
-    )
+    x = "Meldewoche (Montag)", y = "Gemeldete Faelle pro Woche"
   ) +
   theme_minimal(base_size = 11) +
   theme(panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle = 35, hjust = 1),
         plot.caption = element_text(size = 8))
 
-ggsave(file.path(output_dir, "RKI_Phasen_Zeitverlauf_2020_2023_korrigiert.png"),
+ggsave(file.path(output_dir, "RKI_Phasen_Zeitverlauf_2020_2023.png"),
        plot = plot_waves, width = 13, height = 8, dpi = 200)
 
 cat("\nRKI-Wellen 1-5 (offizielle retrospektive Grenzen):\n")
