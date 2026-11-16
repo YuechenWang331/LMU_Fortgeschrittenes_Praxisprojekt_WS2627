@@ -72,7 +72,7 @@ Bei COVID-19-Fallzahlen kann die Varianz größer als der Erwartungswert sein.
 
 - Poisson-Annahme: $\operatorname{Var}(Y)=E(Y)$
 
-  → Mögliche Erweiterung: **Negative Binomial Regression**
+  → Mögliche Erweiterung: **Quasi-Poisson-Regression**
 
 **2.2 Abhängigkeit innerhalb der Landkreise**
 
@@ -94,7 +94,16 @@ Der Wocheneffekt $\delta_t$ berücksichtigt allgemeine zeitliche Schwankungen de
 
 ## 3. Vorgehensweise
 
-1.  **EDA:** Altersgruppen, Fallzahlen, Zeitverlauf und Kreistypen untersuchen. **(Done)**
+1.  **Bisherige Beobachtungen (done):**
+    - **Zeitverlauf:** Starke zeitliche Schwankungen der COVID-19-Inzidenz, insbesondere im Jahr 2022.
+
+    - **Altersgruppen:** Unterschiedliche Inzidenzmuster je nach Alter. Altersgruppen bilden diese Unterschiede nicht immer vollständig ab.
+
+    - **Kreistypen:** Kreistypen: Insgesamt ähnliche zeitliche Inzidenzverläufe, jedoch unterschiedlich starke und im Zeitverlauf schwankende Abweichungen zwischen den Kreistypen.
+
+    - **Urbanisierungsgrad (BBSR-Location Type, sehr zentral bis sehr peripher):** Insgesamt ähnliche zeitliche Inzidenzverläufe zwischen den vier Location Types
+
+    - **Urbanisierungsgrad × Altersgruppe:** Die aggregierten Inzidenzverläufe der vier Urbanisierungstypen unterscheiden sich innerhalb der Altersgruppen überwiegend nur geringfügig.
 2.  **Poisson GLM:** Basismodell mit Altersgruppe, Urbanisierungsgrad, Interaktion und Wocheneffekt.
 3.  **Kovariaten:** Weitere regionale Strukturmerkmale schrittweise ergänzen.
 4.  **Modelldiagnostik:** Overdispersion, Residuen und Abhängigkeiten prüfen.
