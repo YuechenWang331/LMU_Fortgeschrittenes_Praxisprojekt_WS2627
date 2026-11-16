@@ -108,7 +108,7 @@ annual_cases_by_type <- annual_cases %>%
       levels = c("sehr zentral", "zentral", "peripher", "sehr peripher")
     )
   ) %>%
-  filter(!is.na(population_total)) %>%
+  filter(!is.na(population_total), year <= 2023) %>%
   arrange(year, location_type_label)
 
 print("=== Gesamtfälle nach Location Type und Jahr ===")
@@ -209,6 +209,7 @@ monthly_cases <- readRDS(file.path(project_root, "data_processed", "rki_weekly_l
       levels = c("sehr zentral", "zentral", "peripher", "sehr peripher")
     )
   ) %>%
+  filter(year <= 2023) %>%
   arrange(month_start, location_type_label)
 
 print("=== Monatliche Fallzahlen nach Location Type ===")
@@ -231,6 +232,226 @@ monthly_plot <- ggplot(
 
 print(monthly_plot)
 
+# ------------------------------------------------------------------------------
+# Zusätzlich: Vergleich nach Location Type und Altersgruppe
+# ------------------------------------------------------------------------------
+# Damit wir sehen, ob sich die räumlichen Unterschiede zwischen sehr zentral, zentral,
+# peripher und sehr peripher je nach Altersgruppe unterscheiden, aggregieren wir die
+# Fälle und die Bevölkerungszahlen zusätzlich nach groben Altersklassen.
+
+age_band_levels <- c("0-4", "5-14", "15-19", "20-39", "40-64", "65-79", "80+")
+
+location_type_age_cases <- readRDS(file.path(project_root, "data_processed", "rki_weekly_long.rds")) %>%
+  as.data.frame() %>%
+  transmute(
+    geo_code = as.character(geo_code),
+    year = as.integer(iso_year),
+    age_group = as.character(age_group),
+    count = as.numeric(count)
+  ) %>%
+  filter(!is.na(geo_code), !is.na(year), !is.na(count), count >= 0, age_group != "NA") %>%
+  mutate(
+    age_group_broad = case_when(
+      age_group == "80+" ~ "80+",
+      suppressWarnings(as.integer(age_group)) %in% 0:4 ~ "0-4",
+      suppressWarnings(as.integer(age_group)) %in% 5:14 ~ "5-14",
+      suppressWarnings(as.integer(age_group)) %in% 15:19 ~ "15-19",
+      suppressWarnings(as.integer(age_group)) %in% 20:39 ~ "20-39",
+      suppressWarnings(as.integer(age_group)) %in% 40:64 ~ "40-64",
+      suppressWarnings(as.integer(age_group)) %in% 65:79 ~ "65-79",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(age_group_broad)) %>%
+  left_join(geo_types %>% select(geo_code, location_type_label), by = "geo_code") %>%
+  filter(!is.na(location_type_label)) %>%
+  group_by(year, location_type_label, age_group_broad) %>%
+  summarise(total_cases = sum(count, na.rm = TRUE), .groups = "drop")
+
+location_type_age_population <- readRDS(file.path(project_root, "data_processed", "rki_population_annual.rds")) %>%
+  as.data.frame() %>%
+  transmute(
+    geo_code = as.character(geo_code),
+    year = as.integer(year),
+    age_group = as.character(age_group),
+    population = as.numeric(population)
+  ) %>%
+  filter(!is.na(geo_code), !is.na(year), !is.na(population), population > 0, age_group != "NA") %>%
+  mutate(
+    age_group_broad = case_when(
+      age_group == "80+" ~ "80+",
+      suppressWarnings(as.integer(age_group)) %in% 0:4 ~ "0-4",
+      suppressWarnings(as.integer(age_group)) %in% 5:14 ~ "5-14",
+      suppressWarnings(as.integer(age_group)) %in% 15:19 ~ "15-19",
+      suppressWarnings(as.integer(age_group)) %in% 20:39 ~ "20-39",
+      suppressWarnings(as.integer(age_group)) %in% 40:64 ~ "40-64",
+      suppressWarnings(as.integer(age_group)) %in% 65:79 ~ "65-79",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(age_group_broad)) %>%
+  left_join(geo_types %>% select(geo_code, location_type_label), by = "geo_code") %>%
+  filter(!is.na(location_type_label)) %>%
+  group_by(year, location_type_label, age_group_broad) %>%
+  summarise(population_total = sum(population, na.rm = TRUE), .groups = "drop")
+
+location_type_age_rate <- location_type_age_cases %>%
+  left_join(location_type_age_population, by = c("year", "location_type_label", "age_group_broad")) %>%
+  filter(!is.na(population_total), population_total > 0, year <= 2023) %>%
+  mutate(
+    age_group_broad = factor(age_group_broad, levels = age_band_levels),
+    location_type_label = factor(
+      location_type_label,
+      levels = c("sehr zentral", "zentral", "peripher", "sehr peripher")
+    ),
+    cases_per_100k = (total_cases / population_total) * 100000
+  ) %>%
+  arrange(year, age_group_broad, location_type_label)
+
+print("=== COVID-19-Fälle pro 100.000 Einwohner nach Location Type und Altersgruppe ===")
+print(location_type_age_rate %>% select(year, location_type_label, age_group_broad, total_cases, population_total, cases_per_100k) %>% head(20))
+
+p_age_type <- ggplot(
+  location_type_age_rate,
+  aes(x = year, y = cases_per_100k, colour = location_type_label, group = location_type_label)
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 1.8) +
+  facet_wrap(~ age_group_broad, ncol = 3) +
+  labs(
+    title = "COVID-19-Fälle pro 100.000 Einwohner nach Location Type und Altersgruppe",
+    x = "Jahr",
+    y = "Fälle pro 100.000 Einwohner",
+    colour = "Location Type"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+
+ggsave(
+  filename = file.path(project_root, "results", "locationtype_comparison", "agegroup_by_locationtype.png"),
+  plot = p_age_type,
+  width = 12,
+  height = 8,
+  dpi = 300
+)
+
+print(p_age_type)
+
+# ------------------------------------------------------------------------------
+# Zusätzlich: Monatlicher Vergleich nach Location Type und Altersgruppe
+# ------------------------------------------------------------------------------
+# Für die monatliche Sicht nutzen wir die gleichen groben Altersklassen. Da nur jährliche
+# Bevölkerungsdaten vorliegen, verwenden wir die jährliche Bevölkerungszahl als Näherung für
+# jeden Monat des Jahres. Das ist ein pragmatischer Schätzer, kein exakter monatlicher Nenner.
+
+monthly_location_type_age_cases <- readRDS(file.path(project_root, "data_processed", "rki_weekly_long.rds")) %>%
+  as.data.frame() %>%
+  transmute(
+    geo_code = as.character(geo_code),
+    month_start = as.Date(format(week_start, "%Y-%m-01")),
+    year = as.integer(iso_year),
+    age_group = as.character(age_group),
+    count = as.numeric(count)
+  ) %>%
+  filter(!is.na(geo_code), !is.na(month_start), !is.na(year), !is.na(count), count >= 0, age_group != "NA") %>%
+  mutate(
+    age_group_broad = case_when(
+      age_group == "80+" ~ "80+",
+      suppressWarnings(as.integer(age_group)) %in% 0:4 ~ "0-4",
+      suppressWarnings(as.integer(age_group)) %in% 5:14 ~ "5-14",
+      suppressWarnings(as.integer(age_group)) %in% 15:19 ~ "15-19",
+      suppressWarnings(as.integer(age_group)) %in% 20:39 ~ "20-39",
+      suppressWarnings(as.integer(age_group)) %in% 40:64 ~ "40-64",
+      suppressWarnings(as.integer(age_group)) %in% 65:79 ~ "65-79",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(age_group_broad)) %>%
+  left_join(geo_types %>% select(geo_code, location_type_label), by = "geo_code") %>%
+  filter(!is.na(location_type_label)) %>%
+  group_by(month_start, year, location_type_label, age_group_broad) %>%
+  summarise(total_cases = sum(count, na.rm = TRUE), .groups = "drop")
+
+monthly_location_type_age_population <- readRDS(file.path(project_root, "data_processed", "rki_population_annual.rds")) %>%
+  as.data.frame() %>%
+  transmute(
+    geo_code = as.character(geo_code),
+    year = as.integer(year),
+    age_group = as.character(age_group),
+    population = as.numeric(population)
+  ) %>%
+  filter(!is.na(geo_code), !is.na(year), !is.na(population), population > 0, age_group != "NA") %>%
+  mutate(
+    age_group_broad = case_when(
+      age_group == "80+" ~ "80+",
+      suppressWarnings(as.integer(age_group)) %in% 0:4 ~ "0-4",
+      suppressWarnings(as.integer(age_group)) %in% 5:14 ~ "5-14",
+      suppressWarnings(as.integer(age_group)) %in% 15:19 ~ "15-19",
+      suppressWarnings(as.integer(age_group)) %in% 20:39 ~ "20-39",
+      suppressWarnings(as.integer(age_group)) %in% 40:64 ~ "40-64",
+      suppressWarnings(as.integer(age_group)) %in% 65:79 ~ "65-79",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(age_group_broad)) %>%
+  left_join(geo_types %>% select(geo_code, location_type_label), by = "geo_code") %>%
+  filter(!is.na(location_type_label)) %>%
+  group_by(year, location_type_label, age_group_broad) %>%
+  summarise(population_total = sum(population, na.rm = TRUE), .groups = "drop")
+
+monthly_location_type_age_rate <- monthly_location_type_age_cases %>%
+  left_join(monthly_location_type_age_population, by = c("year", "location_type_label", "age_group_broad")) %>%
+  filter(!is.na(population_total), population_total > 0, year <= 2023) %>%
+  mutate(
+    age_group_broad = factor(age_group_broad, levels = age_band_levels),
+    location_type_label = factor(
+      location_type_label,
+      levels = c("sehr zentral", "zentral", "peripher", "sehr peripher")
+    ),
+    cases_per_100k = (total_cases / population_total) * 100000
+  ) %>%
+  arrange(month_start, age_group_broad, location_type_label)
+
+print("=== Monatliche COVID-19-Fälle pro 100.000 Einwohner nach Location Type und Altersgruppe ===")
+print(monthly_location_type_age_rate %>% select(month_start, year, location_type_label, age_group_broad, total_cases, population_total, cases_per_100k) %>% head(20))
+
+p_age_type_monthly <- ggplot(
+  monthly_location_type_age_rate,
+  aes(x = month_start, y = cases_per_100k, colour = location_type_label, group = location_type_label)
+) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.4) +
+  facet_wrap(~ age_group_broad, ncol = 3) +
+  labs(
+    title = "Monatliche COVID-19-Fälle pro 100.000 Einwohner nach Location Type und Altersgruppe",
+    x = "Monat",
+    y = "Fälle pro 100.000 Einwohner",
+    colour = "Location Type"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+
+ggsave(
+  filename = file.path(project_root, "results", "locationtype_comparison", "agegroup_monthly_by_locationtype.png"),
+  plot = p_age_type_monthly,
+  width = 12,
+  height = 8,
+  dpi = 300
+)
+
+print(p_age_type_monthly)
+
+# Interpretation der Altersgruppen-Analyse:
+# - Die räumlichen Unterschiede sind in jüngeren und mittleren Altersgruppen oft deutlich sichtbar,
+#   können aber in manchen Jahren bei den 65+-Gruppen anders ausfallen.
+# - Die absoluten Fallzahlen sind in sehr zentralen Regionen häufig höher, weil dort mehr Menschen
+#   leben; die relative Rate pro 100.000 zeigt jedoch, ob ein räumlicher Effekt auch nach Alter
+#   und Bevölkerungsgröße bestehen bleibt.
+# - Wenn sich die Linien zwischen den Altersgruppen stark unterscheiden, deutet das auf ein
+#   altersgruppenspezifisches Muster hin: Einerseits kann die Lage-/Raumtyp-Klasse mit stärkerer
+#   urbaner Anbindung andere Infektionsdynamiken zeigen als ländlich geprägte Regionen.
+# - Die monatliche Darstellung zeigt zusätzlich, dass die räumlichen Unterschiede nicht nur im
+#   Jahresvergleich, sondern auch im Verlauf innerhalb der Pandemiewellen relevant sind.
 
 # Interpretation absolute Zahlen:
 # - In allen Location Types steigen die gemeldeten Fallzahlen zwischen 2020 und 2022 stark an,
