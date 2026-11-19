@@ -1,7 +1,5 @@
 # COVID-19-Wocheninzidenz nach Altersgruppen, 2020–2023
 
-**Thomas · Wochenbericht KW 47 · Gruppenbesprechung am 20.11.2026**
-
 Fortgeschrittenes Praxisprojekt WS 2026/27 · LMU München · Stand 19.11.2026
 
 *Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen* · Betreuung durch Finn Schmidt · Projektpartner André Klima
