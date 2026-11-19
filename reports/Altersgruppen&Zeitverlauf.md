@@ -81,6 +81,6 @@ Weitere Abbildungen zeigen alle 13 Gruppen über vier Jahre und die einzelnen Ku
 
 Die Kreisdatensätze, Grafiken, Ergebnistabellen und Auswertungsskripte sind im Projekt abgelegt. [Kreisdaten für 7 Gruppen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/kreis_weekly_7.rds) · [Kreisdaten für 13 Gruppen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/kreis_weekly_13.rds) · [Alle Abbildungen](../results/Altsgruppen_ZeitlicheEntwicklung/) · [Ergebnistabellen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/eda/tables/) · [R-Skripte](../Scripts/Altsgruppen_ZeitlicheEntwicklung/)
 
-Die ergänzenden Prüfprotokolle zur Aggregation, zu Bevölkerungsnennern und SurvStat-Leerwerten liegen in Obsidian unter `F_Praktikum/KW_47/` (Berichte 02–07).
+
 
 *KI-Assistenz unterstützte die Strukturierung und sprachliche Ausarbeitung. Die Zahlen stammen aus den R-Auswertungen des Projekts. Die inhaltliche Freigabe liegt bei der Projektgruppe.*
