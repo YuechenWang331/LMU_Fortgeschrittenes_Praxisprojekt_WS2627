@@ -68,14 +68,9 @@ Die folgenden **bereits erzeugten** Abbildungen liegen im Git-Projekt unter `res
 
 Die übrigen fünf Abbildungen und detaillierten Statistiktabellen stehen als **technischer Anhang** zur Verfügung. Für die mündliche Vorstellung sind besonders **Abb. 01 → 06 → 08** geeignet; Abb. 04 kann die feinere Gesamtsicht ergänzen.
 
-## 5. Datenqualität und Grenzen
 
-1. **Stichprobe:** Die Kurven beziehen sich auf **383 Kreise**, nicht auf die vollständige Bundesrepublik. Die 17 ausgeschlossenen Kreise wurden wegen fehlender Einzelalter-Bevölkerungsnenner ausgeschlossen, nicht wegen vollständig fehlender COVID-19-Falltabellen. Die Selektionswirkung kann für regionale Analysen relevanter sein als für die hier betrachteten aggregierten Kurven.
-2. **Quell-Leerwerte:** Historische SurvStat-Antworten enthalten leere Zellen, die `rsurvstat::get_timeseries()` lokal in **0** umgewandelt hat. Die genaue Bedeutung dieser leeren Quellwerte (z. B. kein Fall oder fehlender Wert) ist **nicht abschließend bestätigt**. Die technische Validierung beseitigt diese fachliche Unsicherheit nicht.
-3. **Bevölkerungsstand:** Die abgeleiteten RKI-Nenner sind mit einer älteren, auf **Zensus 2011** beruhenden Bevölkerungsfortschreibung konsistent; die neueren Destatis-Zahlen für 2022/2023 beruhen teilweise auf der **Zensus-2022-Basis** und dürfen nicht ohne Prüfung gemischt werden. Von 29 fehlenden Nennern wurden 8 aus historisch passenden amtlichen Quellen validiert; diese Werte wurden **nicht** in die Produktionsdaten übernommen.
-4. **Deskriptive Aussagegrenze:** Melde- und Testpraxis können sich im Zeitverlauf verändert haben. Unterschiedliche beobachtete Spitzen belegen weder Übertragungsrichtungen noch kausale Zusammenhänge.
 
-## 6. Fazit und Vorschlag für die nächsten Schritte
+## 5. Fazit und Vorschlag für die nächsten Schritte
 
 Die **explorative Analyse der altersgruppenspezifischen Zeitentwicklung ist abgeschlossen**. Die **7er-Einteilung** bietet einen gut lesbaren Überblick; die **13er-Einteilung** zeigt zusätzliche **innerhalb breiter Gruppen verdeckte zeitliche Heterogenität**. Sie ist daher besonders für gezielte Detailanalysen wertvoll, aber nicht grundsätzlich in jeder Darstellung überlegen.
 
@@ -85,6 +80,4 @@ Die **explorative Analyse der altersgruppenspezifischen Zeitentwicklung ist abge
 
 ---
 
-**Nachvollziehbarkeit:** Detaillierte Methoden, Zahlen und Prüfprotokolle sind in Obsidian unter `F_Praktikum/KW_47/` dokumentiert: [[02_Altersgruppen_Aggregation_Validierung]], [[03_Zeitentwicklung_Altersgruppen_EDA]], [[04_Vertiefende_Zeitentwicklung_2022]], [[05_Fehlende_Bevoelkerungsnenner_Ursachenanalyse]], [[06_Bevoelkerungsdefinitionen_und_SurvStat_Leerwerte]], [[07_Einzelalter_Bevoelkerung_Quellenpruefung]]. Die zugehörigen R-Skripte liegen unter `Scripts/Altsgruppen_ZeitlicheEntwicklung/`.
 
-*Hinweis zur KI-Nutzung: KI-Assistenz wurde für Strukturierung und sprachliche Ausarbeitung dieses Wochenberichts verwendet. Datenauswertung und technische Prüfungen erfolgten über lokal ausgeführte R-Skripte; die inhaltliche Verantwortung und abschließende Freigabe liegen bei der Projektgruppe.*
