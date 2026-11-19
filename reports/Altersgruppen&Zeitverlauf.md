@@ -1,83 +1,86 @@
-# Wochenbericht KW 47 – Zeitentwicklung der COVID-19-Inzidenz nach Altersgruppen
+# COVID-19-Wocheninzidenz nach Altersgruppen, 2020–2023
 
-**Fortgeschrittenes Praxisprojekt WS 2026/27 · LMU München**  
-**Projekt:** Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen (COVID-19)  
-**Aufgabe:** Exploration der Zeitentwicklung in verschiedenen Altersgruppen  
-**Bearbeitung:** Thomas · **Stand:** 19.11.2026 · **Projektpartner:** André Klima
+**Thomas · Wochenbericht KW 47 · Gruppenbesprechung am 20.11.2026**
 
-## 1. Fragestellung und Ziel
+Fortgeschrittenes Praxisprojekt WS 2026/27 · LMU München · Stand 19.11.2026
 
-Wie unterscheiden sich die **zeitlichen Verläufe der gemeldeten COVID-19-Wocheninzidenz** zwischen Altersgruppen? Welche Unterschiede werden sichtbar, wenn statt **7 breiten Altersgruppen** eine feinere Einteilung in **13 Altersgruppen** verwendet wird?
+*Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen* · Betreuung durch Finn Schmidt · Projektpartner André Klima
 
-Ziel dieser Woche war eine **explorative, deskriptive Analyse**, noch keine Erklärung von Ursachen oder die Modellierung von Zusammenhängen mit regionalen Strukturmerkmalen.
+Andrés Vorschläge für sieben und 13 Altersgruppen sind in **zwei geprüften Datensätzen auf Ebene von Kreis, Woche und Altersgruppe** umgesetzt. Beide decken 209 ISO-Meldewochen ab. Daraus entstanden neun Abbildungen und vier Ergebnistabellen.
 
-## 2. Daten und Vorgehen
+## Kurzvortrag für die Besprechung (etwa eine Minute)
 
-- **Datenbasis:** Aufbereitete RKI-/SurvStat-Daten für die Jahre **2020–2023** mit **209 aufeinanderfolgenden Wochen**. Die Ausgangsdaten unterscheiden die Einzelalter **0–79** und die offene Gruppe **80+**; unbekanntes Alter wird separat kontrolliert.
-- **Altersgruppierung:** Aufbau der beiden von André vorgeschlagenen Schemata aus den Einzelaltern: **7 Gruppen** (0–5, 6–17, 18–39, 40–59, 60–69, 70–79, 80+) und **13 feinere Gruppen** (0–2, 3–5, 6–9, 10–14, 15–17, 18–24, 25–29, 30–39, 40–49, 50–59, 60–69, 70–79, 80+).
-- **Geografischer Umfang:** Die Primärdarstellung dieser EDA verwendet eine **konstante Stichprobe von 383 der 400 harmonisierten Kreise** (*Balanced Sample*). Bei 17 Kreisen fehlen insgesamt 29 Kombinationen aus Einzelalter, Jahr und Kreis im abgeleiteten Bevölkerungsnenner. Die 383 Kreise ermöglichen eine über alle Jahre und Altersgruppen konsistente Nennerabdeckung.
-- **Kennzahl:** Gemeldete Fälle je **100.000 Einwohner und ISO-Meldewoche**, berechnet nach Aggregation von Fallzahlen und jahresspezifischen Bevölkerungsnennern. Es handelt sich **nicht** um eine gleitende 7-Tage-Inzidenz. Die Zeitreihen werden für die Auswertung der Maxima **nicht geglättet**.
-- **Analysen:** Zeitreihen und Heatmap, deskriptive Kennzahlen, Zeitpunkte der beobachteten Maxima, Vergleich beider Gruppierungen und vertiefte Betrachtung von **2022-W01 bis 2022-W16**. Aggregation und Ausgaben wurden technisch validiert.
+> Ich habe für dieselben 383 Kreise die Wocheninzidenzen mit sieben und mit 13 Altersgruppen verglichen. In beiden Einteilungen erreichte jede Gruppe ihren höchsten Wert zwischen Ende Januar und Ende März 2022. Bei den 6- bis 17-Jährigen lag die Spitze in Kalenderwoche 05, bei allen vier Gruppen ab 40 Jahren in Woche 12. Was gewinnen wir durch die feinere Einteilung? Bei den unter Sechsjährigen blieb die gemeinsame Kurve von Woche 04 auf 05 fast flach. In derselben Woche stieg die Inzidenz bei den 0- bis 2-Jährigen und sank bei den 3- bis 5-Jährigen. Diese beiden Gruppen würde ich deshalb im nächsten Schritt getrennt nach Kreistyp auswerten.
 
-## 3. Zentrale Ergebnisse
+## Die Altersgruppe mit der höchsten Wocheninzidenz wechselte über die Jahre
 
-### 3.1 Unterschiedliche Maximalwerte und Zeitpunkte
+![Wocheninzidenz der sieben breiten Altersgruppen von 2020 bis 2023. Die höchste Spitze erreicht die Gruppe 6–17 Anfang 2022.](../results/Altsgruppen_ZeitlicheEntwicklung/01_timeseries_7_groups.png)
 
-In **allen 20 Altersgruppen-Reihen** der beiden Schemata liegt das beobachtete **Gesamtmaximum im Jahr 2022**; die Maxima fallen auf die ISO-Wochen **W04, W05, W11 oder W12**. Beispiele aus dem 7er-Schema:
+*Abb. 01 · Gemeldete Fälle je 100.000 Personen der jeweiligen Altersgruppe und ISO-Meldewoche. Alle sieben Kurven beziehen sich auf dieselben 383 Kreise.*
 
-| Altersgruppe | Maximale Wocheninzidenz | ISO-Woche |
-|---|---:|---|
-| 0–5 | 1.510,79 | 2022-W04 |
-| 6–17 | 3.484,07 | 2022-W05 |
-| 18–39 | 2.517,79 | 2022-W11 |
-| 40–59 | 2.034,65 | 2022-W12 |
-| 60–69 | 1.168,02 | 2022-W12 |
-| 70–79 | 790,76 | 2022-W12 |
-| 80+ | 836,16 | 2022-W12 |
+Die Tabelle vergleicht für jedes Jahr die sieben Altersgruppen. Sie nennt den höchsten einzelnen Wochenwert und den höchsten der sieben Gruppenmediane. Jeder Median fasst die 52 bzw. 53 Wochen einer Altersgruppe zusammen. Beide Spalten geben gemeldete Fälle je 100.000 Personen der jeweiligen Altersgruppe und Woche an.
 
-**Interpretation:** Die Altersgruppen unterscheiden sich im beobachteten Niveau und in den Zeitpunkten ihrer höchsten Wocheninzidenz. Diese Maxima müssen aber **nicht derselben epidemiologischen Welle** angehören; ihre zeitliche Differenz ist **kein Nachweis einer Übertragungsverzögerung**.
+| ISO-Jahr | Höchster Wochenwert (Alter) | Kalenderwoche | Höchster Median der Wochenwerte (Alter) |
+|---|---:|:---:|---:|
+| 2020 | 358,4 (80+) | 51 | 17,1 (18–39) |
+| 2021 | 982,3 (6–17) | 47 | 134,2 (6–17) |
+| **2022** | **3.484,1 (6–17)** | **05** | **691,6 (18–39)** |
+| 2023 | 220,3 (80+) | 01 | 65,0 (80+) |
 
-### 3.2 Die feinere Einteilung zeigt verdeckte Heterogenität
+2022 erreichten die 6- bis 17-Jährigen den höchsten Einzelwert. Ihr Median über die 52 Wochen lag bei **387,9**. Bei den 18- bis 39-Jährigen lag er mit **691,6** deutlich höher. Für den Vergleich nach Kreistyp liefern Spitzenhöhe und typisches Wochenniveau damit zwei unterschiedliche Informationen.
 
-Ein besonders anschauliches Beispiel ist die breite Gruppe **0–5 Jahre**:
+## Was die gemeinsame Kurve der unter Sechsjährigen verdeckt
 
-| Altersgruppe | Beobachtetes Maximum | ISO-Woche |
-|---|---:|---|
-| 0–5 | 1.510,79 | 2022-W04 |
-| 0–2 | 1.001,59 | 2022-W12 |
-| 3–5 | 2.109,11 | 2022-W04 |
+![Vergleich der breiten und feinen Altersgruppen in den Kalenderwochen 01 bis 16 des Jahres 2022. Oben sind die unter Sechsjährigen dargestellt, in der Mitte die 6- bis 17-Jährigen und unten die 18- bis 39-Jährigen.](../results/Altsgruppen_ZeitlicheEntwicklung/08_focused_2022_age_patterns.png)
 
-Zwischen **2022-W04 und W05** steigt die Wocheninzidenz bei den **0–2-Jährigen** von **883,80 auf 915,61**, während sie bei den **3–5-Jährigen** von **2.109,11 auf 2.068,17** sinkt. Die zusammengefasste Gruppe **0–5** zeigt dagegen nur eine geringe Veränderung von **1.510,79 auf 1.505,38**. **Gegenläufige Entwicklungen innerhalb einer breiten Altersgruppe können durch Aggregation verdeckt werden.**
+*Abb. 08 · Die durchgezogene Linie zeigt die breite Gruppe, die gestrichelten Linien ihre Teilgruppen. Die Symbole markieren den jeweils höchsten Wochenwert im dargestellten Zeitraum.*
 
-Auch bei den **6–17-Jährigen** unterscheiden sich die Teilgruppen: **6–9** und **10–14 Jahre** erreichen ihr Gesamtmaximum in **2022-W05**, die **15–17-Jährigen** dagegen in **2022-W11**. Weitere Unterschiede zeigen sich innerhalb der 18–39-Jährigen.
+Im **oberen Teil von Abb. 08** verläuft die durchgezogene Linie zwischen KW 04 und KW 05 nahezu waagerecht. Die Wochenwerte zeigen, was in den beiden Teilgruppen passiert ist.
 
-### 3.3 Abgleich mit 400 Kreisen
+| Alter | KW 04/2022 | KW 05/2022 | Veränderung je 100.000 | Woche des Gesamtmaximums |
+|---|---:|---:|---:|:---:|
+| 0–2 | 883,8 | 915,6 | **+31,8** | KW 12 |
+| 3–5 | 2.109,1 | 2.068,2 | **−40,9** | KW 04 |
+| **0–5 gesamt** | **1.510,8** | **1.505,4** | **−5,4** | **KW 04** |
 
-Für **2021 und 2022** sind die Bevölkerungsnenner aller 400 Kreise vollständig. Dort wurde die 383-Kreis-Zeitreihe mit der 400-Kreis-Zeitreihe verglichen. Die **maximale absolute Abweichung** über die geprüften Altersgruppen und Wochen beträgt **9,20 Fälle je 100.000 Einwohner und Woche** (13er-Schema, 2022). Die beobachteten aggregierten Werte sind für diese beiden Jahre somit **wenig sensitiv gegenüber der Kreis-Auswahl**. Dies ist **keine** Gleichwertigkeitsprüfung für 2020/2023 oder für spätere Analysen regionaler Strukturmerkmale.
+In der gemeinsamen Rate trägt jede Teilgruppe entsprechend ihrer Bevölkerungsgröße bei. Der Anstieg bei den Jüngsten und der Rückgang bei den 3- bis 5-Jährigen heben sich deshalb weitgehend auf. Auch ihre Höchstwerte liegen auseinander. Die 3- bis 5-Jährigen erreichten **2.109,1** in KW 04, die 0- bis 2-Jährigen **1.001,6** in KW 12.
 
-## 4. Abbildungen für die Besprechung
+Im **mittleren Teil von Abb. 08** erreichten die 6- bis 9-Jährigen und die 10- bis 14-Jährigen ihr Maximum in KW 05 mit jeweils rund **3.720** Fällen je 100.000. Die 15- bis 17-Jährigen erreichten ihres sechs Wochen später, in **KW 11** mit **2.894,6**. Die Abstände beschreiben die Lage der beobachteten Maxima. Eine Zuordnung zur selben epidemiologischen Welle oder eine Aussage über die Übertragung zwischen Altersgruppen würde zusätzliche Belege erfordern.
 
-Die folgenden **bereits erzeugten** Abbildungen liegen im Git-Projekt unter `results/Altsgruppen_ZeitlicheEntwicklung/`. Die angegebenen Pfade sind **relativ zum Repository** und vermeiden nicht-portable lokale Benutzerpfade.
+## Die Jahresmaxima 2021 und 2022 liegen bei 383 und 400 Kreisen in denselben Wochen
 
-| Abbildung | Datei | Aussage für die Präsentation |
-|---|---|---|
-| **Abb. 01** | `01_timeseries_7_groups.png` | Überblick über die Entwicklung der sieben breiten Gruppen, 2020–2023 |
-| **Abb. 04** | `04_heatmap_13_groups.png` | Zeitliches Muster und Niveau der 13 feineren Gruppen |
-| **Abb. 06** | `06_grouping_comparison.png` | Direkter Vergleich von breiten und feineren Altersgruppen |
-| **Abb. 08** | `08_focused_2022_age_patterns.png` | Konkretes Beispiel der verdeckten Unterschiede im Frühjahr 2022 |
+Für diese beiden Jahre sind die Bevölkerungsnenner in allen 400 harmonisierten Kreisen vollständig. **In allen 40 Vergleichen** fiel das Jahresmaximum mit 383 und mit 400 Kreisen auf dieselbe Woche (7 breite und 13 feine Reihen, jeweils für zwei Jahre). Der größte Abstand zwischen zwei Raten derselben Altersgruppe und Woche trat bei den 6- bis 9-Jährigen in KW 07/2022 auf. Die Rate betrug **2.800,98** für 383 Kreise und **2.810,18** für alle 400, eine Differenz von **9,20 je 100.000**. Der Abgleich gilt für die über Kreise zusammengefassten Reihen dieser zwei Jahre. Unterschiede zwischen einzelnen Kreistypen bleiben eine eigene Forschungsfrage. [Aggregierte Wochenreihen beider Gebietsauswahlen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/)
 
-Die übrigen fünf Abbildungen und detaillierten Statistiktabellen stehen als **technischer Anhang** zur Verfügung. Für die mündliche Vorstellung sind besonders **Abb. 01 → 06 → 08** geeignet; Abb. 04 kann die feinere Gesamtsicht ergänzen.
+## Vorschlag für die nächste Gruppenauswertung
 
+Für den Überblick über vier Jahre schlage ich die **sieben breiten Gruppen** vor. Für den ersten Vergleich nach Siedlungsstruktur würde ich **0–2 und 3–5 Jahre getrennt** darstellen. Sehen wir den Anstieg bei den Jüngsten und den gleichzeitigen Rückgang bei den 3- bis 5-Jährigen von KW 04 auf 05/2022 auch innerhalb der einzelnen Kreistypen? Dazu können wir je Kreistyp beide Kurven über die Wochen 01–16/2022 zeichnen. Für dieses Zeitfenster liegen vollständige Bevölkerungsnenner für alle 400 Kreise vor.
 
+## Anhang für Rückfragen
 
-## 5. Fazit und Vorschlag für die nächsten Schritte
+### Alle sieben Gesamtmaxima und die zugehörigen Teilgruppen
 
-Die **explorative Analyse der altersgruppenspezifischen Zeitentwicklung ist abgeschlossen**. Die **7er-Einteilung** bietet einen gut lesbaren Überblick; die **13er-Einteilung** zeigt zusätzliche **innerhalb breiter Gruppen verdeckte zeitliche Heterogenität**. Sie ist daher besonders für gezielte Detailanalysen wertvoll, aber nicht grundsätzlich in jeder Darstellung überlegen.
+Das Gesamtmaximum ist der höchste der **209 ungeglätteten Wochenwerte von 2020 bis 2023** für die jeweilige Altersgruppe in den 383 Kreisen. In beiden Einteilungen fallen alle Gesamtmaxima in vier Kalenderwochen des Jahres 2022.
 
-**Vorschlag für die Projektgruppe:** Das **7er-Schema für die Übersicht** und das **13er-Schema für ausgewählte Detailfragen** beibehalten. Vor dem nächsten Arbeitsschritt gemeinsam entscheiden, welche Gruppierung für regionale Vergleiche und die Untersuchung der **Strukturmerkmale** verwendet werden soll. Die 383-Kreis-Ergebnisse können für diese Woche als explorative Grundlage dienen; bei Analysen von Kreismerkmalen müssen fehlende Nenner und mögliche **Selektionsverzerrungen** gesondert behandelt werden.
+| Breite Gruppe | Gesamtmaximum je 100.000 | KW 2022 | Feinere Gruppen mit der Woche ihres Gesamtmaximums |
+|---|---:|:---:|---|
+| 0–5 | 1.510,79 | 04 | 0–2 in KW 12, 3–5 in KW 04 |
+| 6–17 | 3.484,07 | 05 | 6–9 und 10–14 in KW 05, 15–17 in KW 11 |
+| 18–39 | 2.517,79 | 11 | 18–24 und 25–29 in KW 11, 30–39 in KW 12 |
+| 40–59 | 2.034,65 | 12 | 40–49 und 50–59 in KW 12 |
+| 60–69 | 1.168,02 | 12 | 60–69 in KW 12 |
+| 70–79 | 790,76 | 12 | 70–79 in KW 12 |
+| 80+ | 836,16 | 12 | 80+ in KW 12 |
 
-**Offene Abstimmungspunkte:** (a) Verwendungszweck der beiden Altersgruppierungen; (b) 383 versus bis zu 400 Kreise in regionalen Analysen; (c) Klärung der SurvStat-Leerwerte mit dem Datenpartner.
+Weitere Abbildungen zeigen alle 13 Gruppen über vier Jahre und die einzelnen Kurven der unter 40-Jährigen Anfang 2022. [Abb. 04 · Heatmap für 13 Gruppen](../results/Altsgruppen_ZeitlicheEntwicklung/04_heatmap_13_groups.png) · [Abb. 06 · Vergleich beider Einteilungen](../results/Altsgruppen_ZeitlicheEntwicklung/06_grouping_comparison.png) · [Abb. 09 · Einzelkurven Anfang 2022](../results/Altsgruppen_ZeitlicheEntwicklung/09_focused_2022_fine_groups.png)
 
----
+### Daten, Prüfungen und verfügbare Ergebnisse
 
+- **Die Wocheninzidenz** beruht auf den SurvStat-Fallzahlen für die Einzelalter 0–79 und die offene Klasse 80+. Fälle mit unbekanntem Alter wurden separat gezählt. Für jede ISO-Meldewoche (Montag bis Sonntag) und Altersgruppe wurden die Fälle über die einbezogenen Kreise summiert, durch die zugehörige jahresspezifische Bevölkerung geteilt und mit 100.000 multipliziert. Der direkte Aufbau der sieben Gruppen aus den Einzelaltern und das Zusammenfassen der 13 Gruppen ergaben übereinstimmende Fallzahlen und Inzidenzen.
+- **Bei 17 Kreisen** fehlten in den Jahren 2020 oder 2023 insgesamt 29 Bevölkerungsnenner auf Ebene von Kreis, Einzelalter und Jahr. Die vierjährigen Kurven verwenden deshalb durchgehend die 383 Kreise mit vollständigen Nennern. Die abgeleiteten RKI-Bevölkerungsstände sind mit der Fortschreibung auf Basis des Zensus 2011 vereinbar. Für acht der 29 Lücken wurden historisch passende Vergleichswerte bestätigt. Die Analyse verwendet die ursprünglichen Nenner.
+- **Test- und Meldepraxis** können die Höhe und Vergleichbarkeit der gemeldeten Raten beeinflussen. Der Datenimport hat leere Zellen aus historischen SurvStat-Wochenabfragen als null gespeichert. Ob diese Zellen jeweils null gemeldete Fälle bedeuten, ist fachlich noch offen.
 
+Die Kreisdatensätze, Grafiken, Ergebnistabellen und Auswertungsskripte sind im Projekt abgelegt. [Kreisdaten für 7 Gruppen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/kreis_weekly_7.rds) · [Kreisdaten für 13 Gruppen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/kreis_weekly_13.rds) · [Alle Abbildungen](../results/Altsgruppen_ZeitlicheEntwicklung/) · [Ergebnistabellen](../data_processed/Altsgruppen_ZeitlicheEntwicklung/eda/tables/) · [R-Skripte](../Scripts/Altsgruppen_ZeitlicheEntwicklung/)
+
+Die ergänzenden Prüfprotokolle zur Aggregation, zu Bevölkerungsnennern und SurvStat-Leerwerten liegen in Obsidian unter `F_Praktikum/KW_47/` (Berichte 02–07).
+
+*KI-Assistenz unterstützte die Strukturierung und sprachliche Ausarbeitung. Die Zahlen stammen aus den R-Auswertungen des Projekts. Die inhaltliche Freigabe liegt bei der Projektgruppe.*
