@@ -4,11 +4,6 @@ Fortgeschrittenes Praxisprojekt WS 2026/27 · LMU München · Stand 19.11.2026
 
 *Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen* · Betreuung durch Finn Schmidt · Projektpartner André Klima
 
-Andrés Vorschläge für sieben und 13 Altersgruppen sind in **zwei geprüften Datensätzen auf Ebene von Kreis, Woche und Altersgruppe** umgesetzt. Beide decken 209 ISO-Meldewochen ab. Daraus entstanden neun Abbildungen und vier Ergebnistabellen.
-
-## Kurzvortrag für die Besprechung (etwa eine Minute)
-
-> Ich habe für dieselben 383 Kreise die Wocheninzidenzen mit sieben und mit 13 Altersgruppen verglichen. In beiden Einteilungen erreichte jede Gruppe ihren höchsten Wert zwischen Ende Januar und Ende März 2022. Bei den 6- bis 17-Jährigen lag die Spitze in Kalenderwoche 05, bei allen vier Gruppen ab 40 Jahren in Woche 12. Was gewinnen wir durch die feinere Einteilung? Bei den unter Sechsjährigen blieb die gemeinsame Kurve von Woche 04 auf 05 fast flach. In derselben Woche stieg die Inzidenz bei den 0- bis 2-Jährigen und sank bei den 3- bis 5-Jährigen. Diese beiden Gruppen würde ich deshalb im nächsten Schritt getrennt nach Kreistyp auswerten.
 
 ## Die Altersgruppe mit der höchsten Wocheninzidenz wechselte über die Jahre
 
