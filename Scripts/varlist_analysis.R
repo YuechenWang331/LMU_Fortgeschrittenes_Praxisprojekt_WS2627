@@ -341,3 +341,167 @@ for (outcome_name in c("cases", "cases_per_100k")) {
            p, width = 8, height = 5, dpi = 150)
   }
 }
+
+# ------------------------------------------------------------------------------
+# 34. Altersgruppenspezifische Kreisbeziehungen
+# ------------------------------------------------------------------------------
+
+# Functionally broad RKI age bands keep the correlations stable while still
+# allowing clear differences between younger, working-age, and older groups.
+age_band_map <- tibble::tribble(
+  ~age_group, ~age_band,
+  "0","0-17", "1","0-17", "2","0-17", "3","0-17", "4","0-17",
+  "5","0-17", "6","0-17", "7","0-17", "8","0-17", "9","0-17",
+  "10","0-17", "11","0-17", "12","0-17", "13","0-17", "14","0-17",
+  "15","0-17", "16","0-17", "17","0-17",
+  "18","18-29", "19","18-29", "20","18-29", "21","18-29",
+  "22","18-29", "23","18-29", "24","18-29", "25","18-29",
+  "26","18-29", "27","18-29", "28","18-29", "29","18-29",
+  "30","30-44", "31","30-44", "32","30-44", "33","30-44",
+  "34","30-44", "35","30-44", "36","30-44", "37","30-44",
+  "38","30-44", "39","30-44", "40","30-44", "41","30-44",
+  "42","30-44", "43","30-44", "44","30-44",
+  "45","45-64", "46","45-64", "47","45-64", "48","45-64",
+  "49","45-64", "50","45-64", "51","45-64", "52","45-64",
+  "53","45-64", "54","45-64", "55","45-64", "56","45-64",
+  "57","45-64", "58","45-64", "59","45-64", "60","45-64",
+  "61","45-64", "62","45-64", "63","45-64", "64","45-64",
+  "65","65+", "66","65+", "67","65+", "68","65+", "69","65+",
+  "70","65+", "71","65+", "72","65+", "73","65+", "74","65+",
+  "75","65+", "76","65+", "77","65+", "78","65+", "79","65+", "80+","65+"
+)
+
+# Age-specific cases: monthly observations are summed for each Kreis, year,
+# and broad age band. Rows with unknown age are excluded.
+monthly_age <- readRDS(file.path(project_root, "data_processed", "rki_monthly_long.rds")) %>%
+  as.data.frame() %>%
+  mutate(age_group = as.character(age_group)) %>%
+  inner_join(age_band_map, by = "age_group") %>%
+  transmute(
+    geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+    year = as.integer(year),
+    age_band,
+    cases = as.numeric(count)
+  ) %>%
+  filter(year %in% 2020:2023, is.finite(cases))
+
+age_cases <- monthly_age %>%
+  group_by(geo_code, year, age_band) %>%
+  summarise(cases = sum(cases, na.rm = TRUE), .groups = "drop")
+
+# Age-specific populations come from the harmonized RKI population table.
+# They provide a valid denominator for each age band and year.
+age_population <- readRDS(file.path(project_root, "data_processed", "rki_population_annual.rds")) %>%
+  as.data.frame() %>%
+  mutate(age_group = as.character(age_group)) %>%
+  inner_join(age_band_map, by = "age_group") %>%
+  transmute(
+    geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+    year = as.integer(year),
+    age_band,
+    population = as.numeric(population)
+  ) %>%
+  filter(year %in% 2020:2023, is.finite(population), population > 0) %>%
+  group_by(geo_code, year, age_band) %>%
+  summarise(population = sum(population, na.rm = TRUE), .groups = "drop")
+
+age_outcomes <- age_cases %>%
+  left_join(age_population, by = c("geo_code", "year", "age_band")) %>%
+  mutate(cases_per_100k = if_else(population > 0, 100000 * cases / population, NA_real_))
+
+# The structural predictors are the same predictors used in the all-age analysis.
+# Rejoining them here creates an explicit Kreis-year-age-band panel.
+age_predictor_data <- age_outcomes %>%
+  left_join(basis, by = "geo_code") %>%
+  left_join(structural_wide, by = c("geo_code", "year"))
+
+age_numeric_predictors <- setdiff(
+  names(age_predictor_data),
+  c("geo_code", "year", "age_band", "cases", "cases_per_100k", "population",
+    "kreistyp", "location_type", "administrative_type")
+)
+
+# Pearson and Spearman coefficients are calculated separately within every age
+# band, so differences in strength or direction can be compared directly.
+age_correlation_rows <- bind_rows(lapply(age_numeric_predictors, function(pred) {
+  bind_rows(lapply(c("cases", "cases_per_100k"), function(outcome) {
+    bind_rows(lapply(sort(unique(age_predictor_data$age_band)), function(ab) {
+      d <- age_predictor_data %>% filter(age_band == ab)
+      x <- suppressWarnings(as.numeric(d[[pred]]))
+      y <- suppressWarnings(as.numeric(d[[outcome]]))
+      ok <- is.finite(x) & is.finite(y)
+      if (sum(ok) < 3) return(tibble::tibble())
+
+      pearson <- suppressWarnings(cor.test(x[ok], y[ok], method = "pearson"))
+      spearman <- suppressWarnings(cor.test(x[ok], y[ok], method = "spearman", exact = FALSE))
+
+      tibble(
+        age_band = ab,
+        predictor = pred,
+        outcome = outcome,
+        n = sum(ok),
+        pearson_r = unname(pearson$estimate),
+        pearson_p = pearson$p.value,
+        spearman_rho = unname(spearman$estimate),
+        spearman_p = spearman$p.value
+      )
+    }))
+  }))
+})) %>% arrange(age_band, outcome, desc(abs(spearman_rho)))
+
+# Compare Kreistyp, location type, and administrative type descriptively within
+# every age band for mean and median age-specific incidence.
+age_category_rows <- bind_rows(lapply(c("kreistyp", "location_type", "administrative_type"), function(cat_col) {
+  age_predictor_data %>%
+    filter(!is.na(.data[[cat_col]]), is.finite(cases_per_100k)) %>%
+    group_by(age_band, category = cat_col, level = as.character(.data[[cat_col]])) %>%
+    summarise(
+      n = n(),
+      mean_cases = mean(cases, na.rm = TRUE),
+      mean_cases_per_100k = mean(cases_per_100k, na.rm = TRUE),
+      median_cases_per_100k = median(cases_per_100k, na.rm = TRUE),
+      .groups = "drop"
+    )
+}))
+
+print("=== Altersgruppenspezifische numeric associations ===")
+print(age_correlation_rows %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+print("=== Altersgruppenspezifische category summaries ===")
+print(age_category_rows, n = Inf)
+
+write.csv(age_correlation_rows,
+          file.path(results_dir, "alter_kreis_variablen_korrelationen.csv"),
+          row.names = FALSE)
+write.csv(age_category_rows,
+          file.path(results_dir, "alter_kreis_category_summaries.csv"),
+          row.names = FALSE)
+saveRDS(age_predictor_data,
+        file.path(results_dir, "alter_kreis_analysis_predictor_data.rds"))
+
+# Create scatterplots for the strongest standardized relationships in each age band.
+for (ab in sort(unique(age_correlation_rows$age_band))) {
+  top_predictors <- age_correlation_rows %>%
+    filter(age_band == ab, outcome == "cases_per_100k", is.finite(spearman_rho)) %>%
+    slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
+    pull(predictor)
+
+  for (var_name in top_predictors) {
+    d <- age_predictor_data %>% filter(age_band == ab)
+    p <- ggplot(d, aes(x = .data[[var_name]], y = cases_per_100k)) +
+      geom_point(alpha = 0.35, size = 1.5) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE, colour = "steelblue") +
+      labs(
+        title = paste("Alter", ab, "– Kreisbeziehung:", var_name),
+        x = var_name,
+        y = "Fälle je 100.000 Einwohner"
+      ) +
+      theme_minimal(base_size = 11)
+
+    ggsave(
+      file.path(results_dir, paste0("alter_", make.names(ab), "_scatter_", make.names(substr(var_name, 1, 70)), ".png")),
+      p, width = 8, height = 5, dpi = 150
+    )
+  }
+}
