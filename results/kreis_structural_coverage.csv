@@ -1,0 +1,18 @@
+"metric","n_observations","n_kreise","n_jahre"
+"abschlusse | Absolvierende/Abgehende",1548,387,4
+"arbeitslose | Arbeitslose",1556,389,4
+"auspendelnde | Auspendelnde in das Inland",573,191,3
+"beschaeftigte | Beschäftigte d. Gemeinden/GV: Vollzeitäquivalent",1544,386,4
+"einpendelnde | Einpendelnde",573,191,3
+"grundsicherung | Empfänger/-innen von sozialen Mindestsicherungsleistungen",1556,389,4
+"pflegestat | Personal der Pflegeheime",778,389,2
+"pflegestat | Personal in Pflege-/Betreuungsdiensten",778,389,2
+"pflegestat | Pflege-/Betreuungsdienste",778,389,2
+"pflegestat | Pflegeheime",778,389,2
+"pflegestat | Verfügbare Plätze i.Pflegeh.m.vollstat.Dauerpflege",778,389,2
+"pflegestat | Verfügbare Plätze in Pflegeheimen",778,389,2
+"schutzsuchende | Schutzsuchende",1532,383,4
+"tageseinrichtungen | Tätige Personen",1556,389,4
+"tourismus | Geöffnete Beherbergungsbetriebe",1556,389,4
+"tourismus | Gästeankünfte",1527,389,4
+"tourismus | Gästeübernachtungen",1531,389,4
