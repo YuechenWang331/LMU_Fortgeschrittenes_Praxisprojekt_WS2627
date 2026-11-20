@@ -71,10 +71,10 @@ type_names <- c(
 )
 
 type_colours <- c(
-  "#084594",
-  "#2171B5",
-  "#6BAED6",
-  "#C6DBEF"
+  "#D0582B",
+  "#F2C06E",
+  "#C5DAA1",
+  "#69AD55"
 )
 
 regional <- regional %>%

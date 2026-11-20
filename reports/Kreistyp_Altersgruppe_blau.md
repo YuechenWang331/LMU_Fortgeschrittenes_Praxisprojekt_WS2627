@@ -6,9 +6,9 @@ In dieser Auswertung habe ich untersucht, wie sich die wöchentliche COVID-19-Me
 
 ## 1. Datenaufbereitung für 2020–2023
 
-1. **Fallzahlen und Bevölkerung nach Alter zusammenfassen.** Die wöchentlichen RKI-Fallzahlen aus `rki_weekly_long.rds` und die jährlichen Bevölkerungszahlen aus `rki_population_annual.rds` wurden zu sieben Altersgruppen zusammengefasst (0–5, 6–17, 18–39, 40–59, 60–69, 70–79 und 80+ Jahre). Fälle mit unbekanntem Alter wurden separat gezählt und blieben bei der altersspezifischen Berechnung unberücksichtigt.
-2. **Jährlichen Kreistyp zuordnen.** Die Zuordnung stammt aus `population_Kreistyp_Raumtyp_2020_2024.rds`. Für jede Kreis-Woche wurden die Bevölkerung der jeweiligen Altersgruppe und der Kreistyp des zugehörigen ISO-Jahres verwendet.
-3. **Vollständigkeit prüfen.** Die Auswertungstabelle enthält **400 Kreise × 209 ISO-Kalenderwochen × 7 Altersgruppen = 585.200 Beobachtungen**. Bei 22 Kreis-Jahr-Altersgruppen-Kombinationen fehlen insgesamt 29 Einzelaltersangaben in der zugrunde liegenden Bevölkerungstabelle. Dadurch bleiben **1.148 Wocheninzidenzen (0,20 %)** ohne gültigen Wert. Die Fallzahlen bleiben erhalten. Für die Abbildungen wurden Beobachtungen ohne gültige Inzidenz ausgeschlossen.
+1.  **Fallzahlen und Bevölkerung nach Alter zusammenfassen.** Die wöchentlichen RKI-Fallzahlen aus `rki_weekly_long.rds` und die jährlichen Bevölkerungszahlen aus `rki_population_annual.rds` wurden zu sieben Altersgruppen zusammengefasst (0–5, 6–17, 18–39, 40–59, 60–69, 70–79 und 80+ Jahre). Fälle mit unbekanntem Alter wurden separat gezählt und blieben bei der altersspezifischen Berechnung unberücksichtigt.
+2.  **Jährlichen Kreistyp zuordnen.** Die Zuordnung stammt aus `population_Kreistyp_Raumtyp_2020_2024.rds`. Für jede Kreis-Woche wurden die Bevölkerung der jeweiligen Altersgruppe und der Kreistyp des zugehörigen ISO-Jahres verwendet.
+3.  **Vollständigkeit prüfen.** Die Auswertungstabelle enthält **400 Kreise × 209 ISO-Kalenderwochen × 7 Altersgruppen = 585.200 Beobachtungen**. Bei 22 Kreis-Jahr-Altersgruppen-Kombinationen fehlen insgesamt 29 Einzelaltersangaben in der zugrunde liegenden Bevölkerungstabelle. Dadurch bleiben **1.148 Wocheninzidenzen (0,20 %)** ohne gültigen Wert. Die Fallzahlen bleiben erhalten. Für die Abbildungen wurden Beobachtungen ohne gültige Inzidenz ausgeschlossen.
 
 Die aufbereitete Tabelle liegt unter `data_processed/Kreistyp x Altersgruppe/kreis_weekly_age_kreistyp_2020_2023.rds`.
 
@@ -49,7 +49,7 @@ In der Phase mit großen positiven Abständen zu den Großstädten lagen die Med
 KW 11/2022 illustriert eine Phase mit großen Unterschieden. In allen drei ausgewählten Altersgruppen hatten die kreisfreien Großstädte den niedrigsten Median der vier Kreistypen. Der Abstand zu den dünn besiedelten ländlichen Kreisen war bei den jüngeren Gruppen deutlich größer.
 
 | Altersgruppe | Kreisfreie Großstädte | Dünn besiedelte ländliche Kreise | Differenz |
-|---|---:|---:|---:|
+|----|---:|---:|---:|
 | 6–17 Jahre | ca. 2.300 | ca. 3.500 | ca. +1.200 |
 | 18–39 Jahre | ca. 2.160 | ca. 3.100 | ca. +940 |
 | 70–79 Jahre | ca. 700 | ca. 800 | ca. +100 |
@@ -97,7 +97,7 @@ Die Kreistypen hatten innerhalb der Altersgruppen häufig ähnliche zeitliche Ve
 ## 6. R-Skripte
 
 | Skript | Aufgabe |
-|---|---|
+|----|----|
 | `Preprocess_Kreis_Weekly_Age_Kreistyp_2020_2023.R` | Analysetabelle aus Wochenfällen, jährlicher Altersbevölkerung und Kreistyp erstellen |
 | `lineplot.R` | Wochenmediane nach Altersgruppe und Kreistyp darstellen |
 | `heatmap.R` | Differenzen zum Großstadtmedian und zum bundesweiten Mittelwert darstellen |
