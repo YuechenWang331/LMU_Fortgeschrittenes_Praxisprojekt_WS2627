@@ -1,0 +1,401 @@
+geo_code,geo_name,type,included
+01001,"Flensburg, kreisfreie Stadt",4,FALSE
+01002,"Kiel, kreisfreie Stadt",1,TRUE
+01003,"Lübeck, kreisfreie Stadt",1,TRUE
+01004,"Neumünster, kreisfreie Stadt",3,FALSE
+01051,"Dithmarschen, Landkreis",4,TRUE
+01053,"Herzogtum Lauenburg, Landkreis",3,TRUE
+01054,"Nordfriesland, Landkreis",4,TRUE
+01055,"Ostholstein, Landkreis",3,TRUE
+01056,"Pinneberg, Landkreis",2,TRUE
+01057,"Plön, Landkreis",3,TRUE
+01058,"Rendsburg-Eckernförde, Landkreis",3,TRUE
+01059,"Schleswig-Flensburg, Landkreis",4,TRUE
+01060,"Segeberg, Landkreis",3,TRUE
+01061,"Steinburg, Landkreis",4,TRUE
+01062,"Stormarn, Landkreis",2,TRUE
+02000,"Hamburg, kreisfreie Stadt",1,TRUE
+03101,"Braunschweig, kreisfreie Stadt",1,TRUE
+03102,"Salzgitter, kreisfreie Stadt",1,TRUE
+03103,"Wolfsburg, kreisfreie Stadt",1,TRUE
+03151,"Gifhorn, Landkreis",4,TRUE
+03153,"Goslar, Landkreis",3,TRUE
+03154,"Helmstedt, Landkreis",3,TRUE
+03155,"Northeim, Landkreis",4,TRUE
+03157,"Peine, Landkreis",2,TRUE
+03158,"Wolfenbüttel, Landkreis",3,TRUE
+03159,"Göttingen, Landkreis",2,TRUE
+03241,"Region Hannover, Landkreis",2,TRUE
+03251,"Diepholz, Landkreis",3,TRUE
+03252,"Hameln-Pyrmont, Landkreis",3,TRUE
+03254,"Hildesheim, Landkreis",2,TRUE
+03255,"Holzminden, Landkreis",3,FALSE
+03256,"Nienburg (Weser), Landkreis",4,TRUE
+03257,"Schaumburg, Landkreis",2,TRUE
+03351,"Celle, Landkreis",4,TRUE
+03352,"Cuxhaven, Landkreis",4,TRUE
+03353,"Harburg, Landkreis",2,TRUE
+03354,"Lüchow-Dannenberg, Landkreis",4,FALSE
+03355,"Lüneburg, Landkreis",4,TRUE
+03356,"Osterholz, Landkreis",2,TRUE
+03357,"Rotenburg (Wümme), Landkreis",4,TRUE
+03358,Heidekreis,4,TRUE
+03359,"Stade, Landkreis",3,TRUE
+03360,"Uelzen, Landkreis",4,TRUE
+03361,"Verden, Landkreis",3,TRUE
+03401,"Delmenhorst, kreisfreie Stadt",3,TRUE
+03402,"Emden, kreisfreie Stadt",3,FALSE
+03403,"Oldenburg (Oldenburg), kreisfreie Stadt",1,TRUE
+03404,"Osnabrück, kreisfreie Stadt",1,TRUE
+03405,"Wilhelmshaven, kreisfreie Stadt",2,FALSE
+03451,"Ammerland, Landkreis",2,TRUE
+03452,"Aurich, Landkreis",3,TRUE
+03453,"Cloppenburg, Landkreis",3,TRUE
+03454,"Emsland, Landkreis",4,TRUE
+03455,"Friesland, Landkreis",2,TRUE
+03456,"Grafschaft Bentheim, Landkreis",3,TRUE
+03457,"Leer, Landkreis",3,TRUE
+03458,"Oldenburg, Landkreis",4,TRUE
+03459,"Osnabrück, Landkreis",3,TRUE
+03460,"Vechta, Landkreis",3,TRUE
+03461,"Wesermarsch, Landkreis",4,TRUE
+03462,"Wittmund, Landkreis",4,TRUE
+04011,"Bremen, kreisfreie Stadt",1,TRUE
+04012,"Bremerhaven, kreisfreie Stadt",1,TRUE
+05111,"Düsseldorf, kreisfreie Stadt",1,TRUE
+05112,"Duisburg, kreisfreie Stadt",1,TRUE
+05113,"Essen, kreisfreie Stadt",1,TRUE
+05114,"Krefeld, kreisfreie Stadt",1,TRUE
+05116,"Mönchengladbach, kreisfreie Stadt",1,TRUE
+05117,"Mülheim an der Ruhr, kreisfreie Stadt",1,TRUE
+05119,"Oberhausen, kreisfreie Stadt",1,TRUE
+05120,"Remscheid, kreisfreie Stadt",1,TRUE
+05122,"Solingen, kreisfreie Stadt",1,TRUE
+05124,"Wuppertal, kreisfreie Stadt",1,TRUE
+05154,"Kleve, Landkreis",2,TRUE
+05158,"Mettmann, Landkreis",2,TRUE
+05162,Rhein-Kreis Neuss,2,TRUE
+05166,"Viersen, Landkreis",2,TRUE
+05170,"Wesel, Landkreis",2,TRUE
+05314,"Bonn, kreisfreie Stadt",1,TRUE
+05315,"Köln, kreisfreie Stadt",1,TRUE
+05316,"Leverkusen, kreisfreie Stadt",1,TRUE
+05334,"Städteregion Aachen, Landkreis",2,TRUE
+05358,"Düren, Landkreis",2,TRUE
+05362,Rhein-Erft-Kreis,2,TRUE
+05366,"Euskirchen, Landkreis",2,TRUE
+05370,"Heinsberg, Landkreis",2,TRUE
+05374,Oberbergischer Kreis,2,TRUE
+05378,Rheinisch-Bergischer Kreis,2,TRUE
+05382,Rhein-Sieg-Kreis,2,TRUE
+05512,"Bottrop, kreisfreie Stadt",1,TRUE
+05513,"Gelsenkirchen, kreisfreie Stadt",1,TRUE
+05515,"Münster, kreisfreie Stadt",1,TRUE
+05554,"Borken, Landkreis",2,TRUE
+05558,"Coesfeld, Landkreis",2,TRUE
+05562,"Recklinghausen, Landkreis",2,TRUE
+05566,"Steinfurt, Landkreis",2,TRUE
+05570,"Warendorf, Landkreis",2,TRUE
+05711,"Bielefeld, kreisfreie Stadt",1,TRUE
+05754,"Gütersloh, Landkreis",2,TRUE
+05758,"Herford, Landkreis",2,TRUE
+05762,"Höxter, Landkreis",3,TRUE
+05766,"Lippe, Landkreis",2,TRUE
+05770,"Minden-Lübbecke, Landkreis",2,TRUE
+05774,"Paderborn, Landkreis",2,TRUE
+05911,"Bochum, kreisfreie Stadt",1,TRUE
+05913,"Dortmund, kreisfreie Stadt",1,TRUE
+05914,"Hagen, kreisfreie Stadt",1,TRUE
+05915,"Hamm, kreisfreie Stadt",1,TRUE
+05916,"Herne, kreisfreie Stadt",1,TRUE
+05954,Ennepe-Ruhr-Kreis,2,TRUE
+05958,Hochsauerlandkreis,3,TRUE
+05962,Märkischer Kreis,2,TRUE
+05966,"Olpe, Landkreis",2,TRUE
+05970,"Siegen-Wittgenstein, Landkreis",2,TRUE
+05974,"Soest, Landkreis",2,TRUE
+05978,"Unna, Landkreis",2,TRUE
+06411,"Darmstadt, kreisfreie Stadt",1,TRUE
+06412,"Frankfurt am Main, kreisfreie Stadt",1,TRUE
+06413,"Offenbach am Main, kreisfreie Stadt",1,TRUE
+06414,"Wiesbaden, kreisfreie Stadt",1,TRUE
+06431,"Bergstraße, Landkreis",2,TRUE
+06432,"Darmstadt-Dieburg, Landkreis",2,TRUE
+06433,"Groß-Gerau, Landkreis",2,TRUE
+06434,Hochtaunuskreis,2,TRUE
+06435,Main-Kinzig-Kreis,2,TRUE
+06436,Main-Taunus-Kreis,2,TRUE
+06437,Odenwaldkreis,2,TRUE
+06438,"Offenbach, Landkreis",2,TRUE
+06439,Rheingau-Taunus-Kreis,2,TRUE
+06440,Wetteraukreis,2,TRUE
+06531,"Gießen, Landkreis",2,TRUE
+06532,Lahn-Dill-Kreis,2,TRUE
+06533,"Limburg-Weilburg, Landkreis",2,TRUE
+06534,"Marburg-Biedenkopf, Landkreis",3,TRUE
+06535,Vogelsbergkreis,4,TRUE
+06611,"Kassel, kreisfreie Stadt",1,TRUE
+06631,"Fulda, Landkreis",3,TRUE
+06632,"Hersfeld-Rotenburg, Landkreis",4,TRUE
+06633,"Kassel, Landkreis",2,TRUE
+06634,Schwalm-Eder-Kreis,3,TRUE
+06635,"Waldeck-Frankenberg, Landkreis",4,FALSE
+06636,Werra-Meißner-Kreis,4,TRUE
+07111,"Koblenz, kreisfreie Stadt",1,TRUE
+07131,"Ahrweiler, Landkreis",3,TRUE
+07132,"Altenkirchen (Westerwald), Landkreis",2,TRUE
+07133,"Bad Kreuznach, Landkreis",3,TRUE
+07134,"Birkenfeld, Landkreis",4,TRUE
+07135,"Cochem-Zell, Landkreis",4,TRUE
+07137,"Mayen-Koblenz, Landkreis",2,TRUE
+07138,"Neuwied, Landkreis",2,TRUE
+07140,Rhein-Hunsrück-Kreis,3,TRUE
+07141,Rhein-Lahn-Kreis,2,TRUE
+07143,Westerwaldkreis,2,TRUE
+07211,"Trier, kreisfreie Stadt",1,TRUE
+07231,"Bernkastel-Wittlich, Landkreis",4,TRUE
+07232,Eifelkreis Bitburg-Prüm,4,TRUE
+07233,"Vulkaneifel, Landkreis",4,TRUE
+07235,"Trier-Saarburg, Landkreis",3,TRUE
+07311,"Frankenthal (Pfalz), kreisfreie Stadt",2,TRUE
+07312,"Kaiserslautern, kreisfreie Stadt",2,TRUE
+07313,"Landau in der Pfalz, kreisfreie Stadt",2,FALSE
+07314,"Ludwigshafen am Rhein, kreisfreie Stadt",1,TRUE
+07315,"Mainz, kreisfreie Stadt",1,TRUE
+07316,"Neustadt an der Weinstraße, kreisfreie Stadt",2,FALSE
+07317,"Pirmasens, kreisfreie Stadt",4,TRUE
+07318,"Speyer, kreisfreie Stadt",2,TRUE
+07319,"Worms, kreisfreie Stadt",2,TRUE
+07320,"Zweibrücken, kreisfreie Stadt",4,FALSE
+07331,"Alzey-Worms, Landkreis",2,TRUE
+07332,"Bad Dürkheim, Landkreis",2,TRUE
+07333,Donnersbergkreis,3,TRUE
+07334,"Germersheim, Landkreis",2,TRUE
+07335,"Kaiserslautern, Landkreis",2,TRUE
+07336,"Kusel, Landkreis",3,TRUE
+07337,"Südliche Weinstraße, Landkreis",2,TRUE
+07338,Rhein-Pfalz-Kreis,2,TRUE
+07339,"Mainz-Bingen, Landkreis",2,TRUE
+07340,"Südwestpfalz, Landkreis",4,TRUE
+08111,"Stuttgart, kreisfreie Stadt",1,TRUE
+08115,"Böblingen, Landkreis",2,TRUE
+08116,"Esslingen, Landkreis",2,TRUE
+08117,"Göppingen, Landkreis",2,TRUE
+08118,"Ludwigsburg, Landkreis",2,TRUE
+08119,Rems-Murr-Kreis,2,TRUE
+08121,"Heilbronn, kreisfreie Stadt",1,TRUE
+08125,"Heilbronn, Landkreis",2,TRUE
+08126,Hohenlohekreis,3,TRUE
+08127,"Schwäbisch Hall, Landkreis",3,TRUE
+08128,Main-Tauber-Kreis,4,TRUE
+08135,"Heidenheim, Landkreis",2,TRUE
+08136,Ostalbkreis,2,TRUE
+08211,"Baden-Baden, kreisfreie Stadt",2,TRUE
+08212,"Karlsruhe, kreisfreie Stadt",1,TRUE
+08215,"Karlsruhe, Landkreis",2,TRUE
+08216,"Rastatt, Landkreis",2,TRUE
+08221,"Heidelberg, kreisfreie Stadt",1,TRUE
+08222,"Mannheim, kreisfreie Stadt",1,TRUE
+08225,Neckar-Odenwald-Kreis,3,TRUE
+08226,Rhein-Neckar-Kreis,2,TRUE
+08231,"Pforzheim, kreisfreie Stadt",1,TRUE
+08235,"Calw, Landkreis",2,TRUE
+08236,Enzkreis,2,TRUE
+08237,"Freudenstadt, Landkreis",3,TRUE
+08311,"Freiburg im Breisgau, kreisfreie Stadt",1,TRUE
+08315,"Breisgau-Hochschwarzwald, Landkreis",2,TRUE
+08316,"Emmendingen, Landkreis",2,TRUE
+08317,Ortenaukreis,2,TRUE
+08325,"Rottweil, Landkreis",2,TRUE
+08326,Schwarzwald-Baar-Kreis,2,TRUE
+08327,"Tuttlingen, Landkreis",2,TRUE
+08335,"Konstanz, Landkreis",2,TRUE
+08336,"Lörrach, Landkreis",2,TRUE
+08337,"Waldshut, Landkreis",3,TRUE
+08415,"Reutlingen, Landkreis",2,TRUE
+08416,"Tübingen, Landkreis",2,TRUE
+08417,Zollernalbkreis,2,TRUE
+08421,"Ulm, kreisfreie Stadt",1,TRUE
+08425,Alb-Donau-Kreis,3,TRUE
+08426,"Biberach, Landkreis",3,TRUE
+08435,Bodenseekreis,2,TRUE
+08436,"Ravensburg, Landkreis",2,TRUE
+08437,"Sigmaringen, Landkreis",3,TRUE
+09161,"Ingolstadt, kreisfreie Stadt",1,TRUE
+09162,"München, kreisfreie Stadt",1,TRUE
+09163,"Rosenheim, kreisfreie Stadt",2,FALSE
+09171,"Altötting, Landkreis",2,TRUE
+09172,"Berchtesgadener Land, Landkreis",4,TRUE
+09173,"Bad Tölz-Wolfratshausen, Landkreis",4,TRUE
+09174,"Dachau, Landkreis",2,TRUE
+09175,"Ebersberg, Landkreis",2,TRUE
+09176,"Eichstätt, Landkreis",3,TRUE
+09177,"Erding, Landkreis",3,TRUE
+09178,"Freising, Landkreis",2,TRUE
+09179,"Fürstenfeldbruck, Landkreis",2,TRUE
+09180,"Garmisch-Partenkirchen, Landkreis",4,TRUE
+09181,"Landsberg am Lech, Landkreis",3,TRUE
+09182,"Miesbach, Landkreis",3,TRUE
+09183,"Mühldorf am Inn, Landkreis",4,TRUE
+09184,"München, Landkreis",2,TRUE
+09185,"Neuburg-Schrobenhausen, Landkreis",3,TRUE
+09186,"Pfaffenhofen an der Ilm, Landkreis",2,TRUE
+09187,"Rosenheim, Landkreis",2,TRUE
+09188,"Starnberg, Landkreis",2,TRUE
+09189,"Traunstein, Landkreis",4,TRUE
+09190,"Weilheim-Schongau, Landkreis",3,TRUE
+09261,"Landshut, kreisfreie Stadt",3,TRUE
+09262,"Passau, kreisfreie Stadt",3,TRUE
+09263,"Straubing, kreisfreie Stadt",4,TRUE
+09271,"Deggendorf, Landkreis",4,TRUE
+09272,"Freyung-Grafenau, Landkreis",4,TRUE
+09273,"Kelheim, Landkreis",3,TRUE
+09274,"Landshut, Landkreis",3,TRUE
+09275,"Passau, Landkreis",3,TRUE
+09276,"Regen, Landkreis",4,TRUE
+09277,"Rottal-Inn, Landkreis",4,TRUE
+09278,"Straubing-Bogen, Landkreis",4,TRUE
+09279,"Dingolfing-Landau, Landkreis",4,TRUE
+09361,"Amberg, kreisfreie Stadt",4,TRUE
+09362,"Regensburg, kreisfreie Stadt",1,TRUE
+09363,"Weiden in der Oberpfalz, kreisfreie Stadt",4,TRUE
+09371,"Amberg-Sulzbach, Landkreis",4,TRUE
+09372,"Cham, Landkreis",4,TRUE
+09373,"Neumarkt in der Oberpfalz, Landkreis",4,TRUE
+09374,"Neustadt an der Waldnaab, Landkreis",4,TRUE
+09375,"Regensburg, Landkreis",3,TRUE
+09376,"Schwandorf, Landkreis",4,TRUE
+09377,"Tirschenreuth, Landkreis",4,TRUE
+09461,"Bamberg, kreisfreie Stadt",3,TRUE
+09462,"Bayreuth, kreisfreie Stadt",4,TRUE
+09463,"Coburg, kreisfreie Stadt",3,FALSE
+09464,"Hof, kreisfreie Stadt",3,TRUE
+09471,"Bamberg, Landkreis",3,TRUE
+09472,"Bayreuth, Landkreis",4,TRUE
+09473,"Coburg, Landkreis",3,TRUE
+09474,"Forchheim, Landkreis",3,TRUE
+09475,"Hof, Landkreis",3,TRUE
+09476,"Kronach, Landkreis",3,TRUE
+09477,"Kulmbach, Landkreis",4,TRUE
+09478,"Lichtenfels, Landkreis",3,TRUE
+09479,"Wunsiedel im Fichtelgebirge, Landkreis",3,TRUE
+09561,"Ansbach, kreisfreie Stadt",4,FALSE
+09562,"Erlangen, kreisfreie Stadt",1,TRUE
+09563,"Fürth, kreisfreie Stadt",1,TRUE
+09564,"Nürnberg, kreisfreie Stadt",1,TRUE
+09565,"Schwabach, kreisfreie Stadt",3,TRUE
+09571,"Ansbach, Landkreis",4,TRUE
+09572,"Erlangen-Höchstadt, Landkreis",2,TRUE
+09573,"Fürth, Landkreis",2,TRUE
+09574,"Nürnberger Land, Landkreis",2,TRUE
+09575,"Neustadt an der Aisch-Bad Windsheim, Landkreis",4,TRUE
+09576,"Roth, Landkreis",3,TRUE
+09577,"Weißenburg-Gunzenhausen, Landkreis",4,TRUE
+09661,"Aschaffenburg, kreisfreie Stadt",2,TRUE
+09662,"Schweinfurt, kreisfreie Stadt",3,FALSE
+09663,"Würzburg, kreisfreie Stadt",1,TRUE
+09671,"Aschaffenburg, Landkreis",2,TRUE
+09672,"Bad Kissingen, Landkreis",4,TRUE
+09673,"Rhön-Grabfeld, Landkreis",4,TRUE
+09674,"Haßberge, Landkreis",4,TRUE
+09675,"Kitzingen, Landkreis",3,TRUE
+09676,"Miltenberg, Landkreis",2,TRUE
+09677,"Main-Spessart, Landkreis",4,TRUE
+09678,"Schweinfurt, Landkreis",3,TRUE
+09679,"Würzburg, Landkreis",2,TRUE
+09761,"Augsburg, kreisfreie Stadt",1,TRUE
+09762,"Kaufbeuren, kreisfreie Stadt",3,FALSE
+09763,"Kempten (Allgäu), kreisfreie Stadt",4,TRUE
+09764,"Memmingen, kreisfreie Stadt",3,FALSE
+09771,"Aichach-Friedberg, Landkreis",3,TRUE
+09772,"Augsburg, Landkreis",2,TRUE
+09773,"Dillingen an der Donau, Landkreis",3,TRUE
+09774,"Günzburg, Landkreis",2,TRUE
+09775,"Neu-Ulm, Landkreis",2,TRUE
+09776,"Lindau (Bodensee), Landkreis",2,TRUE
+09777,"Ostallgäu, Landkreis",3,TRUE
+09778,"Unterallgäu, Landkreis",3,TRUE
+09779,"Donau-Ries, Landkreis",4,TRUE
+09780,"Oberallgäu, Landkreis",4,TRUE
+10041,"Regionalverband Saarbrücken, Landkreis",2,TRUE
+10042,"Merzig-Wadern, Landkreis",2,TRUE
+10043,"Neunkirchen, Landkreis",2,TRUE
+10044,"Saarlouis, Landkreis",2,TRUE
+10045,Saarpfalz-Kreis,2,TRUE
+10046,"Sankt Wendel, Landkreis",2,TRUE
+11000,"Berlin, kreisfreie Stadt",1,TRUE
+12051,"Brandenburg an der Havel, kreisfreie Stadt",3,TRUE
+12052,"Cottbus, kreisfreie Stadt",3,TRUE
+12053,"Frankfurt (Oder), kreisfreie Stadt",4,TRUE
+12054,"Potsdam, kreisfreie Stadt",1,TRUE
+12060,"Barnim, Landkreis",3,TRUE
+12061,"Dahme-Spreewald, Landkreis",4,TRUE
+12062,"Elbe-Elster, Landkreis",4,TRUE
+12063,"Havelland, Landkreis",4,TRUE
+12064,"Märkisch-Oderland, Landkreis",4,TRUE
+12065,"Oberhavel, Landkreis",4,TRUE
+12066,"Oberspreewald-Lausitz, Landkreis",4,TRUE
+12067,"Oder-Spree, Landkreis",4,TRUE
+12068,"Ostprignitz-Ruppin, Landkreis",4,TRUE
+12069,"Potsdam-Mittelmark, Landkreis",3,TRUE
+12070,"Prignitz, Landkreis",4,TRUE
+12071,"Spree-Neiße, Landkreis",3,TRUE
+12072,"Teltow-Fläming, Landkreis",3,TRUE
+12073,"Uckermark, Landkreis",4,TRUE
+13003,"Rostock, kreisfreie Stadt",1,TRUE
+13004,"Schwerin, kreisfreie Stadt",3,TRUE
+13071,"Mecklenburgische Seenplatte, Landkreis",4,TRUE
+13072,"Rostock, Landkreis",4,TRUE
+13073,"Vorpommern-Rügen, Landkreis",4,TRUE
+13074,"Nordwestmecklenburg, Landkreis",3,TRUE
+13075,"Vorpommern-Greifswald, Landkreis",4,TRUE
+13076,"Ludwigslust-Parchim, Landkreis",4,TRUE
+14511,"Chemnitz, kreisfreie Stadt",1,TRUE
+14521,Erzgebirgskreis,2,TRUE
+14522,"Mittelsachsen, Landkreis",3,TRUE
+14523,Vogtlandkreis,3,TRUE
+14524,"Zwickau, Landkreis",2,TRUE
+14612,"Dresden, kreisfreie Stadt",1,TRUE
+14625,"Bautzen, Landkreis",3,TRUE
+14626,"Görlitz, Landkreis",4,TRUE
+14627,"Meißen, Landkreis",4,TRUE
+14628,"Sächsische Schweiz-Osterzgebirge, Landkreis",3,TRUE
+14713,"Leipzig, kreisfreie Stadt",1,TRUE
+14729,"Leipzig, Landkreis",3,TRUE
+14730,"Nordsachsen, Landkreis",4,TRUE
+15001,"Dessau-Roßlau, kreisfreie Stadt",3,TRUE
+15002,"Halle (Saale), kreisfreie Stadt",1,TRUE
+15003,"Magdeburg, kreisfreie Stadt",1,TRUE
+15081,Altmarkkreis Salzwedel,3,TRUE
+15082,"Anhalt-Bitterfeld, Landkreis",3,TRUE
+15083,"Börde, Landkreis",4,TRUE
+15084,Burgenlandkreis,3,TRUE
+15085,"Harz, Landkreis",4,TRUE
+15086,"Jerichower Land, Landkreis",4,TRUE
+15087,"Mansfeld-Südharz, Landkreis",4,TRUE
+15088,Saalekreis,3,TRUE
+15089,Salzlandkreis,3,TRUE
+15090,"Stendal, Landkreis",4,TRUE
+15091,"Wittenberg, Landkreis",4,TRUE
+16051,"Erfurt, kreisfreie Stadt",1,TRUE
+16052,"Gera, kreisfreie Stadt",2,TRUE
+16053,"Jena, kreisfreie Stadt",1,TRUE
+16054,"Suhl, kreisfreie Stadt",4,FALSE
+16055,"Weimar, kreisfreie Stadt",2,TRUE
+16061,"Eichsfeld, Landkreis",4,TRUE
+16062,"Nordhausen, Landkreis",4,TRUE
+16063,Wartburgkreis,4,TRUE
+16064,Unstrut-Hainich-Kreis,4,TRUE
+16065,Kyffhäuserkreis,4,TRUE
+16066,"Schmalkalden-Meiningen, Landkreis",4,TRUE
+16067,"Gotha, Landkreis",3,TRUE
+16068,"Sömmerda, Landkreis",4,TRUE
+16069,"Hildburghausen, Landkreis",4,TRUE
+16070,Ilm-Kreis,3,TRUE
+16071,"Weimarer Land, Landkreis",2,TRUE
+16072,"Sonneberg, Landkreis",4,TRUE
+16073,"Saalfeld-Rudolstadt, Landkreis",3,TRUE
+16074,Saale-Holzland-Kreis,3,TRUE
+16075,Saale-Orla-Kreis,4,TRUE
+16076,"Greiz, Landkreis",2,TRUE
+16077,"Altenburger Land, Landkreis",3,TRUE

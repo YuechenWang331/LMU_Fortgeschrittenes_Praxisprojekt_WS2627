@@ -1,0 +1,5 @@
+Completed: 2026-11-23 22:21:34.311275
+Input MD5: 43de4745050e07e03c3613ffb3824c3c
+Districts: 383
+Bootstrap draws: 1999
+Seed: 20261123
