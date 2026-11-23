@@ -1,1 +1,1 @@
-PASS: key completeness, contrast families, missing-rate flags, time reconstruction, independent standardization, bootstrap variance.
+BESTANDEN: Schlüssel, Vergleichsfamilien, fehlende Raten, Zeitaggregation, unabhängige Standardisierung und jährliche Zuordnung und Bootstrap-Ziehungen.

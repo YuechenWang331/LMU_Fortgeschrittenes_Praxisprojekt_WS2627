@@ -1,5 +1,5 @@
-Completed: 2026-11-23 22:21:34.311275
-Input MD5: 43de4745050e07e03c3613ffb3824c3c
-Districts: 383
-Bootstrap draws: 1999
-Seed: 20261123
+Abgeschlossen: 2026-11-23 23:06:24.832574
+MD5 der Eingabe: 43de4745050e07e03c3613ffb3824c3c
+Kreise: 383
+Bootstrap-Ziehungen: 1999
+Zufallsstartwert: 20261123

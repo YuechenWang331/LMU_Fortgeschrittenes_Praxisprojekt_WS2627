@@ -1,6 +1,6 @@
-# Run from the project root, preferably in an isolated environment:
+# Im Projektverzeichnis in einer eigenen Umgebung ausführen:
 # covid_age_time <- new.env(); sys.source('Scripts/Kreistyp_Alter_Zeit/run_analysis.R', covid_age_time)
-# District-weighted descriptive inference. Does not modify source data or global objects.
+# Deskriptive Inferenz mit gleichen Kreisgewichten; Eingabedaten bleiben unverändert.
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(ggplot2))
 run_analysis <- function(B = 1999L, seed = 20261123L) {
@@ -21,13 +21,13 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
   changed <- types[, .(n_types = uniqueN(kreistyp_code)), by = geo_code][n_types > 1]$geo_code
   fwrite(types[geo_code %in% changed], file.path(out, 'audit_type_changes.csv'))
   fixed <- types[iso_year == 2023, .(geo_code, type = kreistyp_code)]
-  x <- merge(x, fixed, by = 'geo_code')
+  x[, type := kreistyp_code]
   keep <- setdiff(unique(x$geo_code), missing$geo_code)
   d <- x[geo_code %in% keep]
   stopifnot(length(keep) == 383L, all(is.finite(d$incidence)))
-  fwrite(unique(x[, .(geo_code, geo_name, type)])[, included := geo_code %in% keep],
+  fwrite(unique(x[, .(geo_code, geo_name, iso_year, type)])[, included := geo_code %in% keep],
          file.path(out, 'audit_district_sample.csv'))
-  # 2021 has complete seven-band denominators for all 400 districts.
+  # Für 2021 liegen vollständige Nenner aller sieben Altersgruppen und 400 Kreise vor.
   pop <- unique(x[, .(geo_code, type, iso_year, age_group, population)])
   reference <- pop[iso_year == 2021, .(population = sum(population)), by = age_group]
   reference[, weight := population / sum(population)]
@@ -38,7 +38,7 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
   setorder(reference, age_group)
   stopifnot(abs(sum(reference$weight)-1)<1e-12, abs(sum(reference$weight_equal_district)-1)<1e-12)
   fwrite(reference, file.path(out, 'standard_population_2021.csv'))
-  # Mutually exclusive periods covering every observed week, including gaps.
+  # Nicht überlappende Zeiträume einschließlich der Zwischenphasen; alle Wochen bleiben enthalten.
   periods <- data.table(period = c('P0','W1','G1','W2','W3','G2','W4','W5','PostW5'),
     start = as.Date(c('2019-12-30','2020-03-02','2020-05-18','2020-09-28','2021-03-01',
                      '2021-06-14','2021-08-02','2021-12-27','2022-05-30')),
@@ -70,26 +70,38 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
   pp[, share := population/sum(population), by=.(geo_code,iso_year)]
   composition <- pp[, .(mean_share=mean(share), n=.N), by=.(iso_year,type,age_group)]
   fwrite(composition, file.path(out, 'age_composition.csv'))
-  # Mean weekly rates: the same weeks receive equal weights for every district.
-  summary <- rbindlist(list(long[, .(value=mean(value)), by=.(geo_code,type,period,outcome)],
-    long[, .(value=mean(value), period='All'), by=.(geo_code,type,outcome)]), use.names=TRUE)
-  summary[, key := paste(period,outcome,sep='|')]
-  wide <- dcast(summary, geo_code + type ~ key, value.var='value')
-  keys <- setdiff(names(wide),c('geo_code','type'))
-  stopifnot(!anyNA(wide))
+  # Jährliche Zugehörigkeit; jede Woche erhält dasselbe Gewicht.
+  long <- merge(long, unique(d[, .(week_start, iso_year)]), by='week_start')
+  blocks <- unique(long[, .(iso_year, period, week_start)])[, .(n_weeks=.N), by=.(iso_year,period)]
+  outcomes <- sort(unique(long$outcome))
+  keys <- sort(as.vector(outer(c('All',periods$period), outcomes, paste, sep='|')))
+  ids <- sort(unique(long$geo_code))
   had_seed <- exists('.Random.seed', envir=.GlobalEnv, inherits=FALSE)
   if (had_seed) old_seed <- get('.Random.seed', envir=.GlobalEnv)
   on.exit(if(had_seed) assign('.Random.seed', old_seed, envir=.GlobalEnv) else
     if(exists('.Random.seed',envir=.GlobalEnv,inherits=FALSE)) rm('.Random.seed',envir=.GlobalEnv), add=TRUE)
   set.seed(seed)
-  estimates <- array(NA_real_, c(4,length(keys)), dimnames=list(as.character(1:4),keys))
-  reps <- array(NA_real_, c(B,4,length(keys)), dimnames=list(NULL,as.character(1:4),keys))
-  for (t in 1:4) {
-    m <- as.matrix(wide[type == t, ..keys]); n <- nrow(m)
-    estimates[t,] <- colMeans(m)
-    # One draw resamples a district's whole age-time vector; draws shared by all contrasts.
-    counts <- rmultinom(B, n, rep(1/n,n))/n
-    reps[,t,] <- t(counts) %*% m
+  counts <- rmultinom(B, length(ids), rep(1/length(ids),length(ids)))
+  estimates <- array(0, c(4,length(keys)), dimnames=list(as.character(1:4),keys))
+  reps <- array(0, c(B,4,length(keys)), dimnames=list(NULL,as.character(1:4),keys))
+  summary <- long[, .(value=mean(value)), by=.(geo_code,type,iso_year,period,outcome)]
+  for (j in seq_len(nrow(blocks))) {
+    yr <- blocks$iso_year[j]; per <- blocks$period[j]; nw <- blocks$n_weeks[j]
+    wide <- dcast(summary[iso_year==yr & period==per],geo_code+type~outcome,value.var='value')
+    stopifnot(!anyNA(wide), nrow(wide)==length(ids))
+    for(t in 1:4) {
+      part <- wide[type==t]
+      m <- as.matrix(part[, ..outcomes])
+      draw_weights <- counts[match(part$geo_code,ids),,drop=FALSE]
+      stopifnot(all(colSums(draw_weights)>0))
+      draws <- (t(draw_weights) %*% m)/colSums(draw_weights)
+      for(target in c(per,'All')) {
+        weight <- nw / if(target=='All') 209 else periods[period==target,n_weeks]
+        kk <- paste(target,outcomes,sep='|')
+        estimates[t,kk] <- estimates[t,kk]+weight*colMeans(m)
+        reps[,t,kk] <- reps[,t,kk]+weight*draws
+      }
+    }
   }
   inference <- function(theta, draws, relative=FALSE) {
     if (!is.finite(theta) || any(!is.finite(draws)))
@@ -115,13 +127,13 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
       inference(cc$theta,cc$draws,s=='relative'))
   }
   contrasts <- rbindlist(rows)
-  # Families: all 6 pairs across all nine primary outcomes and two scales; periods separately.
+  # Testfamilien: sechs Paare, neun primäre Zielgrößen und zwei Skalen; Zeiträume separat.
   contrasts[, p_holm := NA_real_]
   contrasts[outcome!='standard_equal' & period=='All', p_holm:=p.adjust(p,'holm')]
   contrasts[outcome!='standard_equal' & period!='All', p_holm:=p.adjust(p,'holm')]
   contrasts[outcome=='standard_equal', p_holm:=p.adjust(p,'holm')]
   fwrite(contrasts,file.path(out,'pairwise_contrasts.csv'))
-  # Direct age interaction: difference of differences / ratio of rate ratios.
+  # Direkte Altersinteraktion: Differenz der Differenzen bzw. Verhältnis der Ratenverhältnisse.
   rows<-list(); z<-0L
   for (period in c('All',periods$period)) for (p in pairs)
     for (ap in combn(ages,2,simplify=FALSE)) for(s in c('absolute','relative')) {
@@ -134,7 +146,7 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
   interactions[period=='All',p_holm:=p.adjust(p,'holm')]
   interactions[period!='All',p_holm:=p.adjust(p,'holm')]
   fwrite(interactions,file.path(out,'age_interactions.csv'))
-  # Stage differences are tested directly, not inferred from significance in one stage only.
+  # Zeitraumunterschiede direkt testen; unterschiedliche Einzelsignifikanz genügt nicht.
   rows<-list(); z<-0L
   for (tp in combn(periods$period,2,simplify=FALSE)) for(p in pairs)
     for(o in c('standard',ages)) for(s in c('absolute','relative')) {
@@ -144,7 +156,7 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
     }
   temporal<-rbindlist(rows); temporal[,p_holm:=p.adjust(p,'holm')]
   fwrite(temporal,file.path(out,'period_interactions.csv'))
-  # Direct three-way contrasts: is age modification different across stages?
+  # Dreifachkontraste: Verändert sich die Altersinteraktion zwischen Zeiträumen?
   rows<-list();z<-0L
   for(tp in combn(periods$period,2,simplify=FALSE)) for(p in pairs)
     for(ap in combn(ages,2,simplify=FALSE)) for(s in c('absolute','relative')) {
@@ -155,74 +167,30 @@ run_analysis <- function(B = 1999L, seed = 20261123L) {
     }
   threeway<-rbindlist(rows);threeway[,p_holm:=p.adjust(p,'holm')]
   fwrite(threeway,file.path(out,'age_period_interactions.csv'))
-  # Descriptive sensitivity: original annual types and all available district-weeks.
+  # Deskriptive Sensitivitätsanalyse: jährliche Kreistypen und verfügbare Kreiswochen.
   alt<-copy(x);alt[,type:=kreistyp_code]
   sens<-make_outcomes(alt)[,.(mean=mean(value,na.rm=TRUE),n=sum(is.finite(value))),by=.(type,week_start,outcome)]
   fwrite(sens,file.path(out,'sensitivity_available_annual_types.csv'))
-  fixed_available<-make_outcomes(x)[,.(mean=mean(value,na.rm=TRUE),n=sum(is.finite(value))),by=.(type,week_start,outcome)]
+  fixed_x <- copy(x); fixed_x[,type:=fixed$type[match(geo_code,fixed$geo_code)]]
+  fixed_available<-make_outcomes(fixed_x)[,.(mean=mean(value,na.rm=TRUE),n=sum(is.finite(value))),by=.(type,week_start,outcome)]
   fwrite(fixed_available,file.path(out,'sensitivity_available_fixed_types.csv'))
   annual_complete<-copy(d);annual_complete[,type:=kreistyp_code]
   annual_complete<-make_outcomes(annual_complete)[,.(mean=mean(value),n=.N),by=.(type,week_start,outcome)]
   fwrite(annual_complete,file.path(out,'sensitivity_complete_annual_types.csv'))
-  # Plot labels intentionally identify means, equal district weights and selected sample.
-  labs_type<-c('1 Grossstadt','2 Staedtisch','3 Laendlich verdichtet','4 Duenn laendlich')
-  palette<-c('#0072B2','#009E73','#D55E00','#CC79A7')
-  old_theme <- theme_get()
-  on.exit(theme_set(old_theme), add=TRUE)
-  theme_set(theme_minimal(base_size=11)+theme(legend.position='bottom',panel.grid.minor=element_blank(),
-    plot.title=element_text(face='bold'),strip.text=element_text(face='bold')))
-  weekly[,typ:=factor(type,1:4,labs_type)]
-  plot_save<-function(name,p,w=12,h=7) ggsave(file.path(out,paste0(name,'.png')),p,width=w,height=h,dpi=170)
-  p<-ggplot(weekly[outcome %in% c('crude','standard')],aes(week_start,mean,color=typ))+
-    geom_line(linewidth=.55)+facet_wrap(~outcome,ncol=1)+scale_color_manual(values=palette)+
-    labs(title='Gesamtvergleich: rohe und altersstandardisierte Meldeinzidenz',
-      subtitle='383 vollstaendige Kreise; gleiche Kreisgewichte; Kreistyp 2023; Standardbevoelkerung 2021',
-      x=NULL,y='Faelle je 100.000 / Woche',color=NULL)
-  plot_save('01_crude_standard_weekly',p)
-  p<-ggplot(weekly[outcome %in% ages],aes(week_start,mean,color=typ))+geom_line(linewidth=.45)+
-    facet_wrap(~factor(outcome,levels=ages),ncol=2)+scale_color_manual(values=palette)+
-    labs(title='Altersgruppen und Kreistypen im gesamten Wochenverlauf',subtitle='Gleiche Skala; Mittelwerte der 383 vollstaendigen Kreise',
-         x=NULL,y='Faelle je 100.000 / Woche',color=NULL)
-  plot_save('02_age_weekly',p,13,10)
-  p<-ggplot(composition,aes(factor(type,1:4,labs_type),mean_share,fill=factor(age_group,levels=ages)))+
-    geom_col()+facet_wrap(~iso_year,ncol=2)+scale_y_continuous(labels=function(x) paste0(round(x*100),'%'))+
-    coord_flip()+labs(title='Alterszusammensetzung: mittlere Anteile je Kreis',subtitle='RKI-inferierte Nenner; keine unabhaengige amtliche Altersstruktur',x=NULL,y='Anteil',fill='Alter')
-  plot_save('03_age_composition',p,13,8)
-  contrasts[,pair:=paste(type_a,type_b,sep=' - ')]
-  p<-ggplot(contrasts[period=='All' & outcome %in% c('crude','standard') & scale=='absolute'],
-    aes(estimate,pair,color=outcome))+geom_vline(xintercept=0,color='grey65')+
-    geom_errorbar(aes(xmin=lower,xmax=upper),orientation='y',width=.15,position=position_dodge(width=.4))+
-    geom_point(position=position_dodge(width=.4))+labs(title='Alle sechs Kreistypvergleiche: roh und standardisiert',
-      subtitle='2020-2023: mittlere woechentliche Differenz; punktweise 95%-Intervalle',x='Typ A minus Typ B: Faelle je 100.000 / Woche',y='Typ A - Typ B',color=NULL)
-  plot_save('04_overall_absolute',p,11,6)
-  p<-ggplot(contrasts[period=='All' & outcome %in% ages & scale=='relative'],aes(estimate,factor(outcome,levels=ages)))+
-    geom_vline(xintercept=1,color='grey65')+geom_errorbar(aes(xmin=lower,xmax=upper),orientation='y',width=.15)+
-    geom_point()+facet_wrap(~pair,ncol=3)+scale_x_log10()+labs(title='Relative Unterschiede innerhalb der Altersgruppen',
-      subtitle='Typ A / Typ B; punktweise 95%-Intervalle; 1 = gleiche mittlere Rate',x='Verhaeltnis der mittleren Wochenraten (Log-Skala)',y='Alter')
-  plot_save('05_age_relative',p,12,8)
-  p<-ggplot(contrasts[period!='All' & outcome %in% ages & scale=='absolute'],
-    aes(factor(period,levels=periods$period),factor(outcome,levels=ages),fill=estimate))+
-    geom_tile()+facet_wrap(~pair,ncol=3)+scale_fill_gradient2(low='#542788',mid='white',high='#D55E00')+
-    guides(fill=guide_colourbar(barwidth=grid::unit(10,'cm'),barheight=grid::unit(.4,'cm')))+
-    theme(axis.text.x=element_text(angle=50,hjust=1))+labs(title='Altersabhaengige Kreistypunterschiede nach Zeitraum',
-      subtitle='Typ A minus Typ B; keine Signifikanzmarkierung; PostW5 ist keine einzelne Welle',x=NULL,y='Alter',fill='Differenz')
-  plot_save('06_age_period_absolute',p,14,8)
-  # Weekly contrasts show short-lived reversals hidden by long-period summaries.
-  wc<-dcast(weekly,outcome+week_start~type,value.var='mean')
-  wc<-rbindlist(lapply(pairs,function(p) wc[,.(outcome,week_start,pair=paste(p,collapse=' - '),
-      difference=get(as.character(p[1]))-get(as.character(p[2])))]))
+  fixed_complete <- make_outcomes(fixed_x[geo_code %in% keep])[,.(mean=mean(value),n=.N),by=.(type,week_start,outcome)]
+  fwrite(fixed_complete,file.path(out,'sensitivity_complete_fixed_types.csv'))
+  # Wöchentliche Differenzen für sämtliche Paarvergleiche speichern.
+  wc <- dcast(weekly,outcome+week_start~type,value.var='mean')
+  wc <- rbindlist(lapply(pairs,function(p) wc[,.(outcome,week_start,pair=paste(p,collapse=' - '),
+    difference=get(as.character(p[1]))-get(as.character(p[2])))]))
   fwrite(wc,file.path(out,'weekly_pairwise_differences.csv'))
-  p<-ggplot(wc[outcome %in% ages],aes(week_start,difference,color=factor(outcome,levels=ages)))+
-    geom_hline(yintercept=0,color='grey65')+geom_line(linewidth=.4)+facet_wrap(~pair,ncol=2)+
-    labs(title='Wann aendert sich die Richtung der Unterschiede?',subtitle='Woechentliche Differenzen; deskriptiv, ohne woechentliche Tests',
-         x=NULL,y='Typ A minus Typ B / 100.000',color='Alter')
-  plot_save('07_weekly_pairwise_differences',p,13,10)
-  fwrite(data.table(type=1:4,n=sapply(1:4,function(t) nrow(wide[type==t]))),file.path(out,'sample_sizes.csv'))
-  saveRDS(list(estimates=estimates,bootstrap=reps,seed=seed,B=B),file.path(out,'bootstrap_draws.rds'),compress='xz')
+  sys.source('Scripts/Kreistyp_Alter_Zeit/abbildungen.R', envir=new.env())
+  fwrite(unique(d[,.(geo_code,iso_year,type)])[,.(n=.N),by=.(iso_year,type)],file.path(out,'sample_sizes.csv'))
+  saveRDS(list(estimates=estimates,bootstrap=reps,counts=counts,ids=ids,seed=seed,B=B),file.path(out,'bootstrap_draws.rds'),compress='xz')
   writeLines(trimws(capture.output(sessionInfo()), which='right'), file.path(out,'sessionInfo.txt'))
-  writeLines(c(paste('Completed:',Sys.time()),paste('Input MD5:',tools::md5sum(input)),
-               paste('Districts:',length(keep)),paste('Bootstrap draws:',B),paste('Seed:',seed)),file.path(out,'RUN_COMPLETE.txt'))
-  message('COMPLETE: ',out,'; ',length(keep),' districts; ',B,' cluster-bootstrap draws.')
+  writeLines(c(paste('Abgeschlossen:',Sys.time()),paste('MD5 der Eingabe:',tools::md5sum(input)),
+               paste('Kreise:',length(keep)),paste('Bootstrap-Ziehungen:',B),paste('Zufallsstartwert:',seed)),file.path(out,'RUN_COMPLETE.txt'))
+  message('ABGESCHLOSSEN: ',out,'; ',length(keep),' Kreise; ',B,' Kreis-Bootstrap-Ziehungen.')
   invisible(list(contrasts=contrasts,interactions=interactions,temporal=temporal,threeway=threeway))
 }
 results <- run_analysis()

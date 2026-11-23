@@ -1,79 +1,55 @@
-# 城乡类型 × 年龄 × 时间：分析说明
+# Methoden: Kreistyp, Alter und Zeit
 
-## 1 已有工作与这次增加的内容
+Stand: 23.11.2026. Hauptanalyse mit jährlicher Kreistypzuordnung.
 
-已有脚本提供全国时间趋势、城乡类型中位数、年龄曲线和热图；`Modellwahl.md` 提出过 Poisson 回归方案。本次保留这些文件，新增独立分析目录，不覆盖原图。
+## 1 Daten und Zielgröße
 
-本次先做与“地区视角”直接对应的描述性统计推断，而非把人口较大的地区赋予更大权重的计数回归。研究对象是**一个典型地区的平均周报告发病率**。这是均值目标，与旧图的地区中位数不同，也不等于全德国总病例除以总人口。后续如加入收入、通勤等混杂因素，可以另行做回归扩展；本次结果没有调整这些因素。
+Eingabe: `data_processed/Kreistyp x Altersgruppe/kreis_weekly_age_kreistyp_2020_2023.rds`.
+400 Kreise, 209 Wochen und sieben Altersgruppen. 383 Kreise haben durchgehend gültige Altersraten; 17 Kreise mit mindestens einem fehlenden Nenner werden aus der Hauptanalyse ausgeschlossen. Fehlende Werte werden nicht als null behandelt.
 
-## 2 研究问题与估计对象
+Für jede Woche gilt `kreistyp_code` des zugehörigen ISO-Jahres. Vier Kreise wechseln im Ausgangsdatensatz den Typ. Die Analyse beschreibt damit jährlich definierte Gruppen, nicht über alle Jahre unveränderte Typenpopulationen.
 
-| 问题 | 做法 | 结果文件 |
-|---|---|---|
-| A 四种城乡类型总体差多少？ | 相同209周、地区等权，计算粗率与标准化率；6组全部两两比较 | pairwise_contrasts.csv |
-| B1 年龄构成是否影响比较？ | 展示各年龄人口占比，用2021年同一年龄比例重算各地区，再比较粗率与标准化率 | age_composition.csv；standard_population_2021.csv |
-| B2 城乡差异随年龄改变吗？ | 7个年龄组内全部两两比较；直接比较年龄间的差值之差、比值之比 | age_interactions.csv |
-| C 城乡差异是否有阶段性？ | 保留每周曲线，再比较预定义时期；直接检验时期之间的差异 | period_interactions.csv |
-| D 年龄交互是否随时期改变？ | 对年龄交互再作时期之间的直接对比 | age_period_interactions.csv |
+Pro Woche wird der ungewichtete Mittelwert der Kreisraten innerhalb eines Typs berechnet. Zeitraumwerte sind ungewichtete Mittelwerte dieser Wochenmittel. Bei wechselnder Gruppengröße ist dies nicht dasselbe wie ein gemeinsames Mittel aller Kreiswochen.
 
-“差值”=类型A减类型B，单位为每10万人每周报告病例；正数表示A较高。“比值”=A平均周率除以B平均周率；大于1表示A较高。比值不是各周比值的平均，更不是感染概率之比。
+## 2 Altersstandardisierung
 
-绝对年龄交互=(A−B在年龄a的差异)−(A−B在年龄b的差异)，零为无交互。相对交互=(A/B在年龄a的比值)/(A/B在年龄b的比值)，1为无交互。两种尺度的交互可有不同统计证据。阶段和三重交互使用同样的直接对比，不能凭“一个显著另一个不显著”作判断。
+Die Referenzgewichte entsprechen den Altersanteilen der summierten Bevölkerungsnenner aller 400 Kreise im vollständigen Referenzjahr 2021. Jede Kreiswoche erhält dieselben Gewichte; danach werden die standardisierten Kreisraten gemittelt. Die jährliche Kreistypzuordnung bleibt davon unabhängig.
 
-## 3 数据核查与主分析样本
+Die Nenner stammen aus dem bestehenden Rekonstruktionsprozess der RKI-Daten, nicht aus einer unabhängig bestätigten amtlichen Bevölkerungstabelle. Eine zweite Referenz mit gleichen Kreisgewichten wird als Sensitivität berechnet.
 
-- 输入：`data_processed/Kreistyp x Altersgruppe/kreis_weekly_age_kreistyp_2020_2023.rds`，400地区×209周×7年龄组，共585,200行。
-- 主分析：383个四年均有完整年龄分母的地区；类型1/2/3/4分别为67/129/91/96个。17个地区因22个“地区×年×年龄组”分母不完整而排除，清单保留。不能视为这些地区没有病例。
-- 类型1=独立大城市；2=城市型县；3=有聚集特征的乡村县；4=稀疏乡村县。行政分类不应只凭城市名称判断。
-- 4个地区在四年内变更过类型。主分析固定为2023分类，比较同一组地区的历史轨迹；不表示2020年当时分类也是如此。
-- 报告病例只使用已知年龄，以保持粗率、分年龄率、标准化率的分子一致。粗率并非包含未知年龄病例的官方总率。
-- 人口分母来自既有 `rsurvstat::infer_population` 流程，是RKI推算人口，包含小数；不是本次重新取得的独立官方年龄人口。缺失分母不填零、不按现有年龄直接归一。
-- 另有官方人口文件，但其年龄切点与这7组不完全一致，不能直接替换。人口分母的不确定性没有纳入置信区间。
+## 3 Zeiträume
 
-## 4 年龄标准化怎么做
+`period_definitions.csv` enthält Anfang, Ende und Wochenzahl aller neun nicht überlappenden Zeiträume. W1–W5 folgen der bestehenden RKI-Phaseneinteilung; Vor- und Zwischenphasen bleiben enthalten. Der Abschnitt nach W5 umfasst KW 22/2022 bis KW 52/2023 und ist keine einzelne Welle.
 
-对每个地区、每周：标准化率=各年龄组报告发病率×共同年龄权重，再求和。每个地区都用同一套比例，随后对地区等权取平均。
+## 4 Bootstrap und Kontraste
 
-主参考是**2021年400地区推算人口汇总的年龄比例**，因为该年分母完整。它只是共同标尺，不是全国人口估计的新结果。敏感性分析另用2021年“每个地区年龄比例的等权平均”。两种参考均固定用于全部周。
+1.999 gemeinsame Ziehungen von 383 Kreisen mit Zurücklegen, Startwert 20261123. Jede Ziehung erhält die vollständige Historie eines Kreises einschließlich Alter, Zeit und jährlichem Kreistypwechsel. Es gibt keine feste Stratifizierung nach dem Typ von 2023.
 
-标准化仍保留地区视角：共同年龄权重可以来自人口汇总，但比较阶段每个地区权重相同。它不消除检测差异、地区社会因素等混杂，也不把粗率和标准化率之差解释为年龄的因果贡献。
+Innerhalb von Jahr-Zeitraum-Blöcken werden gezogene Kreise nach ihrer damaligen Zugehörigkeit gemittelt. Blockwerte werden nach ihrer Wochenzahl gewichtet. So behalten alle Wochen dasselbe Gewicht. Dieselben Ziehungen werden für alle Kontraste verwendet.
 
-## 5 时间定义
+Absolute Kontraste sind Differenzen; relative Kontraste sind Verhältnisse der mittleren Raten. Altersinteraktionen vergleichen zwei Alterskontraste. Zeitinteraktionen vergleichen zwei Zeitraumkontraste. Dreifachkontraste vergleichen Altersinteraktionen zwischen Zeiträumen. Relative Interaktionen sind Verhältnisse von Verhältnissen, auf Log-Skala berechnet.
 
-保留全部209个ISO周，包括从2019-12-30开始的2020年第1周。总体结果对每周等权；高发周因数值较大，自然对绝对均值贡献更多，不是额外加权。
+Standardfehler: Standardabweichung der Bootstrap-Kontraste. Intervalle: Schätzer ± 1,96 Standardfehler; relative Intervalle nach Rücktransformation. Zweiseitige Tests verwenden dieselbe Normalapproximation. Bei nicht endlichen relativen Kontrasten oder Ziehungen werden Intervall und p-Wert als nicht verfügbar markiert, ohne künstlichen Pseudocount.
 
-W1–W5沿用项目既有RKI划分：W1 2020年第10–20周；W2 2020年第40周至2021年第8周；W3 2021年第9–23周；W4 2021年第31–51周；W5 2021年第52周至2022年第21周。
+## 5 Mehrfachkorrektur
 
-P0=2020年第1–9周；G1=2020年第21–39周；G2=2021年第24–30周；PostW5=2022年第22周至2023年第52周。这些时期完整覆盖时间线且不重叠。**PostW5是长时间观察段，不能称为单一波次，也可能掩盖内部反转。** 周差异图用于识别这一点；进一步划分需要新的外部阶段定义，不能看完显著性再挑边界。
+Holm-Korrektur getrennt für:
 
-来源：[RKI Epidemiologisches Bulletin 38/2022，表1，资料截至2022-09-15](https://edoc.rki.de/bitstream/handle/176904/10260/EB-38-2022-Phaseneinteilung.pdf?sequence=1)。本次核对了原文；该文未给第6波终点，故未把后续全部时间标成第6波。
+- Gesamtzeitraum: 6 Paare × 9 primäre Zielgrößen × 2 Skalen = 108 Tests.
+- Neun Teilzeiträume: 972 primäre Paarvergleiche.
+- Alternative Standardgewichte: 120 Vergleiche.
+- Altersinteraktionen: 252 insgesamt, 2.268 innerhalb der Teilzeiträume.
+- Zeitrauminteraktionen: 3.456 Tests.
+- Alter-Zeitraum-Interaktionen: 9.072 Tests.
 
-## 6 不确定性与多重比较
+Die gezeichneten 95%-Intervalle sind punktweise, nicht simultan und nicht Holm-adjustiert. Die ausgewählten Zahlenbeispiele im Bericht ersetzen nicht die vollständigen Vergleichstabellen.
 
-按4类分别整组抽取地区，有放回抽样1999次，种子20261123。每次抽到地区时保留其完整年龄—周数据，用同一组抽样同时计算全部比较。这样保留地区内部的时间和年龄关联，避免把几十万行当成独立样本。
+## 6 Sensitivität und Grenzen
 
-区间为bootstrap标准误构造的正态近似95%区间；比值在对数尺度计算后变换。p值为相同标准误的双侧正态近似检验，**不是精确置换检验**。零率导致原始或抽样比值不可定义时，保留可计算的点估计，区间及p值留空，并标记 `unstable_zero_rate`。不增加任意伪病例。`se`在相对尺度行表示对数估计的标准误。
+Gespeichert werden deskriptive Wochenmittel mit verfügbaren Kreiswochen, alternativer Standardbevölkerung sowie fester 2023-Zuordnung als Gegenprüfung. Die jährliche Zuordnung ist die Hauptanalyse. Alte Dateinamen mit `sensitivity_complete_annual_types` bleiben aus Kompatibilitätsgründen erhalten und entsprechen jetzt dem Hauptansatz.
 
-Holm校正按预先定义的比较族进行：总体主比较108项（9结果×6配对×2尺度）；阶段主比较972项；总体年龄交互252项；阶段年龄交互2268项；时期交互3456项；年龄×时期交互9072项。另一标准权重的120项单列为敏感性族。各族分别控制错误率，**不是全项目合并控制**。未定义检验保留为空。全部比较输出，正文示例不替代全表。
+Die Inferenz ist explorativ für ein hypothetisches Ensemble vergleichbarer Kreise. Die beobachteten Kreise sind keine Zufallsstichprobe aus Deutschland. Der Bootstrap erhält die Abhängigkeit innerhalb eines Kreises, modelliert aber keine räumliche Abhängigkeit zwischen Kreisen. Meldeinzidenzen sind keine kausalen Wohnorteffekte und nicht identisch mit allen tatsächlichen Infektionen.
 
-图上的95%区间为逐项区间，没有多重校正；判断统计证据应看表内 `p_holm`。区间不跨0/1与校正后不显著可以同时发生。如此大量比较的校正较严格；没有足够证据不表示已经证明相同。
+## 7 Reproduktion und Prüfung
 
-德国地区并非随机抽样。本次区间表达地区作为可交换单位的模型化不确定性，不是“普查漏算”的抽样误差。方法保留地区内相关，却假设不同地区可独立抽取；未处理跨地区空间相关，共同疫情冲击下区间可能偏窄。阶段推断均应作为探索性证据。
-
-## 7 敏感性与限制
-
-分别输出：纳入每周可用地区且固定类型；完整383地区但采用当年类型；两者同时变更。三种检查是描述性的，不能据此宣称所有检验都稳健。另提供替代年龄权重的同类统计比较。
-
-该分析讨论**报告发病率的关联**。检测政策、报送、既往感染、疫苗、地区社会条件和空间传播等均可能影响结果；不能从这些比较断言城乡居住导致风险改变。尤其不能把2023年报告下降等同于真实传播按同等比例下降。
-
-## 8 运行与文件位置
-
-在项目的RStudio控制台运行：
-
-```r
-covid_age_time <- new.env()
-sys.source('Scripts/Kreistyp_Alter_Zeit/run_analysis.R', envir = covid_age_time)
-sys.source('Scripts/Kreistyp_Alter_Zeit/validate_results.R', envir = covid_age_time)
-```
-
-输入数据只读。结果写入 `results/Kreistyp_Alter_Zeit/`；既有脚本和结果不覆盖。依赖已安装的data.table、ggplot2。bootstrap抽样保存为RDS以供复核；另有运行时间、输入MD5、随机种子和R环境信息。重复运行会更新本次新增目录中的同名结果。
+Im Projektverzeichnis `run_analysis.R` und anschließend `validate_results.R` aus `Scripts/Kreistyp_Alter_Zeit/` ausführen. Die Prüfung kontrolliert Vergleichsfamilien, Schlüssel, fehlende Werte, Zeitgewichtung sowie eine unabhängige Standardisierung und drei vollständige Bootstrap-Ziehungen aus den Wochenwerten. Ergebnisse und Prüfprotokoll stehen in `results/Kreistyp_Alter_Zeit/`.
