@@ -1,0 +1,28 @@
+<dialog id="bildansicht" aria-label="Abbildung vergrößern">
+  <button id="bildschliessen" type="button">Schließen · Esc</button>
+  <p id="bildtitel"></p>
+  <img id="grossbild" alt="">
+</dialog>
+<script>
+(() => {
+  const dialog = document.getElementById('bildansicht');
+  const grossbild = document.getElementById('grossbild');
+  const titel = document.getElementById('bildtitel');
+  document.querySelectorAll('body > figure img, body > p img, main img').forEach(bild => {
+    bild.tabIndex = 0;
+    bild.style.cursor = 'zoom-in';
+    bild.title = 'Klicken zum Vergrößern';
+    const zeigen = () => {
+      grossbild.src = bild.src;
+      grossbild.alt = bild.alt;
+      titel.textContent = bild.alt;
+      dialog.showModal();
+    };
+    bild.addEventListener('click', zeigen);
+    bild.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); zeigen(); }
+    });
+  });
+  document.getElementById('bildschliessen').addEventListener('click', () => dialog.close());
+})();
+</script>

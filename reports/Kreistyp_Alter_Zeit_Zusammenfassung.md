@@ -1,168 +1,250 @@
-# COVID-19: Kreistyp, Alter und Zeit
+# COVID-19: Welche Unterschiede bestehen zwischen Stadt und Land?
 
-**Stand: 23.11.2026 · jährliche Kreistypzuordnung · 383 Kreise · 209 Wochen**
+**Deutschland · 2020–2023 · Stand: 24.11.2026**
 
-> **Kernaussage:** Ähnliche Kurven schließen relevante Unterschiede nicht aus. Entscheidend sind Altersgruppe, Zeitpunkt und die Frage, ob wir absolute Abstände oder relative Verhältnisse vergleichen.
+> **Kurzantwort:** Die vier Kreistypen folgen ähnlichen Wellen. Ihre Abstände hängen jedoch von Alter und Zeitpunkt ab. Die größten absoluten Altersunterschiede konzentrieren sich auf W5. Auch mit räumlicher Unsicherheit bleibt dafür Evidenz; relative Unterschiede sind weniger eindeutig.
 
 ## 1 🎯 Was untersuchen wir?
 
-| Frage | Zweck | Abbildungen |
-|---|---|---|
-| Unterscheiden sich die vier Kreistypen insgesamt, auch nach Altersstandardisierung? | Alterszusammensetzung von Unterschieden innerhalb der Altersgruppen trennen. | 1, 3, 4 |
-| Ist der Unterschied zwischen zwei Kreistypen je nach Alter unterschiedlich groß oder unterschiedlich gerichtet? | Altersinteraktion direkt prüfen. | 2, 5 |
-| Verändert sich dieser Unterschied im Zeitverlauf? | Gesamtdurchschnitt und zeitlich begrenzte Unterschiede auseinanderhalten. | 6, 7 |
-
-**Alle sechs Typenpaare** werden absolut und relativ verglichen. Die Gesamtanalyse kommt zuerst, anschließend die zeitliche Einordnung.
-
-### Zwei verschiedene Fragen zum Alter
-
-- **Alterszusammensetzung:** Wie viel Prozent der Bevölkerung gehören zu welcher Altersgruppe? Die Altersstandardisierung rechnet alle Kreise mit denselben Altersanteilen neu.
-- **Altersinteraktion:** Ist beispielsweise der Unterschied Großstadt–ländlich bei 6–17-Jährigen anders als bei 70–79-Jährigen? Dafür vergleichen wir die Unterschiede direkt miteinander.
-
-Die Standardbevölkerung von **2021 bleibt eine gemeinsame Rechengrundlage**. Das bedeutet nicht, dass die Kreistypen auf 2021 oder 2023 festgelegt werden: **Die Zuordnung folgt für jede Woche dem jeweiligen ISO-Jahr.**
-
-## 2 📈 Die sieben Abbildungen
-
-### 2.1 Gesamtverlauf: Was verändert die Altersstandardisierung?
-
-![Wöchentliche rohe und altersstandardisierte Meldeinzidenzen der vier Kreistypen](../results/Kreistyp_Alter_Zeit/01_crude_standard_weekly.png)
-
-**Lesen:** Die beiden Felder vergleichen rohe und standardisierte Raten. Die vier Linien stehen für die Kreistypen. Einheit: gemeldete Fälle je 100.000 Personen pro Woche.
-
-| Kreistyp | Roh | Altersstandardisiert |
-|---|---:|---:|
-| Kreisfreie Großstädte | 215,24 | 211,65 |
-| Städtische Kreise | 223,52 | 225,12 |
-| Ländliche Kreise mit Verdichtungsansätzen | 231,03 | 234,91 |
-| Dünn besiedelte ländliche Kreise | 228,01 | 233,71 |
-
-Die Tabelle zeigt den **Durchschnitt der 209 Wochen**, keine Jahresinzidenz. Bei Großstädten gegenüber dünn besiedelten ländlichen Kreisen wächst der Abstand nach Standardisierung von **−12,77 auf −22,07**.
-
-**Bedeutung:** In diesem Vergleich verdeckt die unterschiedliche Alterszusammensetzung einen Teil des Abstands. Sie erklärt ihn nicht vollständig. Die ähnlichen Wellenverläufe bleiben bestehen; Altersstandardisierung entfernt keine Zeitunterschiede und keine sonstigen Einflussfaktoren.
-
-### 2.2 Altersgruppen: Ähnliche Wellen, andere Spitzen
-
-![Wöchentliche Meldeinzidenzen getrennt nach sieben Altersgruppen und vier Kreistypen](../results/Kreistyp_Alter_Zeit/02_age_weekly.png)
-
-**Lesen:** Innerhalb jedes Altersfeldes werden dieselben vier Kreistypen verglichen. Erst dadurch ist erkennbar, welche Altersgruppen zu den Gesamtunterschieden beitragen.
-
-Bei den **6–17-Jährigen** liegt das Maximum der Großstadtlinie in der Woche ab **31.01.2022 bei 3.772,0**. In dünn besiedelten ländlichen Kreisen liegt es in der Woche ab **14.03.2022 bei 3.624,3**.
-
-**Bedeutung:** Nicht nur die Höhe, auch der Zeitpunkt der beobachteten Spitze unterscheidet sich. Die sechs Wochen Abstand beschreiben diese beiden Kurvenmaxima; daraus folgt noch kein allgemeiner Ausbreitungsverzug oder eine Ursache. Für eine Altersinteraktion brauchen wir zusätzlich einen direkten statistischen Vergleich.
-
-### 2.3 Alterszusammensetzung: Wer lebt in den Kreisen?
-
-![Mittlere Bevölkerungsanteile der Altersgruppen nach Jahr und Kreistyp](../results/Kreistyp_Alter_Zeit/03_age_composition.png)
-
-**Lesen:** Jeder Balken ergibt 100 %. Gezeigt wird der mittlere Altersanteil eines Kreises, nicht die zusammengelegte Bevölkerung eines Kreistyps.
-
-| Beispiel 2021 | Großstädte | Dünn besiedelte ländliche Kreise |
-|---|---:|---:|
-| 18–39 Jahre | 30,72 % | 22,99 % |
-| 70 Jahre und älter | 15,15 % | 17,67 % |
-
-**Bedeutung:** Die Bevölkerungsstruktur unterscheidet sich. Deshalb ist der rohe Gesamtvergleich allein unzureichend. Die Grafik zeigt aber noch nicht, ob gleichaltrige Menschen unterschiedliche Meldeinzidenzen aufweisen. Dafür dienen Abbildungen 2 und 5.
-
-### 2.4 Gesamtunterschiede: Welche Paare unterscheiden sich?
-
-![Absolute Unterschiede aller sechs Kreistypenpaare vor und nach Standardisierung mit punktweisen 95-Prozent-Konfidenzintervallen](../results/Kreistyp_Alter_Zeit/04_overall_absolute.png)
-
-**Lesen:** Der zuerst genannte Typ minus der zweite. **Negativ = erster Typ niedriger**, positiv = erster Typ höher. Die Striche sind punktweise 95%-Konfidenzintervalle.
-
-| Paar, jeweils erster Typ gegenüber zweitem | Standardisierte Differenz | Ratenverhältnis | Holm-p, absolut / relativ |
-|---|---:|---:|---:|
-| Großstädte – städtische Kreise | −13,47 | 0,940 | 0,00024 / 0,00029 |
-| Großstädte – ländliche Kreise mit Verdichtungsansätzen | −23,27 | 0,901 | <0,001 / <0,001 |
-| Großstädte – dünn besiedelte ländliche Kreise | −22,07 | 0,906 | <0,001 / <0,001 |
-| Städtische – ländliche Kreise mit Verdichtungsansätzen | −9,79 | 0,958 | 0,102 / 0,096 |
-| Städtische – dünn besiedelte ländliche Kreise | −8,59 | 0,963 | 0,336 / 0,326 |
-| Ländliche Kreise mit Verdichtungsansätzen – dünn besiedelte ländliche Kreise | +1,20 | 1,005 | 1,000 / 1,000 |
-
-Großstädte liegen gegenüber dünn besiedelten ländlichen Kreisen im Mittel **22,07 Fälle je 100.000 und Woche niedriger**, entsprechend **9,44 % niedriger**. Das punktweise 95%-Intervall der Differenz reicht von **−28,76 bis −15,38**.
-
-**Bedeutung:** Die Unterschiede betreffen besonders die Großstadtvergleiche. Für die übrigen drei Paare reicht die Evidenz nach der gewählten Mehrfachkorrektur nicht aus; das beweist keine Gleichheit. Diese Ergebnisse sind Vergleiche innerhalb derselben Wochen, über die Zeit gemittelt, keine kausal bereinigten Effekte.
-
-### 2.5 Altersinteraktion: Hängt der Abstand vom Alter ab?
-
-![Relative Unterschiede nach Alter für alle sechs Kreistypenpaare](../results/Kreistyp_Alter_Zeit/05_age_relative.png)
-
-**Lesen:** Verhältnis = erster Typ geteilt durch zweiten. **1 = gleich, unter 1 = erster Typ niedriger.** Die Grafik zeigt relative Unterschiede; die folgenden Zahlen ergänzen die absolute Sicht.
-
-| Großstädte gegenüber dünn besiedelten ländlichen Kreisen | Absolute Differenz | Ratenverhältnis |
-|---|---:|---:|
-| 6–17 Jahre | −27,77 | 0,909 |
-| 70–79 Jahre | −3,86 | 0,966 |
-
-**Direkter Interaktionstest:** −27,77 − (−3,86) = **−23,91**. Auf der absoluten Skala ist der Abstand bei 6–17-Jährigen stärker ausgeprägt; Holm-p = **0,000016**. Das Verhältnis der beiden Ratenverhältnisse beträgt **0,941**; auf dieser relativen Skala reicht die Evidenz nach Holm-Korrektur nicht aus (**p = 0,130**).
-
-**Bedeutung:** „Die Altersinteraktion ist signifikant“ wäre zu ungenau. Hier gibt es für diesen Altersvergleich Evidenz auf der absoluten, aber nicht auf der relativen Skala nach Korrektur. Einzelne signifikante Altersgruppen und andere nicht signifikante Altersgruppen wären für sich genommen kein Interaktionsnachweis.
-
-### 2.6 Zeiträume: Wann sind die Unterschiede groß?
-
-![Mittlere absolute Unterschiede nach Alter, Zeitraum und Kreistypenpaar](../results/Kreistyp_Alter_Zeit/06_age_period_absolute.png)
-
-**Lesen:** Jede Zelle zeigt eine mittlere wöchentliche Differenz. Violett bedeutet: der zuerst genannte Typ liegt niedriger. Die Farbe zeigt die Größe des Unterschieds, **keine Signifikanz**.
-
-Für Großstädte gegenüber dünn besiedelten ländlichen Kreisen beträgt die standardisierte Differenz in **W4 −58,47**, in **W5 −142,69**. Relativ sind es jedoch **0,746** beziehungsweise **0,873**: W5 hat den größeren absoluten Abstand, W4 den größeren prozentualen Abstand.
-
-In W5 beträgt der altersbezogene Abstand bei **6–17-Jährigen rund −211**, bei **70–79-Jährigen rund −24**. Das erklärt, warum die Altersfrage gerade in bestimmten Zeiträumen wichtig wird.
-
-**Bedeutung:** Die Aussage „2022 waren die Unterschiede größer“ muss die Skala nennen. Ein direkter Vergleich der Altersinteraktion 6–17 versus 70–79 zwischen W4 und W5 ergibt auf der relativen Skala ein Verhältnis von **1,321** (Holm-p < 0,001), auf der absoluten Skala **+153,20** (Holm-p = 1,000). Auch diese Dreifachfrage ist skalenabhängig.
-
-W1–W5 folgen der vorhandenen [RKI-Phaseneinteilung](https://edoc.rki.de/bitstream/handle/176904/10260/EB-38-2022-Phaseneinteilung.pdf?sequence=1). Zwischenphasen bleiben enthalten. **„Nach W5“ umfasst KW 22/2022 bis KW 52/2023 und ist keine einzelne Welle.** Diese lange Phase sollte noch feiner betrachtet werden.
-
-### 2.7 Wochenunterschiede: Warum kann ein Gesamtmittel täuschen?
-
-![Wöchentliche absolute Unterschiede nach Altersgruppe für alle sechs Kreistypenpaare](../results/Kreistyp_Alter_Zeit/07_weekly_pairwise_differences.png)
-
-**Lesen:** Die Nulllinie trennt höhere von niedrigeren Werten des ersten Typs. Ein Wechsel über diese Linie bedeutet einen Richtungswechsel des beobachteten Unterschieds.
-
-| 6–17 Jahre: Großstädte minus dünn besiedelte ländliche Kreise | Differenz je 100.000 |
-|---|---:|
-| Woche ab 24.01.2022 | +1.076,72 |
-| Woche ab 07.03.2022 | −1.344,78 |
-| Mittel über alle 209 Wochen | −27,77 |
-
-**Bedeutung:** Positive und negative Wochenunterschiede heben sich teilweise auf. Ein kleines Gesamtmittel kann deshalb neben sehr großen zeitweisen Unterschieden bestehen. Die Grafik liefert eine deskriptive Zeitdiagnose; einzelne Wochen wurden hier nicht mit simultanen Konfidenzbändern getestet.
-
-## 3 🔎 Wie wurden die Ergebnisse berechnet?
-
-| Entscheidung | Umsetzung |
+| Frage | Analyse |
 |---|---|
-| Daten | 400 Kreise × 209 Wochen × 7 Altersgruppen; 2020–2023 nach ISO-Jahr. |
-| Hauptstichprobe | 383 Kreise mit durchgehend gültigen Altersraten. 17 Kreise mit mindestens einem fehlenden Nenner ausgeschlossen; fehlend wird nicht als null behandelt. |
-| Jährliche Kreistypen | Vorhandenes `kreistyp_code` des jeweiligen ISO-Jahres. Vier Kreise wechseln im Ausgangsdatensatz mindestens einmal den Typ. |
-| Gewichtung | Innerhalb jeder Woche zählt jeder Kreis gleich; anschließend zählt jede Woche gleich. Keine Bevölkerungsgewichtung der Kreistypmittel. |
-| Standardisierung | In jedem Kreis dieselben Altersanteile der Referenzbevölkerung 2021, danach Mittel der Kreisraten. |
-| Unsicherheit | 1.999 gemeinsame Kreis-Bootstrap-Ziehungen. Ein gezogener Kreis behält alle Wochen, Altersgruppen und jährlichen Typwechsel. Normalapproximierte 95%-Intervalle; Verhältnisse auf Log-Skala. |
-| Mehrfachtests | Holm-Korrektur je definierter Testfamilie. Die gezeichneten Intervalle sind punktweise, nicht Holm-adjustiert. |
+| Welche Kreistypen unterscheiden sich insgesamt? | Alle sechs Typenpaare: absolute Differenz und Ratenverhältnis. |
+| Liegt das an unterschiedlichen Altersanteilen? | Tatsächliche und einheitliche Alterszusammensetzung vergleichen. |
+| Ist der Stadt-Land-Abstand je nach Alter anders? | Alle 21 Altersvergleiche für jedes Typenpaar. |
+| Wann sind die Unterschiede besonders groß? | Vollständige Wochenlinie, neun Phasen und Monatsblick nach W5. |
+| Wie stabil sind die Ergebnisse? | Kreisverteilungen, Medianvergleich, räumliche Unsicherheit und Panelmodelle. |
 
-**Kreise je Jahr:** Großstädte 67, städtische Kreise 129. Die beiden ländlichen Gruppen umfassen 2021 **90 und 97**, in den übrigen Jahren **91 und 96** Kreise.
+Dieser Bericht führt **„Kreistyp“** und **„Kreistyp und Altersgruppe“** zusammen. Die Kernfragen werden auf einer einheitlichen Datenbasis neu ausgewertet. Alte Medianwerte und heutige Mittelwerte sind daher nicht unmittelbar austauschbar.
 
-Die Altersnenner wurden im bestehenden Datenprozess aus RKI-Angaben rekonstruiert. Sie sind keine unabhängig verifizierte amtliche Altersbevölkerung. Die jährliche Zuordnung verändert auch die Zusammensetzung einer Typengruppe. Ein zeitlicher Unterschied kann daher teilweise aus Gruppenwechseln entstehen; die feste 2023-Zuordnung wird nur noch als Sensitivitätsvergleich gespeichert.
+### Daten und Leseschlüssel
 
-**Grenzen:** Diese Analyse beschreibt Meldeinzidenzen und Zusammenhänge. Sie beweist keine Wirkung des Wohnorts. Der Kreis-Bootstrap berücksichtigt wiederholte Messungen innerhalb eines Kreises, aber keine räumliche Abhängigkeit zwischen Kreisen. Die Inferenz ist explorativ und auf ein hypothetisches Ensemble vergleichbarer Kreise bezogen; die 383 beobachteten Kreise sind keine Zufallsstichprobe aus Deutschland. Veränderungen der Erfassung lassen sich aus den Kurven allein nicht quantifizieren.
+**Hauptanalyse: 383 Kreise, 209 Wochen, sieben Altersgruppen.** Von ursprünglich 400 Kreisen fehlen bei 17 mindestens einmal gültige Altersnenner. Fehlende Werte zählen nicht als null. Die verfügbare größere Stichprobe wird zusätzlich geprüft.
 
-## 4 ➡️ Welche Ergänzungen bringen am meisten?
+- **Einheit:** gemeldete Fälle je 100.000 Personen der jeweiligen Altersgruppe und Woche.
+- **Gewichtung:** innerhalb jeder Woche gleiche Kreisgewichte; danach gleiche Wochengewichte. Keine bevölkerungsgewichtete Deutschlandrate.
+- **Kreistyp:** Zuordnung des jeweiligen ISO-Jahres. Kein festgeschriebener Stand von 2023.
+- **Differenz A − B:** unter 0 bedeutet A niedriger. **Verhältnis A / B:** unter 1 bedeutet A niedriger; 0,90 entspricht 10 % weniger.
 
-| Priorität | Neue Abbildung / Analyse | Konkreter Nutzen |
-|---|---|---|
-| 1 | Wochenverlauf der absoluten **und** relativen Unterschiede in getrennten Feldern | Prüfen, ob große Abstände vor allem mit hohem Inzidenzniveau zusammenfallen. Bei Nullraten keine künstlichen Verhältnisse bilden. |
-| 2 | Verteilung der einzelnen Kreiswerte je Typ in ausgewählten Zeiträumen | Zeigen, ob ein Gruppenmittel viele Kreise beschreibt oder von wenigen hohen Werten geprägt wird. |
-| 3 | Interaktionsgrafik mit direkten Kontrasten und Intervallen | Die eigentliche Frage „Unterscheiden sich die Altersabstände?“ sichtbar machen; absolute und relative Skala trennen. |
-| 4 | „Nach W5“ als Monatsübersicht, bei weiterhin wöchentlicher Datenbasis | Spätere Unterschiede und Richtungswechsel sichtbar halten. Grenzen vor den Tests festlegen. |
+| Orange-Rot | Goldgelb | Hellgrün | Grün |
+|---|---|---|---|
+| Großstädte | Städtische Kreise | Ländlich, verdichtet | Ländlich, dünn besiedelt |
 
-Als methodische Vertiefung bietet sich anschließend ein Modell mit Kreiseffekten, flexibler Wochenentwicklung und Kreistyp–Alter–Zeit-Termen an. Vor einer Modellauswahl müssen Zielgröße, räumliche Abhängigkeit, Überdispersion und die rekonstruierten Bevölkerungsnenner geprüft werden. Die bisherigen Tabellen sind eine nachvollziehbare Ausgangsanalyse, kein Ersatz dafür.
+## 2 Was verändert die Altersstandardisierung?
 
-## 5 🛠️ Passende Skills
+![Abb. 1: Wochenraten mit tatsächlichen und einheitlichen Altersanteilen; identische y-Skalen](../results/Kreistyp_Alter_Zeit/01_crude_standard_weekly.png)
 
-`find-skills` wurde zur Suche verwendet. Zwei geprüfte Kandidaten:
+**So lesen:** Oben hat jeder Kreis seine tatsächlichen Altersanteile. Unten werden überall dieselben Anteile von 2021 verwendet. Beide Panels zeigen dieselben Wochen und dieselbe Skala.
 
-| Skill | Einsatz im Projekt | Einordnung |
-|---|---|---|
-| [scientific-visualization](https://skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization) | Mehrteilige Grafiken, lesbare Skalen, Unsicherheitsdarstellung und Exportprüfung. | K-Dense; ca. 2.700 Installationen. Beispiele überwiegend Python; Gestaltungsprinzipien lassen sich auf ggplot2 übertragen. |
-| [doc-coauthoring](https://skills.sh/anthropics/skills/doc-coauthoring) | Bericht Abschnitt für Abschnitt überarbeiten und Verständlichkeit für neue Leser prüfen. | Anthropic; ca. 105.300 Installationen. Kein Ersatz für statistische Prüfung. |
+| Mittlere Wochenrate 2020–2023 | Tatsächliche Altersanteile | Einheitliche Altersanteile |
+|---|---:|---:|
+| Großstädte | 215,24 | 211,65 |
+| Städtische Kreise | 223,52 | 225,12 |
+| Ländlich, verdichtet | 231,03 | 234,91 |
+| Ländlich, dünn | 228,01 | 233,71 |
 
-Suchstand: 23.11.2026; Zahlen ändern sich. Die beiden Kandidaten wurden geprüft, **nicht neu installiert**. Die bereits vorhandene `grilling`-Skill eignet sich weiterhin dazu, die nächste Forschungsentscheidung in höchstens zwei Fragen pro Runde zu klären.
+**Ergebnis:** Großstädte liegen gegenüber dünn besiedelten ländlichen Kreisen zunächst um **12,77**, nach Standardisierung um **22,07** niedriger. Die Alterszusammensetzung verdeckt hier einen Teil des Abstands; sie erklärt ihn nicht vollständig.
 
-Beispielaufträge nach Installation: „Prüfe mit scientific-visualization Abbildung 5 auf lesbare Skalen und klare Unsicherheitsangaben; R und deutsche Beschriftungen beibehalten.“ Oder: „Überarbeite mit doc-coauthoring die Interpretation jeder Abbildung: Frage, Datenbeispiel, Aussage, Grenze.“
+![Abb. 2: Altersanteile nach Jahr und Kreistyp](../results/Kreistyp_Alter_Zeit/03_age_composition.png)
+
+**Beispiel 2021:** In Großstädten sind durchschnittlich **30,72 %** der Bevölkerung 18–39 Jahre alt, in dünn besiedelten ländlichen Kreisen **22,99 %**. Ab 70 Jahren sind es **15,15 % gegenüber 17,67 %**.
+
+**Zwei verschiedene Fragen:** Alterszusammensetzung fragt, wie viele Menschen zu einer Altersgruppe gehören. Altersinteraktion fragt, ob sich der Stadt-Land-Abstand *innerhalb* der Altersgruppen unterscheidet.
+
+Die Referenzanteile stammen aus rekonstruierten RKI-Altersnennern aller 400 Kreise im Jahr 2021, nicht aus einer unabhängig bestätigten amtlichen Altersstatistik. Die rohe Rate nutzt hier die sieben bekannten Altersgruppen; der alte Gesamtbericht verwendete eine andere Gesamtbevölkerungsquelle.
+
+## 3 Welche Kreistypen unterscheiden sich insgesamt?
+
+![Abb. 3: Alle sechs absoluten Paarvergleiche vor und nach Standardisierung](../results/Kreistyp_Alter_Zeit/04_overall_absolute.png)
+
+**So lesen:** Punkte zeigen mittlere Unterschiede, Linien punktweise 95%-Intervalle. Links von null liegt der erstgenannte Typ niedriger.
+
+| Vergleich | Standardisierte Differenz | Ratenverhältnis |
+|---|---:|---:|
+| Großstadt – städtisch | −13,47 | 0,940 |
+| Großstadt – ländlich verdichtet | −23,27 | 0,901 |
+| Großstadt – ländlich dünn | −22,07 | 0,906 |
+| Städtisch – ländlich verdichtet | −9,79 | 0,958 |
+| Städtisch – ländlich dünn | −8,59 | 0,963 |
+| Ländlich verdichtet – ländlich dünn | +1,20 | 1,005 |
+
+**Ergebnis:** Großstädte haben niedrigere mittlere Raten als die drei anderen Typen. Diese Vergleiche werden auch mit 100-km-Raumblöcken und Holm-Korrektur gestützt. Die übrigen drei Vergleiche sind dabei nicht ausreichend abgesichert. Das bedeutet nicht, dass die Typen gleich sind.
+
+Für Großstadt gegenüber ländlich dünn entspricht der Abstand **9,44 %**. Das räumlich angepasste Intervall der absoluten Differenz beträgt **−31,10 bis −13,03**; Abb. 3 zeigt zum Vergleich die ursprünglichen Kreis-Bootstrap-Intervalle.
+
+## 4 Wie stark unterscheiden sich Kreise desselben Typs?
+
+![Abb. 4: Kreisverteilungen in allen Phasen; jede Phase hat eine eigene y-Skala](../results/Kreistyp_Alter_Zeit/09_distribution_standard.png)
+
+**So lesen:** Ein Punkt steht für einen Kreis mit seiner durchschnittlichen Wochenrate in der Phase. Die Box enthält die mittleren 50 %, die Linie ist der Median. Die weiße Raute zeigt das Hauptmaß: den Durchschnitt der wöchentlichen Typmittel.
+
+| W4 | Großstädte | Ländlich, dünn |
+|---|---:|---:|
+| Median der Kreiswerte | 158,44 | 208,44 |
+| Mittlere 50 % | 129,88–204,40 | 130,63–300,51 |
+
+**Ergebnis:** Die Mediane unterscheiden sich, die Verteilungen überlappen aber stark. **Ein ländlicher Kreis liegt nicht automatisch höher als eine Großstadt.** Nach W5 liegen die Mediane mit **174,99 und 178,06** besonders nahe beieinander.
+
+**Beachten:** Jede Phase hat eine eigene Skala. Dreiecke markieren unvollständige Typzugehörigkeiten bei einem Wechsel. Deshalb enthält W5 384 Kreis-Typ-Einträge aus 383 Kreisen. Diese Punkte bilden keine unabhängigen Stichproben für zusätzliche Tests.
+
+## 5 Ändert sich der Stadt-Land-Abstand mit dem Alter?
+
+![Abb. 5: Alle sieben Altersgruppen, sechs Typenpaare und beide Vergleichsskalen](../results/Kreistyp_Alter_Zeit/10_age_atlas.png)
+
+**Ergebnis:** Ja, für konkrete Vergleiche. Besonders deutlich ist der Unterschied zwischen **18–39 und 70–79 Jahren**, wenn Großstädte mit dünn besiedelten ländlichen Kreisen verglichen werden:
+
+| Alter | Großstadt | Ländlich, dünn | Differenz |
+|---|---:|---:|---:|
+| 18–39 | 266,14 | 302,85 | −36,71 |
+| 70–79 | 108,40 | 112,27 | −3,86 |
+
+Der Abstand ist bei jungen Erwachsenen **um 32,84 Fälle je 100.000 und Woche stärker negativ**. Diese Differenz der beiden Abstände ist die absolute Altersinteraktion; gerechnet wird mit ungerundeten Werten.
+
+### Alle Vergleiche statt einzelner ausgewählter Altersgruppen
+
+Berechnet wurden **21 Altersvergleiche × 6 Typenpaare = 126 Interaktionen je Skala**. Die fünf größten absoluten Effekte sind:
+
+![Abb. 6: Die fünf größten absoluten Altersinteraktionen, explorativ ausgewählt](../results/Kreistyp_Alter_Zeit/11_top5_absolute.png)
+
+| Rang | Typenpaar | Altersvergleich | Absolute Interaktion |
+|---|---|---|---:|
+| 1 | Großstadt – ländlich dünn | 18–39 vs. 70–79 | −32,84 |
+| 2 | Großstadt – ländlich verdichtet | 18–39 vs. 70–79 | −30,73 |
+| 3 | Großstadt – ländlich dünn | 18–39 vs. 60–69 | −28,06 |
+| 4 | Großstadt – ländlich verdichtet | 18–39 vs. 80+ | −27,76 |
+| 5 | Großstadt – ländlich dünn | 18–39 vs. 80+ | −26,54 |
+
+Relativ führt ebenfalls **18–39 vs. 70–79, Großstadt gegenüber ländlich dünn**, mit **0,910**. Danach folgen städtisch/ländlich dünn für 0–5 vs. 70–79 (0,922) und 6–17 vs. 70–79 (0,925). Die vollständigen Ranglisten beider Skalen stehen im Anhang.
+
+**Wichtig:** Größte Effekte bedeuten nicht automatisch sicherste Ergebnisse. Die Rangliste wurde aus denselben Daten ausgewählt und bleibt explorativ. Die folgenden Modelle vertiefen den führenden Altersvergleich; sie bestätigen ihn nicht an unabhängigen Daten.
+
+## 6 Wann entstehen die Unterschiede?
+
+### 6.1 Die vollständige Wochenlinie
+
+![Abb. 7: Wöchentliche absolute und relative Unterschiede aller sechs Typenpaare](../results/Kreistyp_Alter_Zeit/08_weekly_scales_standard.png)
+
+**So lesen:** Oben steht die Differenz, unten das Verhältnis. Ein großer absoluter Abstand muss kein großer prozentualer Abstand sein.
+
+| Großstadt gegenüber ländlich dünn | Differenz | Verhältnis | Großstadt … |
+|---|---:|---:|---|
+| Woche ab 22.11.2021 | −252,12 | 0,616 | 38,4 % niedriger |
+| Woche ab 24.01.2022 | +340,26 | 1,310 | 31,0 % höher |
+| Woche ab 07.03.2022 | −635,01 | 0,694 | 30,6 % niedriger |
+
+**Ergebnis:** Im März 2022 ist der absolute Abstand größer als im November 2021, der relative aber kleiner. Zudem kann die Richtung wechseln. Bei 6–17-Jährigen springt der Abstand zwischen Januar und März von **+1.076,72 auf −1.344,78**; über alle Wochen liegt er nur bei **−27,77**.
+
+Nullraten werden nicht künstlich erhöht. Nicht logarithmierbare Verhältnisse erscheinen als Lücken; kleine Raten können starke relative Ausschläge erzeugen. Die Wochenlinien sind deskriptiv, ohne wöchentliche Signifikanztests.
+
+### 6.2 Die Altersinteraktion nach Phase
+
+![Abb. 8: Altersinteraktion 18–39 vs. 70–79 für Großstadt und ländlich dünn, nach Phase](../results/Kreistyp_Alter_Zeit/14_leading_interaction_periods.png)
+
+| Phase | Absolute Interaktion | Relative Interaktion |
+|---|---:|---:|
+| W4 | −59,77 | 1,008 |
+| W5 | −219,16 | 0,899 |
+| Nach W5 | −13,79 | 0,918 |
+
+**Ergebnis:** W5 prägt den absoluten Abstand besonders stark. Nach W5 ist er deutlich kleiner. Ob die Veränderungen statistisch gestützt werden, prüfen die Modelle in Abschnitt 8 direkt; unterschiedliche Einzel-p-Werte reichen dafür nicht.
+
+W1–W5 folgen der bestehenden [RKI-Einteilung](https://edoc.rki.de/bitstream/handle/176904/10260/EB-38-2022-Phaseneinteilung.pdf?sequence=1). Vor- und Zwischenphasen bleiben enthalten. „Nach W5“ ist keine einzelne Welle.
+
+### 6.3 Was verdeckt der lange Zeitraum nach W5?
+
+![Abb. 9: Mittlere Wochenraten je Monat nach W5](../results/Kreistyp_Alter_Zeit/12_post_w5_standard.png)
+
+| Monat | Großstadt | Ländlich, dünn |
+|---|---:|---:|
+| Juli 2022 | 681,74 | 733,07 |
+| Oktober 2022 | 528,12 | 597,99 |
+| Februar 2023 | 120,45 | 106,10 |
+| November 2023 | 36,10 | 46,64 |
+
+**Ergebnis:** Auch später wechseln die Abstände und teilweise die Reihenfolge. Ein einziger Mittelwert nach W5 verdeckt diese Entwicklung.
+
+Es sind **mittlere Wochenraten, keine Monatsinzidenzen**. Die Zuordnung folgt dem Wochenmontag. Mai 2022 enthält nur die Woche ab 30.05. und ist als Teilmonat markiert.
+
+## 7 Hängen die Ergebnisse von Stichprobe und Mittelwert ab?
+
+![Abb. 10: Mittelwerte, Mediane und verfügbare Kreiswerte im Vergleich](../results/Kreistyp_Alter_Zeit/13_robustness.png)
+
+| Großstadt minus ländlich dünn, standardisiert | Differenz |
+|---|---:|
+| 383 vollständige Kreise, Wochenmittel | −22,07 |
+| Alle verfügbaren Kreiswerte, Wochenmittel | −21,14 |
+| 383 vollständige Kreise, Wochenmediane | −14,75 |
+
+**Ergebnis:** Die Richtung bleibt gleich. Die Größe hängt stärker von Mittelwert versus Median ab als vom Ausschluss der 17 Kreise. Für städtisch gegenüber ländlich dünn schrumpft der Abstand mit Medianen von **−8,59 auf −1,45**.
+
+Diese Vergleiche sind deskriptiv. Ein Mittel von Wochenmedianen beantwortet eine andere Frage als ein Mittel von Wochenmitteln.
+
+## 8 🧪 Was zeigen die neuen räumlichen Prüfungen und Modelle?
+
+### 8.1 Räumliche Unsicherheit: Wie sicher ist der Gesamtunterschied?
+
+![Abb. 11: Absolute und relative Altersinteraktion unter verschiedenen räumlichen Annahmen](../results/Kreistyp_Alter_Zeit/16_spatial_uncertainty.png)
+
+Benachbarte Kreise können gemeinsam betroffen sein. Deshalb behandeln wir ihre Beobachtungen nicht zwingend als unabhängig. Die Hauptprüfung verwendet **45 räumliche 100-km-Blöcke**, zusätzlich prüfen wir 200-km-Blöcke und ein verschobenes Raster.
+
+| Führender Altersvergleich, Gesamtzeitraum | Schätzung | 95%-Intervall, 100 km | Holm-p |
+|---|---:|---:|---:|
+| Absolut | −32,84 | −40,20 bis −25,49 | <0,001 |
+| Relativ | 0,910 | 0,867 bis 0,956 | 0,067 |
+
+**Ergebnis:** Die absolute Interaktion bleibt gestützt. Die relative Interaktion erreicht mit 100-km-Blöcken nach Holm keine 5%-Signifikanz mehr; mit 200 km beträgt Holm-p 1,000, mit verschobenem 100-km-Raster 0,003. **Die relative Aussage hängt also stärker von der räumlichen Annahme ab.**
+
+Die Intervalle sind punktweise, die p-Werte berücksichtigen Mehrfachvergleiche. Daher kann ein Intervall 1 ausschließen, obwohl Holm-p über 0,05 liegt. Raumblöcke ändern die Unsicherheit, korrigieren aber keine räumlichen Störfaktoren. Abhängigkeit über Blockgrenzen bleibt unberücksichtigt.
+
+### 8.2 Panelmodelle: Verändert sich die Altersinteraktion gegenüber W4?
+
+Die Modelle berücksichtigen für jede Altersgruppe **dauerhafte Unterschiede zwischen Kreisen** und **einen eigenen Effekt jeder Woche**. Es wird keine glatte Kurvenform erzwungen. Jährliche Typwechsel bleiben erhalten.
+
+| Modell | Antwort |
+|---|---|
+| Lineares Modell auf Wochenraten | Wie stark verändert sich die absolute Altersinteraktion? |
+| Poisson-Pseudolikelihood auf Wochenraten | Wie verändert sich die relative Altersinteraktion? |
+
+Die Kreisgewichte bleiben gleich. W4 dient als gemeinsame Referenz; **alle anderen schätzbaren Phasen und alle sechs Typenpaare** werden geprüft. Eine weitgehend unveränderliche Kreistypzugehörigkeit lässt sich nicht getrennt vom Kreis-Fixeffekt als langfristiger Haupteffekt schätzen. Dafür bleiben die Gesamtvergleiche aus Abschnitt 3 zuständig.
+
+![Abb. 12: Absolute Veränderung der Altersinteraktion gegenüber W4 mit Kreis- und Raumblock-Intervallen](../results/Kreistyp_Alter_Zeit/15_panel_changes_absolute.png)
+
+**W5 gegenüber W4:** Für 18–39 vs. 70–79 Jahre, Großstadt gegenüber ländlich dünn, wird die absolute Interaktion **um weitere 159,44 Fälle je 100.000 und Woche negativer**. Mit 100-km-Blöcken: Intervall **−217,65 bis −101,23**, Holm-p **<0,001**. Auch mit 200-km-Blöcken bleibt Evidenz (Holm-p rund **0,03**).
+
+![Abb. 13: Relative Veränderung der Altersinteraktion gegenüber W4; Vorphase wegen Nullzellen nicht geschätzt](../results/Kreistyp_Alter_Zeit/15_panel_changes_relative.png)
+
+**Relativ:** Der entsprechende Faktor beträgt **0,893**; mit 100-km-Blöcken liegt das Intervall bei **0,816 bis 0,976**, Holm-p bei rund **0,94**. Die relative Veränderung ist nach Korrektur somit nicht ausreichend abgesichert. Nach W5 sind die Veränderungen gegenüber W4 auf beiden Skalen nicht ausreichend abgesichert.
+
+**Modellgrenzen:** Die Vertiefung betrifft die ausgewählten Altersgruppen 18–39 und 70–79. Sie bleibt explorativ. Die relative Modellgröße ist ein bedingter Kontrast und nicht identisch mit dem Verhältnis unbereinigter Gruppenmittel. Vor W1 enthalten mehrere Typ-Alters-Zellen ausschließlich null Fälle; diese Phase wird nur im relativen Modell ausgeschlossen. Absolute Analyse und Wochenbeschreibung behalten sie bei.
+
+## 9 Was nehmen wir mit?
+
+| Aussage | Einordnung |
+|---|---|
+| Großstädte haben im Gesamtmittel niedrigere standardisierte Raten. | Für alle drei Großstadtvergleiche gestützt, auch mit 100-km-Blöcken. |
+| Alterszusammensetzung erklärt den Abstand vollständig. | Nein. Der Abstand bleibt bei einheitlichen Anteilen bestehen. |
+| Der Stadt-Land-Abstand unterscheidet sich nach Alter. | Besonders klare absolute Evidenz für junge Erwachsene gegenüber älteren Gruppen. |
+| W5 ist besonders wichtig. | Ja: Das Panelmodell stützt die stärkere absolute Interaktion gegenüber W4. |
+| Absolute und relative Ergebnisse sagen dasselbe. | Nein. Relative Evidenz reagiert stärker auf räumliche Annahmen. |
+| Der Wohnort verursacht die Unterschiede. | Nicht nachgewiesen. |
+
+Die Daten messen **gemeldete Fälle**, nicht alle Infektionen. Testverhalten, Impfungen und weitere regionale Merkmale werden nicht getrennt erklärt. Die 383 Kreise sind keine Zufallsstichprobe; die Inferenz bleibt eine explorative Modellierung vergleichbarer Kreise. Die räumlichen Prüfungen lösen nicht alle Abhängigkeitsprobleme.
+
+## 10 Materialien und Reproduktion
+
+| Material | Inhalt |
+|---|---|
+| [Relative Top 5](../results/Kreistyp_Alter_Zeit/11_top5_relative.png) | Ergänzende Rangliste mit ursprünglichen Intervallen |
+| [Alle absoluten](../results/Kreistyp_Alter_Zeit/S01_all_interactions_absolute.png) / [alle relativen Altersinteraktionen](../results/Kreistyp_Alter_Zeit/S01_all_interactions_relative.png) | 21 Altersvergleiche je Typenpaar |
+| [Vollständige Rangliste](../results/Kreistyp_Alter_Zeit/age_interaction_ranking_all.csv) | Schätzungen, Intervalle und vier Ausgangsraten |
+| [Wochenwerte](../results/Kreistyp_Alter_Zeit/weekly_pairwise_scales.csv) | Beide Skalen und Ausgangsraten |
+| [Kreis-Phasenwerte](../results/Kreistyp_Alter_Zeit/district_period_distribution.csv) | Verteilungen und Teilphasen |
+| [Monatswerte](../results/Kreistyp_Alter_Zeit/post_w5_monthly.csv) | Nach W5, mit Wochenzahl |
+| [Räumliche Vergleiche](../results/Kreistyp_Alter_Zeit/spatial_contrasts.csv) | Alle Altersinteraktionen und standardisierten Typenpaare |
+| [Modellkontraste](../results/Kreistyp_Alter_Zeit/panel_age_interaction_changes.csv) | Alle Phasenvergleiche gegen W4 für das ausgewählte Alterspaar |
+| [Modellprüfung](../results/Kreistyp_Alter_Zeit/MODEL_VALIDATION.txt) | Konvergenz und unabhängige Zahlenprüfung |
+
+Alle Abbildungen liegen als PNG und PDF vor; ergänzende Altersansichten bleiben verfügbar. Die ursprünglichen Shiny-Karten bleiben in `data_processed/Kreistyp/incidence_map_Shiny.R` und `Kreistyp_geo.R` erhalten.
+
+**In RStudio:** Projekt öffnen, die gewünschte Datei in `Scripts/Kreistyp_Alter_Zeit/` öffnen und in einer eigenen Umgebung ausführen, z. B. `sys.source("Scripts/Kreistyp_Alter_Zeit/modell_raum_zeit.R", envir = new.env())`. Die neuen Modelle benötigen `fixest`; lokal ist es in `.R-library` installiert. Die Rohdaten bleiben unverändert.
+
+Reihenfolge für die vollständige Reproduktion: `run_analysis.R` → `validate_results.R` → `erweiterte_analyse.R` → `modell_raum_zeit.R`. `abbildungen.R` aktualisiert die ursprünglichen sieben Grafiken; `build_report.py` erstellt die HTML-Leseversion. Formeln, Testfamilien und Quellen stehen im [separaten Methodenbericht](Kreistyp_Alter_Zeit_Methoden.md).

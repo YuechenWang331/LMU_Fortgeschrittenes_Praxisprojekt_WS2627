@@ -1,0 +1,3 @@
+scale,n_obs,n_input,n_coef,removed_terms,converged
+absolute,160094,160094,50,basis_j2;basis_j4;basis_a2;basis_a4,TRUE
+relative,153200,153200,44,basis_j2;basis_j4;basis_a2;basis_a4,TRUE

@@ -1,0 +1,7 @@
+PRÜFUNGEN BESTANDEN
+Kreise: 383
+OLS/PPML-Beobachtungen: 160094 153200
+OLS mit unabhängiger FWL/QR-Rechnung geprüft.
+2.520 räumliche Punktschätzer reproduzieren die bestehende Altersanalyse.
+Absolut: acht Phasen gegenüber W4; relativ: sieben Phasen, P0 wegen Nullzellen ausgeschlossen. Je sechs Typenpaare.
+fixest: 0.14.2

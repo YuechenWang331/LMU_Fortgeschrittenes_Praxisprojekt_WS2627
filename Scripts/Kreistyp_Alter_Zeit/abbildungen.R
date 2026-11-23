@@ -11,9 +11,9 @@ abbildungen_erstellen <- function() {
   differenzen <- lesen('weekly_pairwise_differences.csv')
   alter <- c('0-5','6-17','18-39','40-59','60-69','70-79','80+')
   altersnamen <- c('0–5','6–17','18–39','40–59','60–69','70–79','80+')
-  altersfarben <- setNames(c('#704494','#D85C00','#0072B2','#008269','#A87500','#B13C80','#323A40'),alter)
+  altersfarben <- setNames(c('#7A5195','#D55E00','#0072B2','#00866A','#B47A00','#B84986','#343A40'),alter)
   typen <- c('Großstädte','Städtische Kreise','Ländlich, verdichtet','Ländlich, dünn besiedelt')
-  typfarben <- setNames(c('#176B9A','#168477','#D27822','#9B548C'),typen)
+  typfarben <- setNames(c('#D0582B','#F2C06E','#C5DAA1','#69AD55'),typen)
   paare <- c('1 - 2','1 - 3','1 - 4','2 - 3','2 - 4','3 - 4')
   paarnamen <- c('Großstädte − städtische Kreise','Großstädte − ländlich, verdichtet',
     'Großstädte − ländlich, dünn besiedelt','Städtische Kreise − ländlich, verdichtet',
@@ -44,18 +44,18 @@ abbildungen_erstellen <- function() {
   wochen[,typ:=factor(type,1:4,typen)]
   wochen[,altersgruppe:=factor(outcome,alter,altersnamen)]
   gesamt <- wochen[outcome %in% c('crude','standard')]
-  gesamt[,verfahren:=factor(outcome,c('crude','standard'),c('Beobachtete Altersstruktur','Einheitliche Altersstruktur'))]
-  grafik <- ggplot(gesamt,aes(week_start,mean,color=typ))+geom_line(linewidth=.7)+
-    facet_wrap(~verfahren,ncol=1)+scale_color_manual(values=typfarben,name=NULL)+zeitskala()+
+  gesamt[,verfahren:=factor(outcome,c('crude','standard'),c('A · Tatsächliche Altersanteile','B · Gleiche Altersanteile (Referenz: 2021)'))]
+  grafik <- ggplot(gesamt,aes(week_start,mean,color=typ,linetype=typ))+geom_line(linewidth=1.1)+
+    facet_wrap(~verfahren,ncol=1)+scale_color_manual(values=typfarben,name=NULL)+scale_linetype_manual(values=c('solid','longdash','dotdash','dotted'),name=NULL)+zeitskala()+
     scale_y_continuous(labels=zahlen)+guides(color=guide_legend(nrow=1))+
-    labs(title='Bleiben die Unterschiede nach Altersstandardisierung bestehen?',
-      subtitle='Mittlere wöchentliche Meldeinzidenz nach Kreistyp · 2020–2023',
+    labs(title='Altersstandardisierung: Die Unterschiede bleiben sichtbar',
+      subtitle='Oben: beobachtete Altersanteile · unten: gleiche Altersanteile für alle Kreise',
       x=NULL,y='Gemeldete Fälle je 100.000 Personen und Woche',
-      caption=paste(fuss,'\nGemeinsame Altersgewichte: RKI-inferierte Bevölkerung 2021; bekannte Altersgruppen.'))
+      caption=paste(fuss,'\nBeide Panels: gleiche y-Skala. Referenzgewichte aus rekonstruierten RKI-Altersnennern 2021.'))
   speichern('01_crude_standard_weekly',grafik,13,8)
-  grafik <- ggplot(wochen[outcome %in% alter],aes(week_start,mean,color=typ))+
-    geom_line(linewidth=.6)+facet_wrap(~altersgruppe,ncol=2)+
-    scale_color_manual(values=typfarben,name=NULL)+zeitskala()+scale_y_continuous(labels=zahlen)+
+  grafik <- ggplot(wochen[outcome %in% alter],aes(week_start,mean,color=typ,linetype=typ))+
+    geom_line(linewidth=.85)+facet_wrap(~altersgruppe,ncol=2)+
+    scale_color_manual(values=typfarben,name=NULL)+scale_linetype_manual(values=c('solid','longdash','dotdash','dotted'),name=NULL)+zeitskala()+scale_y_continuous(labels=zahlen)+
     labs(title='Der zeitliche Verlauf unterscheidet sich nach Alter',
       subtitle='Sieben Altersgruppen · identische Skalen ermöglichen den Vergleich absoluter Größen',
       x=NULL,y='Gemeldete Fälle je 100.000 Personen der Altersgruppe und Woche',caption=fuss)

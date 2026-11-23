@@ -8,3 +8,8 @@ README.html
 
 # macOS
 .DS_Store
+# Lokale R-Abhängigkeiten
+.R-library/
+
+# Große, reproduzierbare Modellobjekte
+results/Kreistyp_Alter_Zeit/panel_models.rds
