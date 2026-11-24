@@ -1,0 +1,46 @@
+---
+title: "Zwischenpräsentation"
+format: revealjs
+editor: visual
+---
+
+## Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen
+
+### Fortgeschrittenes Praxisprojekt WS 26/27
+
+### Hilal Sentürk, Qiang Qin, Yuechen Wang, Yu-Ling Wang, David Akrapovic
+
+### Projektpartner: Dr, André Klima
+
+## zentrale Fragestellung
+
+### Wie hängen regionale Strukturmerkmale mit den zeitlichen Verläufen der gemeldeten COVID-19 Inzidenz in den Jahren 2020-2023 zusammen und unterscheiden sich diese Zusammenhänge zwischen den Altersgruppen?
+
+## Variablendefinition?
+
+Altersgruppen und anderes definieren bzw Annahmen oder ähnliches (Inzidenz)
+
+## Actiontitle #1
+generelle Entwicklung der verschiedenen Altersgruppen
+
+## Actiontitle #2
+Kreistyp Darstellung
+
+## Actiontitle #3
+Entwicklung in Kreistypen
+
+## Actiontitle #4
+Darstellung Altersgruppen und Kreistyp
+
+## Actiontitle #5
+
+## Actiontitle #6
+Modellwahl
+
+## Literatur
+
+## Diskussionsfolie
+
+```{r}
+1 + 1
+```
