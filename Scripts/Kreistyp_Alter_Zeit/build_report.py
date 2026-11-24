@@ -27,6 +27,8 @@ subprocess.run([pandoc, '--from=gfm', '--to=html5', '--standalone', '--embed-res
                 '--output', str(ordner / 'Bericht.html')], input=text, text=True, check=True, cwd=ordner)
 abschnitte = []
 for bilddatei in sorted(ordner.glob('*.png')):
+    if bilddatei.name.startswith(('15_panel_', '16_spatial_')):
+        continue
     bild = base64.b64encode(bilddatei.read_bytes()).decode()
     titel = bilddatei.stem.replace('_', ' ')
     abschnitte.append(f'<section><h2>{html.escape(titel)}</h2>'

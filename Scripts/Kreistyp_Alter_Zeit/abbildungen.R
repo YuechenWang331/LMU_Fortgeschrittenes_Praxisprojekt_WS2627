@@ -77,17 +77,17 @@ abbildungen_erstellen <- function() {
   vergleiche[,paar:=factor(paste(type_a,type_b,sep=' - '),paare,paarnamen)]
   gesamt <- vergleiche[period=='All' & outcome %in% c('crude','standard') & scale=='absolute']
   gesamt[,paar:=factor(as.character(paar),rev(paarnamen))]
-  gesamt[,verfahren:=factor(outcome,c('crude','standard'),c('Beobachtete Altersstruktur','Altersstandardisiert'))]
+  gesamt[,verfahren:=factor(outcome,c('crude','standard'),c('Vor Altersstandardisierung','Nach Altersstandardisierung'))]
   verschiebung <- position_dodge(width=.45)
   grafik <- ggplot(gesamt,aes(estimate,paar,color=verfahren))+
     geom_vline(xintercept=0,color='#819198',linetype='dashed')+
     geom_errorbar(aes(xmin=lower,xmax=upper),orientation='y',width=.12,position=verschiebung,linewidth=.7)+
-    geom_point(position=verschiebung,size=2.7)+
+    geom_point(aes(shape=verfahren),position=verschiebung,size=2.7)+scale_shape_manual(values=c(16,17),name=NULL)+
     scale_color_manual(values=c('#9C9FA2','#087F8C'),name=NULL)+
     labs(title='Wie groß ist der durchschnittliche Unterschied?',
       subtitle='Alle sechs Paarvergleiche · mittlere wöchentliche Differenz über 2020–2023',
       x='Erstgenannter minus zweitgenannter Kreistyp: Fälle je 100.000 und Woche',y=NULL,
-      caption='Punkte: Schätzung · Linien: punktweise 95%-Konfidenzintervalle (nicht multiplikitätskorrigiert)\nStatistische Bewertung: Holm-korrigierte p-Werte in der Ergebnistabelle; 1.999 Kreis-Bootstrap-Stichproben.')
+      caption='Grau: vor Altersstandardisierung · Türkis: nach Altersstandardisierung (keine Kreistypfarben).\nPunkte: Schätzung · Linien: punktweise 95%-Konfidenzintervalle (nicht multiplikitätskorrigiert)\nStatistische Bewertung: Holm-korrigierte p-Werte in der Ergebnistabelle; 1.999 Kreis-Bootstrap-Stichproben.')
   speichern('04_overall_absolute',grafik,14,7)
   relativ <- vergleiche[period=='All' & outcome %in% alter & scale=='relative']
   relativ[,altersgruppe:=factor(outcome,rev(alter),rev(altersnamen))]

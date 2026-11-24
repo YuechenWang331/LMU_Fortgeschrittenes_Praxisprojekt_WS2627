@@ -1,0 +1,6 @@
+PRÜFUNGEN BESTANDEN
+383-Kreise-Referenzgewichte summieren sich zu 1.
+Reales Standardisierungsbeispiel reproduziert Kreisrate.
+6 Typenpaare und 4 × 21 Alterspaare auf Niveau- und Änderungsskala.
+Phasendifferenzen überschreiten keine Phasengrenze.
+Blockintervalle 4/8/12 Wochen, je 1.999 gemeinsame Ziehungen.

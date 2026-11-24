@@ -17,17 +17,24 @@ quelle = projekt / 'results/Kreistyp_Alter_Zeit'
 ziel = args.ziel.resolve()
 material = ziel / 'Material'
 material.mkdir(parents=True, exist_ok=True)
+def aktiv(name):
+    return not name.startswith(('15_panel_', '16_spatial_', 'panel_', 'spatial_', 'model_', 'MODEL_VALIDATION'))
+for alt in material.iterdir():
+    if alt.is_file() and not aktiv(alt.name):
+        alt.unlink()
 text = (projekt / 'reports/Kreistyp_Alter_Zeit_Zusammenfassung.md').read_text()
 bilder = re.findall(r'!\[[^\]]*\]\(\.\./results/Kreistyp_Alter_Zeit/([^)]*)\)', text)
 manifest = {
     'hauptabbildungen': bilder,
     'eingabe_md5': hashlib.md5((projekt / 'data_processed/Kreistyp x Altersgruppe/kreis_weekly_age_kreistyp_2020_2023.rds').read_bytes()).hexdigest(),
-    'abbildungen': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(quelle.glob('*.png'))},
+    'abbildungen': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(quelle.glob('*.png')) if aktiv(p.name)},
 }
 (quelle / 'figure_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2))
 for datei in quelle.iterdir():
+    if not aktiv(datei.name):
+        continue
     if datei.suffix in {'.png', '.pdf', '.csv', '.json'} or datei.name in {
-        'VALIDATION.txt', 'EXTENDED_VALIDATION.txt', 'MODEL_VALIDATION.txt', 'model_session_info.txt'
+        'VALIDATION.txt', 'EXTENDED_VALIDATION.txt', 'TIME_SERIES_VALIDATION.txt'
     }:
         shutil.copy2(datei, material / datei.name)
 text = text.replace('../results/Kreistyp_Alter_Zeit/', 'Material/').replace('(Kreistyp_Alter_Zeit_Methoden.md)', '(Methoden.md)')
