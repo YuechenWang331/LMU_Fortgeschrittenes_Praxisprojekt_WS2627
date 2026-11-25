@@ -1,0 +1,3 @@
+Abgeschlossen: 2026-11-25 23:06:21.708189
+Kontrolle gleiche Gewichte, max. Abweichung: 6.22e-15
+Abbildungen: F1_wochenverlauf.png, F2_verhaeltnis_phasen.png, F3_verhaeltnis_alter.png, F4_altersinteraktion_phasen.png, F5_kreisverteilung.png, F6_robustheit.png
