@@ -6,36 +6,41 @@ editor: visual
 
 ## Zusammenhang zwischen Strukturmerkmalen und Inzidenzverläufen in den Altersgruppen
 
-### Fortgeschrittenes Praxisprojekt WS 26/27
+#### Fortgeschrittenes Praxisprojekt WS 26/27
 
-### Hilal Sentürk, Qiang Qin, Yuechen Wang, Yu-Ling Wang, David Akrapovic
+#### Hilal Sentürk, Qiang Qin, Yuechen Wang, Yu-Ling Wang, David Akrapovic
 
-### Projektpartner: Dr, André Klima
+#### Projektpartner: Dr, André Klima
 
-## zentrale Fragestellung
+## zentrale Fragestellung{style="text-align: center;font-size:60px;"}
 
-### Wie hängen regionale Strukturmerkmale mit den zeitlichen Verläufen der gemeldeten COVID-19 Inzidenz in den Jahren 2020-2023 zusammen und unterscheiden sich diese Zusammenhänge zwischen den Altersgruppen?
+#### Wie hängen regionale Strukturmerkmale mit den zeitlichen Verläufen der gemeldeten COVID-19 Inzidenz in den Jahren 2020-2023 zusammen und unterscheiden sich diese Zusammenhänge zwischen den Altersgruppen?{style="text-align: center;"}
 
 ## Variablendefinition?
-
 Altersgruppen und anderes definieren bzw Annahmen oder ähnliches (Inzidenz)
 
-## Actiontitle #1
-generelle Entwicklung der verschiedenen Altersgruppen
+## Actiontitle #1 (generelle Entwicklung der verschiedenen Altersgruppen)
+![](..\Altsgruppen_ZeitlicheEntwicklung\02_facets_7_groups.png){width="80%" fig-align="center"}
 
-## Actiontitle #2
-Kreistyp Darstellung
+## Actiontitle #2 (Altersgruppen weitere Darstellung)
+![](..\Altsgruppen_ZeitlicheEntwicklung\06_grouping_comparison.png){width="80%" fig-align="center"}
 
-## Actiontitle #3
-Entwicklung in Kreistypen
+## Actiontitle #3 (Entwicklung in Kreistypen)
+![](..\Kreistyp\03_boxplot_2022_KW11.png){width="80%" fig-align="center"}
 
-## Actiontitle #4
-Darstellung Altersgruppen und Kreistyp
+## Actiontitle #4 (Alternative Kreistypenentwicklung)
+![](..\Kreistyp\06_differenz_bundesmedian_facetten.png){width="80%" fig-align="center"}
 
-## Actiontitle #5
+## Actiontitle #5 (Darstellung Altersgruppen und Kreistyp)
+![](..\Kreistyp x Altersgruppe\lineplot_age_and_kreistyp.png){width="80%" fig-align="center"}
 
-## Actiontitle #6
-Modellwahl
+## Actiontitle #6 (Interaktion benachbarte Orte)
+![](..\Kreistyp_Alter_Zeit\21_time_autocorrelation.png){width="80%" fig-align="center"}
+
+## Actiontitle #7 (Altersinteraktion)
+![](..\Kreistyp_Alter_Zeit\11_top5_relative.png){width="80%" fig-align="center"}
+
+## Actiontitle #8 (Modellwahl)
 
 ## Literatur
 
