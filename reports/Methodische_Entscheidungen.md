@@ -1,8 +1,3 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
 # Methodische Entscheidungen
 
 Ziel dieses Dokuments ist es, die methodischen Entscheidungen im Rahmen der statistischen Modellierung nachvollziehbar zu dokumentieren. Für jede Entscheidung werden der Hintergrund, mögliche Alternativen, deren methodische Auswirkungen sowie die Entscheidungsgrundlage festgehalten.
@@ -24,6 +19,7 @@ Ziel dieses Dokuments ist es, die methodischen Entscheidungen im Rahmen der stat
 - [10. Statistischer Modellrahmen](#e10)
   - [10.1 Modellrahmen](#e10-1)
   - [10.2 Random-Effects-Struktur](#e10-2)
+  - [10.3 Zeitliche Abhängigkeit und Autokorrelation](#e10-3)
 - [11. Referenzgruppen und Kontraste](#e11)
 - [12. Aufbau der Modellhierarchie](#e12)
 - [13. Sensitivitätsanalysen](#e13)
@@ -50,8 +46,6 @@ Die Daten besitzen eine Panelstruktur. Beobachtungen desselben Kreises über ver
 ------------------------------------------------------------------------
 
 ## 2. Altersgruppenbildung {#e02}
-
-**Bezug zu anderen Entscheidungen:** [1. Datengrundlage und Untersuchungszeitraum](#e01).
 
 Die ursprünglichen Daten liegen überwiegend nach Einzelalter vor. Eine Zusammenfassung zu Altersgruppen reduziert die Anzahl der Beobachtungskategorien und kann die statistische Stabilität der Inzidenzen verbessern. Gleichzeitig gehen durch die Aggregation altersspezifische Informationen verloren.
 
@@ -301,7 +295,7 @@ Die konkreten Modellfamilien und die Abhängigkeitsstruktur werden in [Entscheid
 
 ## 10. Statistischer Modellrahmen {#e10}
 
-**Bezug zu anderen Entscheidungen:** [9. Modellierung der Zielvariable und Wahl der Modellfamilie](#e09).
+**Bezug zu anderen Entscheidungen:** [4. Zeitliche Auflösung und Periodisierung](#e04), [9. Modellierung der Zielvariable und Wahl der Modellfamilie](#e09), [12. Aufbau der Modellhierarchie](#e12).
 
 ### Hintergrund
 
@@ -324,17 +318,41 @@ Mögliche Spezifikationen:
 
 - Random Intercept auf Kreisebene
 - Zusätzlicher Random Intercept für Kreis-Altersgruppen-Kombinationen
-- Random Slopes
-- Alternative zeitliche und räumliche Kovarianzstrukturen
+- Random Slopes für ausgewählte erklärende Variablen
 
 Eine komplexere Random-Effects-Struktur ist nur sinnvoll, wenn sie statistisch identifizierbar und inhaltlich begründbar ist.
+
+### 10.3 Zeitliche Abhängigkeit und Autokorrelation {#e10-3}
+
+Aufgrund der wiederholten Beobachtungen innerhalb derselben Kreis-Altersgruppen-Kombination können zeitlich benachbarte Beobachtungen statistisch voneinander abhängig sein.
+
+Zeitliche Fixed Effects (z. B. Kalenderwochen oder epidemiologische Phasen) erfassen systematische Veränderungen des mittleren Inzidenzniveaus. Random Slopes können unterschiedliche zeitliche Entwicklungen zwischen Kreisen abbilden. Beide Ansätze erfassen jedoch nicht zwangsläufig die verbleibende zeitliche Autokorrelation.
+
+#### Alternativen und methodische Auswirkungen
+
+| Alternative | Vorteile | Einschränkungen |
+|------------------------|------------------------|------------------------|
+| Keine zusätzliche zeitliche Korrelationsstruktur | Geringe Modellkomplexität | Möglicherweise verbleibende zeitliche Autokorrelation |
+| AR(1)-Korrelationsstruktur | Sparsame Modellierung einer mit dem zeitlichen Abstand abnehmenden Korrelation bei positivem Korrelationsparameter | Spezifische Annahmen über die zeitliche Abhängigkeit |
+| Alternative zeitliche Kovarianzstrukturen (z. B. kontinuierliche AR(1)-Struktur) | Berücksichtigung unterschiedlicher zeitlicher Abstände bzw. flexiblerer Abhängigkeiten | Je nach Struktur höhere Modellkomplexität und zusätzliche Annahmen |
+| Cluster-robuste Standardfehler auf Kreisebene | Robustere Inferenz gegenüber Abhängigkeiten innerhalb der Kreise | Keine explizite Modellierung der zeitlichen Korrelation; setzt hinreichend unabhängige Cluster voraus |
+
+Die Eignung der Ansätze hängt von der zeitlichen Auflösung ab:
+
+- **Weekly Panel:** Die regelmäßigen Wochenabstände ermöglichen die Untersuchung der residualen Autokorrelation, beispielsweise anhand der Autokorrelationsfunktion (ACF). Fehlende Wochen sind bei der Definition der zeitlichen Abstände zu berücksichtigen.
+- **Phase Panel:** Die geringe Anzahl an Zeitpunkten sowie die unterschiedlichen Phasenlängen und zeitlichen Abstände erschweren die Diagnose und Modellierung der Autokorrelation. Eine AR(1)-Struktur auf Basis der Phasenreihenfolge setzt gleiche Abstände auf dieser Skala voraus und bildet tatsächliche Kalenderzeitabstände nicht unmittelbar ab.
+
+Cluster-robuste Standardfehler stellen eine mögliche Anpassung der statistischen Inferenz dar und können auch ergänzend zu einer expliziten Korrelationsstruktur eingesetzt werden. Räumliche Abhängigkeiten zwischen Kreisen sind davon gesondert zu beurteilen.
 
 ### Entscheidungsgrundlage
 
 - Datenstruktur
+- Zeitliche Auflösung
 - Verteilung der Zielvariable
 - Overdispersion
 - Abhängigkeiten innerhalb der Kreise
+- Zeitliche Autokorrelation der Residuen
+- Räumliche Abhängigkeiten zwischen Kreisen
 - Konvergenz und Singularität
 - Interpretierbarkeit
 - Ergebnisse der Modelldiagnostik
@@ -342,6 +360,8 @@ Eine komplexere Random-Effects-Struktur ist nur sinnvoll, wenn sie statistisch i
 ### Entscheidung und Begründung
 
 Ein LMM ist als Hauptmodell vorgesehen. Die endgültige Random-Effects- und Kovarianzstruktur wird anhand der Modellanpassung und Diagnostik beurteilt.
+
+Insbesondere wird geprüft, ob nach Berücksichtigung der Fixed und Random Effects eine zeitliche Autokorrelation verbleibt und ob eine zusätzliche zeitliche Korrelationsstruktur oder eine Anpassung der statistischen Inferenz erforderlich ist. Die Entscheidung erfolgt in Abhängigkeit von der gewählten zeitlichen Auflösung.
 
 [Zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
@@ -426,6 +446,7 @@ Die Ergebnisse können von Entscheidungen zur Datenaufbereitung, Variablendefini
 | Gewichtete vs. ungewichtete Modelle | Einfluss der Gewichtungsentscheidung | [8](#e08) |
 | Alternative Zielvariablen | Abhängigkeit von der gewählten Inzidenzskala | [9](#e09) |
 | Quasi-Poisson-Modell | Einfluss der Modellfamilie | [9](#e09) |
+| Alternative zeitliche Korrelationsstrukturen | Einfluss der Modellierung zeitlicher Abhängigkeiten | [10.3](#e10-3) |
 | Alternative Kovarianzschätzer | Robustheit der statistischen Inferenz | [10](#e10) |
 
 ### Bewertung der Robustheit
