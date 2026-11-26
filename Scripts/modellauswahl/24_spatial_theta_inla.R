@@ -57,7 +57,9 @@ BETA <- list(beta = list(fixed = FALSE, prior = "normal", param = c(1, 0.1)))
 N_SAMP <- 2000
 # Rechenfaeden: Mit mehreren Threads ist INLA nicht exakt reproduzierbar (DIC/WAIC und Posterior-Modus
 # aendern sich zwischen zwei Laeufen mit identischen Daten, externe Pruefung 26.11.2026). Standard daher "1:1"
-# (seriell, reproduzierbar). Schneller, aber nicht bitgenau: INLA_THREADS=4:1 Rscript Scripts/modellauswahl/24_spatial_theta_inla.R
+# (seriell, weitgehend reproduzierbar: ein zweiter serieller Lauf am 26.11.2026 war in 5 von 8 Wellen identisch,
+# in W1, W3 und W8 wich das DIC um bis zu 50 ab; Testschluesse, phi und Vorzeichen von dDIC/dWAIC blieben gleich).
+# Schneller, aber nicht bitgenau: INLA_THREADS=4:1 Rscript Scripts/modellauswahl/24_spatial_theta_inla.R
 INLA_THREADS <- Sys.getenv("INLA_THREADS", "1:1")
 
 fit_wave <- function(w, spec) {
