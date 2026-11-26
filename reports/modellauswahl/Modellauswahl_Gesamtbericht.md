@@ -80,7 +80,7 @@ Alle gerechneten Ansätze und Sackgassen im Detail: [Abschnitt 8](#8-der-weg-zum
 
 ![A1: Kreistyp-Effekt je Altersgruppe und Welle](../../results/modellauswahl/figures/fig27_hauptmodell_kreistyp_alter.png)
 
-**Lesebeispiel W5:** Bei gleichem Bundesland und gleichen Kovariaten hat ein dünn besiedelter Kreis gegenüber einer Großstadt bei den 0–5-Jährigen ein Inzidenzverhältnis (IRR) von **0,90** (10 % niedriger), bei 80+ von **1,15** (15 % höher). Genau das meint „der Zusammenhang unterscheidet sich zwischen den Altersgruppen“. Die Striche sind unkorrigierte 95 %-KI **einzelner** IRR; der Test in der Panel-Überschrift prüft für alle drei Kreistypen gemeinsam, ob der Effekt in allen Altersgruppen gleich ist (18 Kontraste). Die Punktschätzer veranschaulichen das Muster; welche Altersgruppen sich im Einzelnen unterscheiden, ist nicht eigens getestet. Ausführliche Leseanleitung: [Abschnitt 10](#10-ergebnisse-von-a1-vorläufig).
+**Lesebeispiel W5:** Bei gleichem Bundesland und gleichen Kovariaten hat ein dünn besiedelter Kreis gegenüber einer Großstadt bei den 0–5-Jährigen ein Inzidenzverhältnis (IRR) von **0,90** (10 % niedriger), bei 80+ von **1,15** (15 % höher). Genau das meint „der Zusammenhang unterscheidet sich zwischen den Altersgruppen“. Die Striche sind unkorrigierte 95 %-KI **einzelner** IRR; der Test in der Panel-Überschrift prüft für alle drei Kreistypen gemeinsam, ob der Effekt in allen Altersgruppen gleich ist (18 Kontraste). Die Punktschätzer veranschaulichen das Muster. Als einzelner, **explorativer** Kontrast ist bisher nur 80+ gegen 0–5 berechnet: In W5 ist das Verhältnis der beiden IRR (Typ 4) **1,28 [1,16; 1,41]** (unkorrigiertes 95 %-KI, A1). Das ist ein eigener Kontrast und nicht Teil des Haupttests mit 18 Kontrasten; andere Paare sind nicht getestet ([10](#10-ergebnisse-von-a1-vorläufig)). Ausführliche Leseanleitung: [Abschnitt 10](#10-ergebnisse-von-a1-vorläufig).
 
 **Test Kreistyp × Alter je Welle, Holm-korrigiert, in vier Spezifikationen** ([`main_tests.csv`](../../results/modellauswahl/tables/main_tests.csv), [`inla_tests.csv`](../../results/modellauswahl/tables/inla_tests.csv), [`rank2_tests.csv`](../../results/modellauswahl/tables/rank2_tests.csv); INLA seriell gerechnet, [3.3](#33-reproduzierbarkeit-geprüft)):
 
@@ -136,9 +136,11 @@ Alle gerechneten Ansätze und Sackgassen im Detail: [Abschnitt 8](#8-der-weg-zum
 
 ### 0.5 Was die Gruppe entscheiden muss
 
-**Vor der Zwischenpräsentation:**
-1. **Modell:** A1 als Hauptmodell, A1 mit zwei Kreis-Faktoren (Rang 2), Option III (A1 + Raumeffekt, INLA) oder Option D (ein Modell über alle Wellen)? Vor- und Nachteile in [11.3](#113-option-iii-a1-mit-räumlichem-kreis-effekt-inla), [11.4](#114-option-d-ein-modell-über-alle-wellen) und [11.5](#115-kandidat-a1-mit-zwei-kreis-faktoren-rang-2).
-2. **Festlegungen bestätigen:** Wellen statt Wochen (vgl. das Wochenmodell in [`reports/Modellwahl.md`](../Modellwahl.md)), Kreistyp statt Dichte, Bundesland fest.
+**Vor der Zwischenpräsentation**, in dieser Reihenfolge. Die Modelle beantworten verschiedene Fragen und stehen deshalb nicht alle auf einer Liste.
+1. **Hauptanalyse innerhalb einer Welle: A1 oder Rang 2?** Beide schätzen je Welle, ob sich der Kreistyp-Effekt zwischen den Altersgruppen unterscheidet. Rang 2 passt nach AIC deutlich besser, ändert die Kreistyp-Effekte aber kaum und hat lokale Optima (W2) ([11.5](#115-kandidat-a1-mit-zwei-kreis-faktoren-rang-2)). Das nicht gewählte Modell wird Sensitivitätsanalyse.
+2. **Verläufe über die Wellen: Option D für die formale Antwort?** Option D beantwortet eine andere Frage: Ändert sich das Altersmuster über die Wellen (ein Test, p ≈ 10⁻¹⁶)? Zu entscheiden ist, ob wir diese Frage formal mit D beantworten oder nur beschreibend über die acht Wellenmodelle ([11.4](#114-option-d-ein-modell-über-alle-wellen)).
+3. **Raumeffekt: wie Option III berichten?** Option III ist die räumliche Sensitivitätsanalyse zu A1: gleiche Schlüsse außer W8, DIC/WAIC ohne klares Bild ([11.3](#113-option-iii-a1-mit-räumlichem-kreis-effekt-inla)). Zu entscheiden ist, ob sie im Anhang steht oder im Hauptteil.
+4. **Festlegungen bestätigen:** Wellen statt Wochen (vgl. das Wochenmodell in [`reports/Modellwahl.md`](../Modellwahl.md)), Kreistyp statt Dichte, Bundesland fest.
 
 **Die zwei inhaltlichen Schwerpunkte der Diskussion:**
 1. **Kovariatensatz:** Welche Merkmale sind Confounder? Vorschlag: über einen DAG festlegen statt über CV/AIC; danach A1 mit wenigen inhaltlich begründeten Kovariatensätzen vergleichen ([12](#12-kovariaten-offene-baustelle)).
@@ -179,7 +181,7 @@ Dr. Klima hat am 12.11.2026 die Altersgruppen (grob 7, fein 13) und eine nicht a
 |---|---|
 | ob sich der Kreistyp-Effekt zwischen Altersgruppen unterscheidet (je Welle, ein Test mit 18 Kontrasten, Holm über 8 Wellen) | **Ursachen** (z. B. Schultests, Kitas, Pflegeheime): ökologische Analyse auf Kreisebene, Aussagen über Kreise, nicht Personen |
 | Richtung und Größe des Effekts je Kreistyp × Altersgruppe × Welle (IRR gegenüber Großstadt, **im selben Bundesland** und **bei gleichen Kovariaten**) | Infektionen: modelliert wird die **gemeldete** Inzidenz (Testumfang und Teststrategien ändern sich nach Zeit und Alter) |
-| wo die Unterschiede zwischen Altersgruppen am deutlichsten sichtbar sind (Punktschätzer: 0–5 vs. Erwachsene, 80+ in W2/W3; welche Gruppen den Test tragen, ist nicht eigens getestet) | ob sich das Muster **zwischen** den Wellen signifikant ändert (nur durch Vergleich der Abbildungen → Option D) |
+| wo die Unterschiede zwischen Altersgruppen am deutlichsten sichtbar sind (Punktschätzer: 0–5 vs. Erwachsene, 80+ in W2/W3; explorativ berechnet ist nur der Kontrast 80+ gegen 0–5) | ob sich das Muster **zwischen** den Wellen signifikant ändert (nur durch Vergleich der Abbildungen → Option D) |
 | ob der Kreistyp überhaupt mit der Inzidenz zusammenhängt, nur über die einzelnen Koeffizienten (der Haupttest prüft nur *Unterschiede zwischen Altersgruppen*; hätten alle Altersgruppen IRR 1,2, wäre er nicht signifikant) | Timing innerhalb einer Welle (→ Ankunftszeit-Analyse) |
 
 ---
@@ -279,7 +281,7 @@ Skripte [`01_kreis_key.R`](../../Scripts/modellauswahl/01_kreis_key.R) bis [`07_
 | Gebietsstand | **400 Kreise**; die 12 Berliner Bezirke (AGS 11001–11012) zu einem Kreis 11000 zusammengefasst (Fälle und Bevölkerung addiert, Inzidenz neu berechnet) | Strukturdaten gibt es für Berlin nur als Ganzes |
 | Verknüpfung | immer über den 5-stelligen AGS, nie über den Namen | 44 Kreisnamen kommen doppelt vor (z. B. Stadt/Landkreis Ansbach) |
 | Zeitraum | 2020–2023 laut Protokoll: 209 Wochen (30.12.2019–25.12.2023; 2020 hat 53 Wochen); 2024 abgeschnitten | |
-| Ergebnis | [`covid_long.rds`](../../data_processed/modellauswahl/covid_long.rds): 400 Kreise × 81 Altersjahre (0–79, 80+) × 209 Wochen = **6.771.600 Zeilen** | Kontrolle gegen die gelieferte RKI-Inzidenz mit den Fällen **mit** Altersangabe (die RKI-Inzidenz enthält die Fälle ohne Alter nicht): Verhältnis 0,99986–1,00014 (1.–99. Perzentil); `02_clean_covid.R` bricht bei mehr als 0,1 % Abweichung ab. Die Wirkung der verteilten Fälle ohne Alter wird getrennt ausgegeben (Kontrolle verschärft am 26.11.2026, Daten unverändert) |
+| Ergebnis | [`covid_long.rds`](../../data_processed/modellauswahl/covid_long.rds): 400 Kreise × 81 Altersjahre (0–79, 80+) × 209 Wochen = **6.771.600 Zeilen** | Kontrolle gegen die gelieferte RKI-Inzidenz mit den Fällen **mit** Altersangabe (die RKI-Inzidenz enthält die Fälle ohne Alter nicht): Das Skript prüft **Quantile**, nicht jede Zelle: 1., 50. und 99. Perzentil des Verhältnisses eigene/RKI-Inzidenz liegen bei 0,99986 / 1,00000 / 1,00014, und `02_clean_covid.R` bricht ab, wenn eines davon um mehr als 0,1 % von 1 abweicht. Einzelne Zellen können stärker abweichen: Von 3.584.203 vergleichbaren Zellen sind es 378 (0,01 %) mit mehr als 0,1 %, höchstens 0,46 %, keine mit mehr als 1 % (nachgerechnet am 26.11.2026). Die Wirkung der verteilten Fälle ohne Alter wird getrennt ausgegeben (Kontrolle verschärft am 26.11.2026, Daten unverändert) |
 | Fallzahlen | 38,85 Mio. Fälle mit Altersangabe (2020: 1,78 Mio.; 2021: 5,44 Mio.; **2022: 30,17 Mio.**; 2023: 1,46 Mio.); keine negativen Fallzahlen | |
 | **Fälle ohne Altersangabe** | 33.042 Fälle (0,085 %) je Kreis × Woche **proportional** nach der Altersverteilung der Fälle mit bekanntem Alter derselben Kreis-Woche verteilt; Rohwerte in `covid_age_unknown.rds`; 2 Fälle in Kreis-Wochen ohne bekannte Fälle bleiben unverteilt | national selten, aber stark konzentriert: Vechta W5 16 %, Leer W5 10 %, Herne W3 5 % der Fälle. Ohne Verteilung wären die altersspezifischen Inzidenzen dieser Kreise unterschätzt |
 | Sensitivität | ohne Verteilung ([`14_sens_age_unknown.R`](../../Scripts/modellauswahl/14_sens_age_unknown.R), m1, 168 Kreistyp-Koeffizienten): log-IRR ändern sich im Mittel um 0,0008 (max. 0,0088, W5); Signifikanz ändert sich bei 2 Grenzfällen | → unkritisch |
@@ -958,7 +960,15 @@ glmmTMB(cases ~ grp + grp:kt + grp:state + grp:(z_sgb2 + z_p65 + z_ltour)
 
 ![A1: Kreistyp-Effekt je Altersgruppe und Welle](../../results/modellauswahl/figures/fig27_hauptmodell_kreistyp_alter.png)
 
-**Wie man die Abbildung liest:** ein Panel je Welle (mit Zeitraum); x = Altersgruppe; y = Inzidenzverhältnis gegenüber der kreisfreien Großstadt (log-Skala, gestrichelt = 1 = kein Unterschied); drei Farben = Typ 2 (städtisch, gelb), Typ 3 (ländlich mit Verdichtung, hellblau), Typ 4 (dünn besiedelt, dunkelblau); Striche = 95 %-KI (unkorrigiert). In der Panel-Überschrift: Wald-Test Kreistyp × Alter (18 Kontraste) mit Holm-p. **Ein Punkt bei 0,8** heißt: In dieser Welle und Altersgruppe ist die Inzidenz in Kreisen dieses Typs 20 % niedriger als in Großstädten **im selben Bundesland und bei gleichen Kovariaten**. Der **Unterschied zwischen zwei Altersgruppen** ist das Verhältnis der IRR, z. B. W5, Typ 4: 80+ 1,15 / 0–5 0,90 ≈ 1,28. **Wichtig:** Die Striche sind unkorrigierte 95 %-KI **einzelner** IRR. Der Test in der Überschrift prüft dagegen gemeinsam für alle drei Kreistypen, ob der Effekt in allen Altersgruppen gleich ist; er sagt nicht, *welche* Altersgruppen sich unterscheiden. Dafür bräuchte es eigene Kontrasttests (z. B. 0–5 gegen 18–39), die noch nicht gerechnet sind.
+**Wie man die Abbildung liest:** ein Panel je Welle (mit Zeitraum); x = Altersgruppe; y = Inzidenzverhältnis gegenüber der kreisfreien Großstadt (log-Skala, gestrichelt = 1 = kein Unterschied); drei Farben = Typ 2 (städtisch, gelb), Typ 3 (ländlich mit Verdichtung, hellblau), Typ 4 (dünn besiedelt, dunkelblau); Striche = 95 %-KI (unkorrigiert). In der Panel-Überschrift: Wald-Test Kreistyp × Alter (18 Kontraste) mit Holm-p. **Ein Punkt bei 0,8** heißt: In dieser Welle und Altersgruppe ist die Inzidenz in Kreisen dieses Typs 20 % niedriger als in Großstädten **im selben Bundesland und bei gleichen Kovariaten**. Der **Unterschied zwischen zwei Altersgruppen** ist das Verhältnis der IRR, z. B. W5, Typ 4: 80+ 1,15 / 0–5 0,90 ≈ 1,28. **Wichtig:** Die Striche sind unkorrigierte 95 %-KI **einzelner** IRR. Der Test in der Überschrift prüft dagegen gemeinsam für alle drei Kreistypen, ob der Effekt in allen Altersgruppen gleich ist; er sagt nicht, *welche* Altersgruppen sich unterscheiden. Dafür braucht es eigene Kontrasttests. Berechnet ist bisher nur einer (Tabelle unten).
+
+**Explorativer Kontrast 80+ gegen 0–5** (Typ 4 „dünn besiedelt“, A1). Er ist in [`25_rank2_tmb.R`](../../Scripts/modellauswahl/25_rank2_tmb.R) mitberechnet: [`rank2_alt_jung.csv`](../../results/modellauswahl/tables/rank2_alt_jung.csv), Zeilen `model = A1`, auch für Typ 2/3 und für Rang 2. Gezeigt wird das Verhältnis IRR(80+) / IRR(0–5) mit unkorrigiertem 95 %-KI aus der gemeinsamen Kovarianz in A1:
+
+| | W1 | W2 | W3 | W4 | W5 | W6 | W7 | W8 |
+|---|---|---|---|---|---|---|---|---|
+| 80+ / 0–5 | 1,08 [0,67; 1,76] | 1,36\* [1,12; 1,64] | 1,30\* [1,08; 1,56] | 1,13 [0,98; 1,30] | 1,28\* [1,16; 1,41] | 1,40\* [1,24; 1,57] | 1,22\* [1,08; 1,39] | 1,20\* [1,02; 1,40] |
+
+Lesart: > 1 heißt, der Stadt–Land-Unterschied fällt bei 80+ „ländlicher“ aus als bei 0–5. In 6 von 8 Wellen schließt das KI die 1 aus. Das ist **ein einzelner, nachträglich gewählter Kontrast ohne Korrektur für multiples Testen** und ersetzt nicht den Haupttest (18 Kontraste, Holm). Er zeigt nur, dass das Paar mit dem sichtbarsten Unterschied auch einzeln getestet deutlich ausfällt. Andere Paare (z. B. 0–5 gegen 18–39) sind nicht gerechnet. Mit zwei Kreis-Faktoren sind die Verhältnisse bis auf W1 (1,15) identisch.
 
 **Was man sieht:**
 - **W1:** große Unsicherheit (wenige Fälle, 71 Kreise ohne Fall bei 0–5), ländliche Kreise eher niedriger, aber **kein Altersunterschied** (p = 0,72).
@@ -1000,7 +1010,7 @@ Insgesamt 54 von 168 Kreistyp-Koeffizienten signifikant (95 %, unkorrigiert).
 
 **Antworten auf die Teilfragen (vorläufig, rein beschreibend):**
 - **F1:** Ja, adjustiert gibt es Kreistyp-Unterschiede; sie sind meist moderat (IRR 0,6–1,3).
-- **F2:** Der Kreistyp-Effekt **unterscheidet sich zwischen den Altersgruppen** in W2–W6 (A1, Holm; W3–W6 in allen geprüften Spezifikationen, W2 nicht mit zwei Kreis-Faktoren), W8 spezifikationsabhängig, W1 und W7 nicht. Am deutlichsten sichtbar (Punktschätzer) sind die Unterschiede zwischen **kleinen Kindern und Erwachsenen** und bei den **Älteren in W2/W3**; welche Altersgruppen den Test tragen, ist ohne Kontrasttests nicht belegt.
+- **F2:** Der Kreistyp-Effekt **unterscheidet sich zwischen den Altersgruppen** in W2–W6 (A1, Holm; W3–W6 in allen geprüften Spezifikationen, W2 nicht mit zwei Kreis-Faktoren), W8 spezifikationsabhängig, W1 und W7 nicht. Am deutlichsten sichtbar (Punktschätzer) sind die Unterschiede zwischen **kleinen Kindern und Erwachsenen** und bei den **Älteren in W2/W3**; Der explorative Kontrast 80+ gegen 0–5 (Typ 4) schließt in 6 von 8 Wellen die 1 aus (unkorrigiert, Tabelle oben); weitere Paare sind nicht getestet.
 - **F3:** Das Altersmuster ändert sich über die Wellen (Erwachsene in ländlichen Kreisen höher in W2–W4, dann nahe 1; 0–5 niedriger ab W5). Formal bestätigt in Option D (Typ × Alter × Welle, p ≈ 10⁻¹⁶).
 - **Deutung** (Kita/Schule, Testen in Pflegeheimen, Kontaktmuster, Testverhalten) formulieren wir als Gruppe; mit diesen Daten ist sie nicht prüfbar.
 
@@ -1245,7 +1255,7 @@ Damit niemand dieselben Wege noch einmal geht:
 | Rang-2-Modell mit nur einem Startwert | lokale Optima (W2: zwei Lösungen, Abstand der Loglikelihood 15, Wald-p 0,004 bzw. 0,039) | 5 Startwerte, Wahl nach Loglikelihood | 11.5, Skript 25 |
 | `13_gam_age.R` im Pipeline-Lauf ohne `BOOT_B` | ersetzte die gespeicherten Bootstrap-Bänder still durch modellbasierte | `BOOT_B` Pflicht, sonst Abbruch | 3.2 |
 | fig05 mit Log-Achse ab 1 | Wochen ohne Fälle fielen still aus der Abbildung | Pseudo-log-Achse | 6.2 |
-| Inzidenz-Kontrolle mit allen Fällen | die RKI-Inzidenz enthält die Fälle ohne Alter nicht → Kontrolle unscharf | Kontrolle mit den Fällen mit Altersangabe, Abbruch bei > 0,1 % | 4.1 |
+| Inzidenz-Kontrolle mit allen Fällen | die RKI-Inzidenz enthält die Fälle ohne Alter nicht → Kontrolle unscharf | Kontrolle mit den Fällen mit Altersangabe; Abbruch, wenn das 1., 50. oder 99. Perzentil des Verhältnisses um > 0,1 % von 1 abweicht (Quantilprüfung) | 4.1 |
 | **nicht gerechnet:** Lasso, GEE mit austauschbarer Korrelation | `glmnet`/`geepack` nicht installiert | Ersatz: PCA/CV, GEE unabhängig | Phase 3 |
 | **nicht gerechnet:** Untererfassungsmodell (Bayes, Statistik V) | braucht Test-/Hospitalisierungs-/Sterbedaten je Kreis × Alter | Ausblick | Phase 3 |
 | **nicht gerechnet:** Wochen-Zeitreihenmodell | siehe Abschnitt 5.2 | Wellen | – |
@@ -1280,7 +1290,12 @@ Damit niemand dieselben Wege noch einmal geht:
 ## 15. Offene Fragen
 
 **In der Gruppe (vor der Zwischenpräsentation)**
-0. **Modellentscheidung:** A1, Option III oder Option D als Hauptmodell (Übersicht in [0.2](#02-wie-es-zum-vorschlag-a1-kam) und [0.5](#05-was-die-gruppe-entscheiden-muss))? Und den Kovariatensatz festlegen (Punkt 4); danach A1 mit wenigen inhaltlich begründeten Kovariatensätzen vergleichen (bisher nur an m1 geprüft).
+0. **Modellentscheidung**, in drei getrennten Schritten ([0.5](#05-was-die-gruppe-entscheiden-muss)):
+   - Hauptanalyse innerhalb einer Welle: A1 oder Rang 2?
+   - Verläufe über die Wellen: formal mit Option D oder nur beschreibend?
+   - Raumeffekt: Option III im Anhang oder im Hauptteil?
+   
+   Danach den Kovariatensatz festlegen (Punkt 4) und das gewählte Modell mit wenigen inhaltlich begründeten Kovariatensätzen vergleichen (bisher nur an m1 geprüft).
 1. **W2 und W8:** Vorschlag: als „spezifikationsabhängig“ berichten, nicht als signifikant. W8: A1 0,040, INLA ohne Raumeffekt 0,075, mit BYM2 0,13, Rang 2 0,024. W2: signifikant außer mit Rang 2 (0,12, lokale Optima).
 2. **Pearson-Dispersion 40–59:** Die Erklärung (Kreis-Faktor aus dieser Gruppe geschätzt) ist plausibel, aber nicht geprüft → Diagnose mit simulierten Residuen nachholen ([11.1](#111-passt-a1-zu-den-daten)).
 3. **Robustheit:** Wie formulieren wir Altersschema und Raumeffekt, ohne „stabil“ zu überziehen?
@@ -1419,7 +1434,7 @@ Ausführungsreihenfolge in [`run_all.R`](../../Scripts/modellauswahl/run_all.R) 
 | Skript | Was es tut | Ausgabe |
 |---|---|---|
 | `01_kreis_key.R` | Kreisschlüssel, Berlin zusammengefasst → 400 Kreise | `kreis_key.rds`, `key_rki_to_ags.rds` |
-| `02_clean_covid.R` | RKI-Fälle und Bevölkerung, Fälle ohne Alter verteilen, Kontrolle gegen die RKI-Inzidenz (Abbruch bei > 0,1 % Abweichung) | `covid_long.rds`, `covid_age_unknown.rds` |
+| `02_clean_covid.R` | RKI-Fälle und Bevölkerung, Fälle ohne Alter verteilen, Kontrolle gegen die RKI-Inzidenz (Abbruch, wenn ein Perzentil um > 0,1 % abweicht) | `covid_long.rds`, `covid_age_unknown.rds` |
 | `03_audit_structural.R` | Abdeckung der Strukturdateien | `variable_audit.csv` |
 | `04_clean_structural.R` | Strukturindikatoren je Kreis × Jahr und Mittelwert | `struct_kreis_year.rds`, `struct_kreis_const.rds` |
 | `05_check_population.R` | RKI- vs. GENESIS-Bevölkerung | `pop_check_*.csv`, `pop_check_rel_diff.png` |
