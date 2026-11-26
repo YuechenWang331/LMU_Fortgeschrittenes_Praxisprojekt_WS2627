@@ -273,7 +273,7 @@ numeric_predictors <- setdiff(
 )
 
 correlation_rows <- bind_rows(lapply(numeric_predictors, function(pred) {
-  bind_rows(lapply(c("cases", "cases_per_100k"), function(outcome) {
+  bind_rows(lapply("cases_per_100k", function(outcome) {
     x <- suppressWarnings(as.numeric(predictor_data[[pred]]))
     y <- suppressWarnings(as.numeric(predictor_data[[outcome]]))
     ok <- is.finite(x) & is.finite(y)
@@ -315,25 +315,31 @@ print(category_rows, n = Inf)
 
 results_dir <- file.path(project_root, "results/varlist_analysis")
 dir.create(results_dir, recursive = TRUE, showWarnings = FALSE)
-write.csv(coverage, file.path(results_dir, "kreis_structural_coverage.csv"), row.names = FALSE)
-write.csv(correlation_rows, file.path(results_dir, "kreis_variablen_korrelationen.csv"), row.names = FALSE)
-write.csv(category_rows, file.path(results_dir, "kreis_category_summaries.csv"), row.names = FALSE)
-saveRDS(predictor_data, file.path(results_dir, "kreis_analysis_predictor_data.rds"))
+saveRDS(coverage, file.path(results_dir, "kreis_structural_coverage.rds"))
+saveRDS(correlation_rows, file.path(results_dir, "kreis_variablen_korrelationen.rds"))
+saveRDS(category_rows, file.path(results_dir, "kreis_category_summaries.rds"))
 
-for (outcome_name in c("cases", "cases_per_100k")) {
+for (outcome_name in "cases_per_100k") {
   top_predictors <- correlation_rows %>%
     filter(outcome == outcome_name, is.finite(spearman_rho)) %>%
     slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
     pull(predictor)
 
   for (var_name in top_predictors) {
-    p <- ggplot(predictor_data, aes(x = .data[[var_name]], y = .data[[outcome_name]])) +
-      geom_point(alpha = 0.35, size = 1.5) +
-      geom_smooth(method = "lm", formula = y ~ x, se = TRUE, colour = "steelblue") +
+    p <- ggplot(predictor_data,
+                aes(x = .data[[var_name]],
+                    y = .data[[outcome_name]],
+                    colour = location_type)) +
+      geom_point(alpha = 0.65, size = 1.8) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                  colour = "black", linewidth = 0.7) +
+      facet_wrap(~year, nrow = 1) +
+      scale_colour_brewer(palette = "Set1", na.value = "grey70") +
       labs(
         title = paste("Kreisbeziehung:", var_name),
         x = var_name,
-        y = if (outcome_name == "cases") "COVID-19-Fälle je Jahr und Kreis" else "Fälle je 100.000 Einwohner"
+        y = if (outcome_name == "cases") "COVID-19-Fälle je Jahr und Kreis" else "Fälle je 100.000 Einwohner",
+        colour = "Raumtyp"
       ) +
       theme_minimal(base_size = 11)
 
@@ -424,7 +430,7 @@ age_numeric_predictors <- setdiff(
 # Pearson and Spearman coefficients are calculated separately within every age
 # band, so differences in strength or direction can be compared directly.
 age_correlation_rows <- bind_rows(lapply(age_numeric_predictors, function(pred) {
-  bind_rows(lapply(c("cases", "cases_per_100k"), function(outcome) {
+  bind_rows(lapply(c("cases_per_100k"), function(outcome) {
     bind_rows(lapply(sort(unique(age_predictor_data$age_band)), function(ab) {
       d <- age_predictor_data %>% filter(age_band == ab)
       x <- suppressWarnings(as.numeric(d[[pred]]))
@@ -471,37 +477,781 @@ print(age_correlation_rows %>%
 print("=== Altersgruppenspezifische category summaries ===")
 print(age_category_rows, n = Inf)
 
-write.csv(age_correlation_rows,
-          file.path(results_dir, "alter_kreis_variablen_korrelationen.csv"),
-          row.names = FALSE)
-write.csv(age_category_rows,
-          file.path(results_dir, "alter_kreis_category_summaries.csv"),
-          row.names = FALSE)
-saveRDS(age_predictor_data,
-        file.path(results_dir, "alter_kreis_analysis_predictor_data.rds"))
+# ------------------------------------------------------------------------------
+# 35. Population-normalized structural variables
+# ------------------------------------------------------------------------------
 
-# Create scatterplots for the strongest standardized relationships in each age band.
-for (ab in sort(unique(age_correlation_rows$age_band))) {
-  top_predictors <- age_correlation_rows %>%
+# Instead of comparing absolute numbers of employees, commuters, tourists,
+# or social-service users, this section expresses each structural variable
+# relative to the total population of the Kreis and year.
+#
+# Example: structural_count = 5,000 and population = 100,000 becomes
+#          5.0 percent of the Kreis population.
+#
+# For variables such as unemployment, this is a share of the total population,
+# not an official unemployment rate. An official rate would require a separate
+# labour-force denominator.
+
+structural_metric_names <- setdiff(names(structural_wide), c("geo_code", "year"))
+
+normalized_all_age_data <- predictor_data %>%
+  mutate(across(
+    all_of(structural_metric_names),
+    ~ if_else(is.finite(population) & population > 0,
+              100 * .x / population,
+              NA_real_),
+    .names = "{.col} | share_pct"
+  ))
+
+normalized_predictors_all_age <- grep("\\| share_pct$", names(normalized_all_age_data), value = TRUE)
+
+normalized_correlation_all_age <- bind_rows(lapply(normalized_predictors_all_age, function(pred) {
+  bind_rows(lapply(c("cases_per_100k"), function(outcome) {
+    x <- suppressWarnings(as.numeric(normalized_all_age_data[[pred]]))
+    y <- suppressWarnings(as.numeric(normalized_all_age_data[[outcome]]))
+    ok <- is.finite(x) & is.finite(y)
+    if (sum(ok) < 3) return(tibble::tibble())
+
+    pearson <- suppressWarnings(cor.test(x[ok], y[ok], method = "pearson"))
+    spearman <- suppressWarnings(cor.test(x[ok], y[ok], method = "spearman", exact = FALSE))
+
+    tibble(
+      predictor = pred,
+      outcome = outcome,
+      n = sum(ok),
+      pearson_r = unname(pearson$estimate),
+      pearson_p = pearson$p.value,
+      spearman_rho = unname(spearman$estimate),
+      spearman_p = spearman$p.value
+    )
+  }))
+})) %>% arrange(outcome, desc(abs(spearman_rho)))
+
+normalized_category_all_age <- bind_rows(lapply(
+  c("kreistyp", "location_type", "administrative_type"),
+  function(cat_col) {
+    normalized_all_age_data %>%
+      filter(!is.na(.data[[cat_col]]), is.finite(cases_per_100k)) %>%
+      group_by(category = cat_col, level = as.character(.data[[cat_col]])) %>%
+      summarise(
+        n = n(),
+        mean_cases = mean(cases, na.rm = TRUE),
+        mean_cases_per_100k = mean(cases_per_100k, na.rm = TRUE),
+        median_cases_per_100k = median(cases_per_100k, na.rm = TRUE),
+        .groups = "drop"
+      )
+  }
+))
+
+print("=== Population-normalized structural associations: all ages ===")
+print(normalized_correlation_all_age %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+
+# Apply the same normalization within the age-band panel. The age-specific
+# population remains the outcome denominator, while structural variables use
+# the total Kreis population (annual_population), preventing age-size confounding.
+age_normalized_data <- age_predictor_data %>%
+  left_join(annual_population, by = c("geo_code", "year")) %>%
+  rename(kreis_population = population.y,
+         age_band_population = population.x)
+
+age_normalized_data <- age_normalized_data %>%
+  mutate(across(
+    all_of(structural_metric_names),
+    ~ if_else(is.finite(kreis_population) & kreis_population > 0,
+              100 * .x / kreis_population,
+              NA_real_),
+    .names = "{.col} | share_pct"
+  ))
+
+normalized_predictors_age <- grep("\\| share_pct$", names(age_normalized_data), value = TRUE)
+
+normalized_correlation_age <- bind_rows(lapply(normalized_predictors_age, function(pred) {
+  bind_rows(lapply(c("cases_per_100k"), function(outcome) {
+    bind_rows(lapply(sort(unique(age_normalized_data$age_band)), function(ab) {
+      d <- age_normalized_data %>% filter(age_band == ab)
+      x <- suppressWarnings(as.numeric(d[[pred]]))
+      y <- suppressWarnings(as.numeric(d[[outcome]]))
+      ok <- is.finite(x) & is.finite(y)
+      if (sum(ok) < 3) return(tibble::tibble())
+
+      pearson <- suppressWarnings(cor.test(x[ok], y[ok], method = "pearson"))
+      spearman <- suppressWarnings(cor.test(x[ok], y[ok], method = "spearman", exact = FALSE))
+
+      tibble(
+        age_band = ab,
+        predictor = pred,
+        outcome = outcome,
+        n = sum(ok),
+        pearson_r = unname(pearson$estimate),
+        pearson_p = pearson$p.value,
+        spearman_rho = unname(spearman$estimate),
+        spearman_p = spearman$p.value
+      )
+    }))
+  }))
+})) %>% arrange(age_band, outcome, desc(abs(spearman_rho)))
+
+normalized_category_age <- bind_rows(lapply(
+  c("kreistyp", "location_type", "administrative_type"),
+  function(cat_col) {
+    age_normalized_data %>%
+      filter(!is.na(.data[[cat_col]]), is.finite(cases_per_100k)) %>%
+      group_by(age_band, category = cat_col,
+               level = as.character(.data[[cat_col]])) %>%
+      summarise(
+        n = n(),
+        mean_cases = mean(cases, na.rm = TRUE),
+        mean_cases_per_100k = mean(cases_per_100k, na.rm = TRUE),
+        median_cases_per_100k = median(cases_per_100k, na.rm = TRUE),
+        .groups = "drop"
+      )
+  }
+))
+
+print("=== Population-normalized structural associations: by age band ===")
+print(normalized_correlation_age %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+
+saveRDS(normalized_correlation_all_age,
+        file.path(results_dir, "normalized_kreis_variablen_korrelationen.rds"))
+saveRDS(normalized_category_all_age,
+        file.path(results_dir, "normalized_kreis_category_summaries.rds"))
+saveRDS(normalized_correlation_age,
+        file.path(results_dir, "normalized_alter_kreis_variablen_korrelationen.rds"))
+saveRDS(normalized_category_age,
+        file.path(results_dir, "normalized_alter_kreis_category_summaries.rds"))
+saveRDS(normalized_all_age_data,
+        file.path(results_dir, "normalized_kreis_analysis_predictor_data.rds"))
+saveRDS(age_normalized_data,
+        file.path(results_dir, "normalized_alter_kreis_analysis_predictor_data.rds"))
+
+# All-age scatterplots: strongest population-normalized predictors.
+for (outcome_name in "cases_per_100k") {
+  top_predictors <- normalized_correlation_all_age %>%
+    filter(outcome == outcome_name, is.finite(spearman_rho)) %>%
+    slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
+    pull(predictor)
+
+  for (var_name in top_predictors) {
+    p <- ggplot(normalized_all_age_data,
+                aes(x = .data[[var_name]], y = .data[[outcome_name]],
+                    colour = location_type)) +
+      geom_point(alpha = 0.65, size = 1.8) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                  colour = "black", linewidth = 0.7) +
+      facet_wrap(~year, nrow = 1) +
+      scale_colour_brewer(palette = "Set1", na.value = "grey70") +
+      labs(
+        title = paste("Population-normalized Kreisbeziehung:", var_name),
+        x = "Share of the total Kreis population (%)",
+        y = if (outcome_name == "cases") "COVID-19-Fälle je Jahr und Kreis" else "Fälle je 100.000 Einwohner",
+        colour = "Jahr"
+      ) +
+      theme_minimal(base_size = 11)
+
+    ggsave(
+      file.path(results_dir, paste0("normalized_", outcome_name, "_", make.names(substr(var_name, 1, 70)), ".png")),
+      p, width = 8, height = 5, dpi = 150
+    )
+  }
+}
+
+# Age-specific scatterplots: strongest population-normalized standardized predictors.
+for (ab in sort(unique(normalized_correlation_age$age_band))) {
+  top_predictors <- normalized_correlation_age %>%
     filter(age_band == ab, outcome == "cases_per_100k", is.finite(spearman_rho)) %>%
     slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
     pull(predictor)
 
   for (var_name in top_predictors) {
-    d <- age_predictor_data %>% filter(age_band == ab)
-    p <- ggplot(d, aes(x = .data[[var_name]], y = cases_per_100k)) +
-      geom_point(alpha = 0.35, size = 1.5) +
-      geom_smooth(method = "lm", formula = y ~ x, se = TRUE, colour = "steelblue") +
+    d <- age_normalized_data %>% filter(age_band == ab)
+    p <- ggplot(d, aes(x = .data[[var_name]], y = cases_per_100k,
+                        colour = location_type)) +
+      geom_point(alpha = 0.65, size = 1.8) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                  colour = "black", linewidth = 0.7) +
+      facet_wrap(~year, nrow = 1) +
+      scale_colour_brewer(palette = "Set1", na.value = "grey70") +
       labs(
-        title = paste("Alter", ab, "– Kreisbeziehung:", var_name),
-        x = var_name,
-        y = "Fälle je 100.000 Einwohner"
+        title = paste("Alter", ab, "– normalized Kreisbeziehung:", var_name),
+        x = "Share of the total Kreis population (%)",
+        y = "Fälle je 100.000 Einwohner",
+        colour = "Jahr"
       ) +
       theme_minimal(base_size = 11)
 
     ggsave(
-      file.path(results_dir, paste0("alter_", make.names(ab), "_scatter_", make.names(substr(var_name, 1, 70)), ".png")),
+      file.path(results_dir, paste0("normalized_alter_", make.names(ab), "_", make.names(substr(var_name, 1, 70)), ".png")),
       p, width = 8, height = 5, dpi = 150
+    )
+  }
+}
+
+# ------------------------------------------------------------------------------
+# 36. Correlations by year and for the full period
+# ------------------------------------------------------------------------------
+
+# calculate_correlations_by_scope() creates both a pooled "total" result and
+# one result for every year present in the supplied panel. This keeps yearly
+# correlations and the full-period correlations in the same R table.
+calculate_correlations_by_scope <- function(panel, numeric_predictors,
+                                            outcomes = "cases_per_100k") {
+  bind_rows(lapply(numeric_predictors, function(pred) {
+    bind_rows(lapply(outcomes, function(outcome) {
+      available_years <- sort(unique(panel$year[is.finite(panel$year)]))
+
+      bind_rows(lapply(c("total", as.character(available_years)), function(scope) {
+        d <- panel
+        if (scope != "total") d <- d %>% filter(year == as.integer(scope))
+
+        x <- suppressWarnings(as.numeric(d[[pred]]))
+        y <- suppressWarnings(as.numeric(d[[outcome]]))
+        ok <- is.finite(x) & is.finite(y)
+        if (sum(ok) < 3) return(tibble::tibble())
+
+        pearson <- suppressWarnings(cor.test(x[ok], y[ok], method = "pearson"))
+        spearman <- suppressWarnings(cor.test(x[ok], y[ok], method = "spearman", exact = FALSE))
+
+        tibble::tibble(
+          scope = scope,
+          year = if (scope == "total") NA_integer_ else as.integer(scope),
+          predictor = pred,
+          outcome = outcome,
+          n = sum(ok),
+          pearson_r = unname(pearson$estimate),
+          pearson_p = pearson$p.value,
+          spearman_rho = unname(spearman$estimate),
+          spearman_p = spearman$p.value
+        )
+      }))
+    }))
+  })) %>% arrange(outcome, scope, desc(abs(spearman_rho)))
+}
+
+all_age_numeric_predictors <- setdiff(
+  names(predictor_data),
+  c("geo_code", "year", "cases", "cases_per_100k", "population",
+    "kreistyp", "location_type", "administrative_type")
+)
+all_age_correlations_by_year <- calculate_correlations_by_scope(
+  predictor_data,
+  all_age_numeric_predictors
+)
+
+normalized_all_age_numeric_predictors <- grep(
+  "\\| share_pct$", names(normalized_all_age_data), value = TRUE
+)
+normalized_all_age_correlations_by_year <- calculate_correlations_by_scope(
+  normalized_all_age_data,
+  normalized_all_age_numeric_predictors
+)
+
+age_numeric_predictors_for_scope <- setdiff(
+  names(age_predictor_data),
+  c("geo_code", "year", "age_band", "cases", "cases_per_100k", "population",
+    "kreistyp", "location_type", "administrative_type")
+)
+age_correlations_by_year <- bind_rows(lapply(
+  sort(unique(age_predictor_data$age_band)),
+  function(ab) {
+    calculate_correlations_by_scope(
+      age_predictor_data %>% filter(age_band == ab),
+      age_numeric_predictors_for_scope
+    ) %>% mutate(age_band = ab, .before = 1)
+  }
+))
+
+normalized_age_numeric_predictors_for_scope <- grep(
+  "\\| share_pct$", names(age_normalized_data), value = TRUE
+)
+normalized_age_correlations_by_year <- bind_rows(lapply(
+  sort(unique(age_normalized_data$age_band)),
+  function(ab) {
+    calculate_correlations_by_scope(
+      age_normalized_data %>% filter(age_band == ab),
+      normalized_age_numeric_predictors_for_scope
+    ) %>% mutate(age_band = ab, .before = 1)
+  }
+))
+
+print("=== All-age correlations: total and by year ===")
+print(all_age_correlations_by_year %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+
+print("=== Broad age-band correlations: total and by year ===")
+print(age_correlations_by_year %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+
+saveRDS(all_age_correlations_by_year,
+        file.path(results_dir, "all_age_correlations_total_and_by_year.rds"))
+saveRDS(normalized_all_age_correlations_by_year,
+        file.path(results_dir, "normalized_all_age_correlations_total_and_by_year.rds"))
+saveRDS(age_correlations_by_year,
+        file.path(results_dir, "age_band_correlations_total_and_by_year.rds"))
+saveRDS(normalized_age_correlations_by_year,
+        file.path(results_dir, "normalized_age_band_correlations_total_and_by_year.rds"))
+
+saveRDS(coverage,
+        file.path(results_dir, "kreis_structural_coverage.rds"))
+saveRDS(category_rows,
+        file.path(results_dir, "kreis_category_summaries.rds"))
+saveRDS(age_category_rows,
+        file.path(results_dir, "alter_kreis_category_summaries.rds"))
+saveRDS(normalized_category_all_age,
+        file.path(results_dir, "normalized_kreis_category_summaries.rds"))
+saveRDS(normalized_category_age,
+        file.path(results_dir, "normalized_alter_kreis_category_summaries.rds"))
+
+# ------------------------------------------------------------------------------
+# 37. Outliers in the normalized table, calculated separately by year
+# ------------------------------------------------------------------------------
+
+# An observation is an outlier within a specific year and column if it lies
+# outside [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR]. This is the standard Tukey/IQR
+# rule. The analysis is not performed over all four years pooled, because
+# year-specific distributions can differ substantially.
+normalized_outlier_input <- normalized_kreis_analysis_predictor_data <- readRDS(
+  file.path(results_dir, "normalized_kreis_analysis_predictor_data.rds")
+)
+
+# Geo names are useful for reporting, but the Kreis code remains the unique key.
+kreis_name_lookup_outlier <- geo_info %>%
+  transmute(
+    geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+    geo_name = str_squish(as.character(geo_name))
+  ) %>%
+  distinct(geo_code, geo_name)
+
+# Keep population-normalized structural percentages and the incidence outcome.
+# Absolute variables are intentionally excluded, because the request concerns
+# the normalized table and the outliers should be comparable across Kreise.
+outlier_column_names <- c(
+  "cases_per_100k",
+  grep("\\| share_pct$", names(normalized_outlier_input), value = TRUE)
+)
+
+outlier_records_by_year <- bind_rows(lapply(outlier_column_names, function(col_name) {
+  bind_rows(lapply(sort(unique(normalized_outlier_input$year)), function(y) {
+    d <- normalized_outlier_input %>%
+      filter(year == y) %>%
+      transmute(
+        geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+        year,
+        value = suppressWarnings(as.numeric(.data[[col_name]]))
+      ) %>%
+      filter(is.finite(value))
+
+    if (nrow(d) < 4) return(tibble::tibble())
+
+    q1 <- stats::quantile(d$value, 0.25, na.rm = TRUE, names = FALSE)
+    q3 <- stats::quantile(d$value, 0.75, na.rm = TRUE, names = FALSE)
+    iqr <- q3 - q1
+    lower_fence <- q1 - 1.5 * iqr
+    upper_fence <- q3 + 1.5 * iqr
+
+    d %>%
+      mutate(
+        column = col_name,
+        q1 = q1,
+        q3 = q3,
+        iqr = iqr,
+        lower_fence = lower_fence,
+        upper_fence = upper_fence,
+        direction = case_when(
+          value < lower_fence ~ "low",
+          value > upper_fence ~ "high",
+          TRUE ~ NA_character_
+        )
+      ) %>%
+      filter(!is.na(direction))
+  }))
+})) %>%
+  left_join(kreis_name_lookup_outlier, by = "geo_code") %>%
+  select(year, geo_code, geo_name, column, value, direction,
+         lower_fence, upper_fence, q1, q3, iqr) %>%
+  arrange(year, column, direction, desc(value))
+
+# One row per Kreis-year-column: a compact summary of the number and direction
+# of outliers found in each column.
+outlier_summary_by_year <- outlier_records_by_year %>%
+  group_by(year, column, direction) %>%
+  summarise(n_outliers = n(),
+            kreis_codes = paste(sort(unique(geo_code)), collapse = ", "),
+            .groups = "drop") %>%
+  arrange(year, column, direction)
+
+outlier_summary_columns_by_year <- outlier_records_by_year %>%
+  group_by(year, column) %>%
+  summarise(n_outliers = n(),
+            n_high = sum(direction == "high"),
+            n_low = sum(direction == "low"),
+            kreis_codes = paste(sort(unique(geo_code)), collapse = ", "),
+            .groups = "drop") %>%
+  arrange(year, desc(n_outliers), column)
+
+print("=== IQR outliers by year (1.5 * IQR outside the quartile fences) ===")
+print(outlier_records_by_year, n = Inf)
+
+print("=== Number of outliers by year and column ===")
+print(outlier_summary_columns_by_year, n = Inf)
+
+saveRDS(outlier_records_by_year,
+        file.path(results_dir, "outlier_records_normalized_by_year.rds"))
+saveRDS(outlier_summary_by_year,
+        file.path(results_dir, "outlier_summary_direction_normalized_by_year.rds"))
+saveRDS(outlier_summary_columns_by_year,
+        file.path(results_dir, "outlier_summary_columns_normalized_by_year.rds"))
+
+# ------------------------------------------------------------------------------
+# 38. Long standardized outlier table (z-score and IQR within each year)
+# ------------------------------------------------------------------------------
+
+# This table preserves every Kreis-year-column combination as one row. It adds
+# both the classical z-score and the Tukey/IQR statistics. Statistics are
+# calculated separately for each calendar year and for each column.
+long_outlier_columns <- c(
+  "cases_per_100k",
+  grep("\\| share_pct$", names(normalized_outlier_input), value = TRUE)
+)
+
+outlier_long_by_year <- bind_rows(lapply(long_outlier_columns, function(col_name) {
+  bind_rows(lapply(sort(unique(normalized_outlier_input$year)), function(y) {
+    d <- normalized_outlier_input %>%
+      filter(year == y) %>%
+      transmute(
+        geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+        year,
+        value = suppressWarnings(as.numeric(.data[[col_name]]))
+      ) %>%
+      left_join(kreis_name_lookup_outlier, by = "geo_code") %>%
+      filter(is.finite(value))
+
+    if (nrow(d) < 2) return(tibble::tibble())
+
+    column_mean <- mean(d$value, na.rm = TRUE)
+    column_sd <- stats::sd(d$value, na.rm = TRUE)
+    q1 <- stats::quantile(d$value, 0.25, na.rm = TRUE, names = FALSE)
+    median_value <- stats::median(d$value, na.rm = TRUE)
+    q3 <- stats::quantile(d$value, 0.75, na.rm = TRUE, names = FALSE)
+    iqr_value <- q3 - q1
+    lower_fence <- q1 - 1.5 * iqr_value
+    upper_fence <- q3 + 1.5 * iqr_value
+
+    d %>%
+      mutate(
+        column = col_name,
+        mean = column_mean,
+        sd = column_sd,
+        z_score = if (is.finite(column_sd) && column_sd > 0) {
+          (value - column_mean) / column_sd
+        } else {
+          NA_real_
+        },
+        q1 = q1,
+        median = median_value,
+        q3 = q3,
+        iqr = iqr_value,
+        lower_fence = lower_fence,
+        upper_fence = upper_fence,
+        iqr_outlier = value < lower_fence | value > upper_fence,
+        iqr_direction = case_when(
+          value < lower_fence ~ "low",
+          value > upper_fence ~ "high",
+          TRUE ~ "not outlier"
+        ),
+        z_outlier_abs_gt2 = is.finite(z_score) & abs(z_score) > 2,
+        z_outlier_abs_gt3 = is.finite(z_score) & abs(z_score) > 3,
+        z_direction = case_when(
+          !is.finite(z_score) ~ "not available",
+          z_score < -2 ~ "low",
+          z_score > 2 ~ "high",
+          TRUE ~ "not outlier"
+        )
+      )
+  }))
+})) %>%
+  select(year, geo_code, geo_name, column, value, mean, sd, z_score,
+         q1, median, q3, iqr, lower_fence, upper_fence,
+         iqr_outlier, iqr_direction,
+         z_outlier_abs_gt2, z_outlier_abs_gt3, z_direction) %>%
+  arrange(year, column, geo_code)
+
+print("=== Long standardized/IQR table: first 30 rows ===")
+print(head(outlier_long_by_year, 30), n = 30)
+
+print("=== Count of IQR and |z| > 2 outliers by year and column ===")
+print(outlier_long_by_year %>%
+  group_by(year, column) %>%
+  summarise(n_iqr_outliers = sum(iqr_outlier, na.rm = TRUE),
+            n_z2_outliers = sum(z_outlier_abs_gt2, na.rm = TRUE),
+            n_z3_outliers = sum(z_outlier_abs_gt3, na.rm = TRUE),
+            .groups = "drop") %>%
+  arrange(year, desc(n_iqr_outliers), column), n = Inf)
+
+saveRDS(outlier_long_by_year,
+        file.path(results_dir, "long_zscore_iqr_normalized_by_year.rds"))
+
+# ------------------------------------------------------------------------------
+# 39. Reanalysis excluding jointly extreme z-score / IQR points
+# ------------------------------------------------------------------------------
+
+# Read the complete long standardized/IQR table. The exclusion rule is deliberately
+# strict: remove a datapoint only when it is both a Tukey IQR outlier AND has
+# z_score > 7. Negative extreme z-scores are not removed unless z_score is > 7,
+# matching the user's threshold literally.
+long_outlier_table <- readRDS(
+  file.path(results_dir, "long_zscore_iqr_normalized_by_year.rds")
+)
+
+extreme_keys <- long_outlier_table %>%
+  filter(iqr_outlier, is.finite(z_score), z_score > 7) %>%
+  distinct(year, geo_code, geo_name) %>%
+  arrange(year, geo_code)
+
+no_extreme_dir <- file.path(results_dir, "analysis_noextremes")
+dir.create(no_extreme_dir, recursive = TRUE, showWarnings = FALSE)
+
+saveRDS(extreme_keys,
+        file.path(no_extreme_dir, "excluded_extreme_kreis_year_keys.rds"))
+
+# A Kreis-year pair is removed from the full panel if it contains at least one
+# column-level point satisfying the joint exclusion rule.
+filter_extreme_keys <- function(panel) {
+  anti_join(
+    panel,
+    extreme_keys %>% transmute(
+      geo_code = str_pad(as.character(geo_code), 5, "left", "0"),
+      year = as.integer(year)
+    ),
+    by = c("geo_code", "year")
+  )
+}
+
+normalized_noextreme <- filter_extreme_keys(normalized_all_age_data)
+age_normalized_noextreme <- filter_extreme_keys(age_normalized_data)
+all_age_noextreme <- filter_extreme_keys(predictor_data)
+age_noextreme <- filter_extreme_keys(age_predictor_data)
+
+# Recalculate incidence correlations for the all-age normalized panel.
+normalized_all_age_numeric_noextreme <- grep(
+  "\\| share_pct$", names(normalized_noextreme), value = TRUE
+)
+normalized_correlations_noextreme <- bind_rows(lapply(
+  normalized_all_age_numeric_noextreme,
+  function(pred) {
+    bind_rows(lapply(sort(unique(normalized_noextreme$year)), function(y) {
+      d <- normalized_noextreme %>% filter(year == y)
+      x <- suppressWarnings(as.numeric(d[[pred]]))
+      y_value <- suppressWarnings(as.numeric(d[["cases_per_100k"]]))
+      ok <- is.finite(x) & is.finite(y_value)
+      if (sum(ok) < 3) return(tibble::tibble())
+
+      pearson <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "pearson"))
+      spearman <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "spearman", exact = FALSE))
+
+      tibble::tibble(
+        scope = as.character(y), year = y, predictor = pred,
+        outcome = "cases_per_100k", n = sum(ok),
+        pearson_r = unname(pearson$estimate), pearson_p = pearson$p.value,
+        spearman_rho = unname(spearman$estimate), spearman_p = spearman$p.value
+      )
+    }))
+  }
+))
+
+# Pooled full-period correlations are retained in the same table.
+pooled_normalized_noextreme <- bind_rows(lapply(
+  normalized_all_age_numeric_noextreme,
+  function(pred) {
+    x <- suppressWarnings(as.numeric(normalized_noextreme[[pred]]))
+    y_value <- suppressWarnings(as.numeric(normalized_noextreme[["cases_per_100k"]]))
+    ok <- is.finite(x) & is.finite(y_value)
+    if (sum(ok) < 3) return(tibble::tibble())
+
+    pearson <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "pearson"))
+    spearman <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "spearman", exact = FALSE))
+
+    tibble::tibble(
+      scope = "total", year = NA_integer_, predictor = pred,
+      outcome = "cases_per_100k", n = sum(ok),
+      pearson_r = unname(pearson$estimate), pearson_p = pearson$p.value,
+      spearman_rho = unname(spearman$estimate), spearman_p = spearman$p.value
+    )
+  }
+))
+
+normalized_correlations_noextreme <- bind_rows(
+  normalized_correlations_noextreme,
+  pooled_normalized_noextreme
+) %>% arrange(outcome, scope, desc(abs(spearman_rho)))
+
+# Recalculate age-specific normalized incidence correlations.
+age_normalized_predictors_noextreme <- grep(
+  "\\| share_pct$", names(age_normalized_noextreme), value = TRUE
+)
+normalized_age_correlations_noextreme <- bind_rows(lapply(
+  age_normalized_predictors_noextreme,
+  function(pred) {
+    bind_rows(lapply(sort(unique(age_normalized_noextreme$age_band)), function(ab) {
+      d_age <- age_normalized_noextreme %>% filter(age_band == ab)
+
+      yearly_results <- bind_rows(lapply(sort(unique(d_age$year)), function(y) {
+        d <- d_age %>% filter(year == y)
+        x <- suppressWarnings(as.numeric(d[[pred]]))
+        y_value <- suppressWarnings(as.numeric(d[["cases_per_100k"]]))
+        ok <- is.finite(x) & is.finite(y_value)
+        if (sum(ok) < 3) return(tibble::tibble())
+
+        pearson <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "pearson"))
+        spearman <- suppressWarnings(cor.test(x[ok], y_value[ok], method = "spearman", exact = FALSE))
+
+        tibble::tibble(
+          age_band = ab, scope = as.character(y), year = y,
+          predictor = pred, outcome = "cases_per_100k", n = sum(ok),
+          pearson_r = unname(pearson$estimate), pearson_p = pearson$p.value,
+          spearman_rho = unname(spearman$estimate), spearman_p = spearman$p.value
+        )
+      }))
+
+      pooled_x <- suppressWarnings(as.numeric(d_age[[pred]]))
+      pooled_y <- suppressWarnings(as.numeric(d_age[["cases_per_100k"]]))
+      pooled_ok <- is.finite(pooled_x) & is.finite(pooled_y)
+      pooled_result <- tibble::tibble()
+
+      if (sum(pooled_ok) >= 3) {
+        pearson <- suppressWarnings(cor.test(pooled_x[pooled_ok], pooled_y[pooled_ok], method = "pearson"))
+        spearman <- suppressWarnings(cor.test(pooled_x[pooled_ok], pooled_y[pooled_ok], method = "spearman", exact = FALSE))
+        pooled_result <- tibble::tibble(
+          age_band = ab, scope = "total", year = NA_integer_,
+          predictor = pred, outcome = "cases_per_100k", n = sum(pooled_ok),
+          pearson_r = unname(pearson$estimate), pearson_p = pearson$p.value,
+          spearman_rho = unname(spearman$estimate), spearman_p = spearman$p.value
+        )
+      }
+
+      bind_rows(yearly_results, pooled_result)
+    }))
+  }
+)) %>% arrange(age_band, outcome, scope, desc(abs(spearman_rho)))
+
+# Recalculate category summaries without extreme Kreis-year points.
+category_summary_noextreme <- bind_rows(lapply(
+  c("kreistyp", "location_type", "administrative_type"),
+  function(cat_col) {
+    normalized_noextreme %>%
+      filter(!is.na(.data[[cat_col]]), is.finite(cases_per_100k)) %>%
+      group_by(category = cat_col, level = as.character(.data[[cat_col]])) %>%
+      summarise(
+        n = n(), mean_cases = mean(cases, na.rm = TRUE),
+        mean_cases_per_100k = mean(cases_per_100k, na.rm = TRUE),
+        median_cases_per_100k = median(cases_per_100k, na.rm = TRUE),
+        .groups = "drop"
+      )
+  }
+))
+
+age_category_summary_noextreme <- bind_rows(lapply(
+  c("kreistyp", "location_type", "administrative_type"),
+  function(cat_col) {
+    age_normalized_noextreme %>%
+      filter(!is.na(.data[[cat_col]]), is.finite(cases_per_100k)) %>%
+      group_by(age_band, category = cat_col,
+               level = as.character(.data[[cat_col]])) %>%
+      summarise(
+        n = n(), mean_cases = mean(cases, na.rm = TRUE),
+        mean_cases_per_100k = mean(cases_per_100k, na.rm = TRUE),
+        median_cases_per_100k = median(cases_per_100k, na.rm = TRUE),
+        .groups = "drop"
+      )
+  }
+))
+
+print("=== Excluded z>7 + IQR-outlier Kreis-year keys ===")
+print(extreme_keys, n = Inf)
+print("=== No-extremes normalized all-age correlations ===")
+print(normalized_correlations_noextreme %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+print("=== No-extremes normalized age-band correlations ===")
+print(normalized_age_correlations_noextreme %>%
+  mutate(across(c(pearson_r, spearman_rho), ~ round(.x, 3)),
+         across(c(pearson_p, spearman_p), ~ signif(.x, 3))), n = Inf)
+
+saveRDS(normalized_noextreme,
+        file.path(no_extreme_dir, "normalized_kreis_analysis_predictor_data_noextremes.rds"))
+saveRDS(age_normalized_noextreme,
+        file.path(no_extreme_dir, "normalized_alter_kreis_analysis_predictor_data_noextremes.rds"))
+saveRDS(normalized_correlations_noextreme,
+        file.path(no_extreme_dir, "normalized_kreis_correlations_noextremes.rds"))
+saveRDS(normalized_age_correlations_noextreme,
+        file.path(no_extreme_dir, "normalized_age_band_correlations_noextremes.rds"))
+saveRDS(category_summary_noextreme,
+        file.path(no_extreme_dir, "normalized_kreis_category_summaries_noextremes.rds"))
+saveRDS(age_category_summary_noextreme,
+        file.path(no_extreme_dir, "normalized_alter_kreis_category_summaries_noextremes.rds"))
+
+# Recreate incidence scatterplots, faceted by year and colored by Raumtyp.
+for (var_name in normalized_correlations_noextreme %>%
+     filter(scope == "total", is.finite(spearman_rho)) %>%
+     slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
+     pull(predictor)) {
+  p <- ggplot(normalized_noextreme,
+              aes(x = .data[[var_name]], y = cases_per_100k,
+                  colour = location_type)) +
+    geom_point(alpha = 0.65, size = 1.8) +
+    geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                colour = "black", linewidth = 0.7) +
+    facet_wrap(~year, nrow = 1) +
+    scale_colour_brewer(palette = "Set1", na.value = "grey70") +
+    labs(
+      title = paste("No-extreme normalized Kreisbeziehung:", var_name),
+      x = "Share of the total Kreis population (%)",
+      y = "Fälle je 100.000 Einwohner",
+      colour = "Raumtyp"
+    ) +
+    theme_minimal(base_size = 11)
+
+  ggsave(
+    file.path(no_extreme_dir,
+              paste0("normalized_noextremes_cases_per_100k_",
+                     make.names(substr(var_name, 1, 70)), ".png")),
+    p, width = 11, height = 5, dpi = 150
+  )
+}
+
+for (ab in sort(unique(normalized_age_correlations_noextreme$age_band))) {
+  top_predictors <- normalized_age_correlations_noextreme %>%
+    filter(age_band == ab, scope == "total", is.finite(spearman_rho)) %>%
+    slice_max(order_by = abs(spearman_rho), n = 5, with_ties = FALSE) %>%
+    pull(predictor)
+
+  for (var_name in top_predictors) {
+    d <- age_normalized_noextreme %>% filter(age_band == ab)
+    p <- ggplot(d, aes(x = .data[[var_name]], y = cases_per_100k,
+                       colour = location_type)) +
+      geom_point(alpha = 0.65, size = 1.8) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                  colour = "black", linewidth = 0.7) +
+      facet_wrap(~year, nrow = 1) +
+      scale_colour_brewer(palette = "Set1", na.value = "grey70") +
+      labs(
+        title = paste("No-extreme Alter", ab, "– normalized Kreisbeziehung:", var_name),
+        x = "Share of the total Kreis population (%)",
+        y = "Fälle je 100.000 Einwohner",
+        colour = "Raumtyp"
+      ) +
+      theme_minimal(base_size = 11)
+
+    ggsave(
+      file.path(no_extreme_dir,
+                paste0("normalized_noextremes_alter_", make.names(ab), "_",
+                       make.names(substr(var_name, 1, 70)), ".png")),
+      p, width = 11, height = 5, dpi = 150
     )
   }
 }
