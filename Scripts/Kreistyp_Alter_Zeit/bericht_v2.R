@@ -17,7 +17,7 @@ bericht_v2_abbildungen <- function() {
   alter <- c('0-5', '6-17', '18-39', '40-59', '60-69', '70-79', '80+')
   altersnamen <- c('0–5', '6–17', '18–39', '40–59', '60–69', '70–79', '80+')
   typen <- c('Großstädte', 'Städtische Kreise', 'Ländlich, verdichtet', 'Ländlich, dünn besiedelt')
-  typfarben <- setNames(c('#C2491D', '#D9A23A', '#7FA65A', '#2F7D4F'), typen)
+  typfarben <- setNames(c('#C2491D', '#E39B1B', '#4FB39A', '#2D7A4A'), typen)
   typformen <- setNames(c(16, 17, 15, 18), typen)
   paarschluessel <- c('1-2', '1-3', '1-4', '2-3', '2-4', '3-4')
   paarnamen <- c('Großstädte / städtische Kreise', 'Großstädte / ländlich, verdichtet',
@@ -25,6 +25,8 @@ bericht_v2_abbildungen <- function() {
                  'Städtische Kreise / ländlich, dünn', 'Ländlich, verdichtet / ländlich, dünn')
   phasen <- c('P0', 'W1', 'G1', 'W2', 'W3', 'G2', 'W4', 'W5', 'PostW5')
   phasennamen <- c('Vor W1', 'W1', 'Zw. W1/W2', 'W2', 'W3', 'Zw. W3/W4', 'W4', 'W5', 'Nach W5')
+  phasenfarben <- setNames(c('#C8CDD0', '#C2185B', '#C8CDD0', '#E07AA6', '#5AA4DE', '#C8CDD0', '#244C9A', '#A066CC', '#8A9196'), phasennamen)
+  wellenfarben_code <- c(W1 = '#C2185B', W2 = '#E07AA6', W3 = '#5AA4DE', W4 = '#244C9A', W5 = '#A066CC')
   artfarben <- c('Gesamt' = '#1F3B4D', 'Welle' = '#1B7F8C', 'Zwischen-/Nachphase' = '#9AA7AD')
   art_von <- function(p) fifelse(p == 'All', 'Gesamt', fifelse(grepl('^W', p), 'Welle', 'Zwischen-/Nachphase'))
   paar_von <- function(a, b) factor(paste(a, b, sep = '-'), paarschluessel, paarnamen)
@@ -61,25 +63,28 @@ bericht_v2_abbildungen <- function() {
   wellen[, mitte := start + as.numeric(end - start) / 2]
   f1 <- ggplot() +
     geom_rect(data = wellen, aes(xmin = start, xmax = end, ymin = 0, ymax = Inf),
-              fill = '#E8F1F2', inherit.aes = FALSE) +
+              fill = wellenfarben_code[wellen$period], alpha = .13, inherit.aes = FALSE) +
     geom_text(data = wellen, aes(x = mitte, y = Inf, label = period), vjust = 1.6,
-              size = 3.6, color = '#1B7F8C', fontface = 'bold', inherit.aes = FALSE) +
+              size = 3.8, color = wellenfarben_code[wellen$period], fontface = 'bold', inherit.aes = FALSE) +
     geom_line(data = w1, aes(week_start, mean, color = typ), linewidth = .7) +
     scale_color_manual(values = typfarben, name = NULL) +
     scale_y_sqrt(breaks = c(0, 25, 100, 250, 500, 1000, 1500, 2000),
                  labels = function(x) format(x, big.mark = '.', decimal.mark = ',')) +
     scale_x_date(date_breaks = '6 months', date_labels = '%m/%Y', expand = expansion(mult = .01)) +
-    labs(title = 'F1  Alle vier Kreistypen durchlaufen dieselben Wellen',
+    labs(title = 'Alle vier Kreistypen durchlaufen dieselben Wellen',
          subtitle = 'Altersstandardisierte Meldeinzidenz je 100.000 und Woche, Mittel der Kreise je Typ; y-Achse auf Wurzelskala',
          x = NULL, y = 'Fälle je 100.000 und Woche (Wurzelskala)', caption = fuss)
   speichern('F1_wochenverlauf', f1, 12, 6.5)
+  f1_linear <- f1 + scale_y_continuous(labels = function(x) format(x, big.mark = '.', decimal.mark = ',')) +
+    labs(subtitle = 'Altersstandardisierte Meldeinzidenz je 100.000 und Woche, Mittel der Kreise je Typ; y-Achse linear (gleiche Abstände = gleiche Fallzahlen)',
+         y = 'Fälle je 100.000 und Woche')
+  speichern('F1_wochenverlauf_linear', f1_linear, 12, 6.5)
 
   # ---- F2: Standardisierte Ratenverhältnisse je Phase -----------------------
   k2 <- kontraste[outcome == 'standard' & scale == 'relative' & period != 'P0' & is.finite(lower)]
   k2[, paar := paar_von(type_a, type_b)]
   k2[, phase := factor(period, c('All', phasen[-1]), c('Gesamt 2020–2023', phasennamen[-1]))]
-  k2[, art := art_von(period)]
-  f2 <- ggplot(k2, aes(x = estimate, y = phase, color = art)) +
+  f2 <- ggplot(k2, aes(x = estimate, y = phase, color = phase)) +
     geom_vline(xintercept = 1, linetype = 2, color = '#7D8A90') +
     geom_linerange(aes(xmin = lower, xmax = upper), linewidth = .8) +
     geom_point(size = 2.2) +
@@ -87,8 +92,8 @@ bericht_v2_abbildungen <- function() {
     scale_y_discrete(limits = rev) +
     scale_x_log10(breaks = c(.6, .8, 1, 1.25, 1.5, 2, 2.5),
                   labels = function(x) format(x, decimal.mark = ',')) +
-    scale_color_manual(values = artfarben, name = NULL) +
-    labs(title = 'F2  Großstädte liegen vor allem in W4 und W5 niedriger',
+    scale_color_manual(values = c('Gesamt 2020–2023' = '#222222', setNames(phasenfarben[-1], phasennamen[-1])), guide = 'none') +
+    labs(title = 'Großstädte liegen vor allem in W4 und W5 niedriger',
          subtitle = 'Ratenverhältnis erster / zweiter Typ (log-Skala); < 1 = erster Typ niedriger; Linien = punktweise 95%-Intervalle aus dem Kreis-Bootstrap',
          x = 'Ratenverhältnis (log-Skala)', y = NULL,
          caption = paste0(fuss, '\nVor W1 ausgelassen (Raten nahe null). Intervalle nicht für Mehrfachvergleiche adjustiert.'))
@@ -98,15 +103,19 @@ bericht_v2_abbildungen <- function() {
   k3 <- kontraste[period == 'All' & scale == 'relative' & outcome %in% alter]
   k3[, paar := paar_von(type_a, type_b)]
   k3[, altersgruppe := factor(outcome, alter, altersnamen)]
+  k3[, jung := factor(outcome == '18-39', c(FALSE, TRUE), c('nein', 'ja'))]
   f3 <- ggplot(k3, aes(x = altersgruppe, y = estimate)) +
     geom_hline(yintercept = 1, linetype = 2, color = '#7D8A90') +
-    geom_linerange(aes(ymin = lower, ymax = upper), linewidth = .8, color = '#1B7F8C') +
-    geom_point(size = 2.2, color = '#1B7F8C') +
+    geom_linerange(aes(ymin = lower, ymax = upper, color = jung), linewidth = .8) +
+    geom_point(aes(color = jung), size = 2.4) +
+    geom_text(data = k3[outcome == '18-39'], aes(y = lower, label = format(round(estimate, 3), nsmall = 3, decimal.mark = ',')),
+              vjust = 1.5, size = 3.2, fontface = 'bold', color = '#B8001F') +
+    scale_color_manual(values = c(nein = '#1B7F8C', ja = '#B8001F'), guide = 'none') +
     facet_wrap(~paar, ncol = 3) +
     scale_y_log10(breaks = c(.85, .9, .95, 1, 1.05, 1.1),
                   labels = function(x) format(x, decimal.mark = ',')) +
-    labs(title = 'F3  Der Stadt-Land-Abstand ist bei jungen Erwachsenen am größten',
-         subtitle = 'Ratenverhältnis je Altersgruppe, Gesamtzeitraum 2020–2023 (log-Skala); Linien = punktweise 95%-Intervalle',
+    labs(title = 'Der Stadt-Land-Abstand ist bei jungen Erwachsenen am größten',
+         subtitle = 'Ratenverhältnis je Altersgruppe, Gesamtzeitraum 2020–2023 (log-Skala); Linien = punktweise 95%-Intervalle; rot = 18–39 Jahre',
          x = 'Altersgruppe (Jahre)', y = 'Ratenverhältnis (log-Skala)',
          caption = '383 Kreise · gleiche Kreisgewichte · jährliche Kreistypzuordnung · altersspezifische Raten (keine Standardisierung nötig)')
   speichern('F3_verhaeltnis_alter', f3, 12, 7.5)
@@ -127,7 +136,7 @@ bericht_v2_abbildungen <- function() {
     facet_wrap(~skala, ncol = 1, scales = 'free_y') +
     scale_y_continuous(labels = function(x) format(x, decimal.mark = ',')) +
     scale_color_manual(values = artfarben, name = NULL) +
-    labs(title = 'F4  Das Altersmuster des Stadt-Land-Abstands ist in W5 am stärksten',
+    labs(title = 'Das Altersmuster des Stadt-Land-Abstands ist in W5 am stärksten',
          subtitle = 'Großstädte vs. ländlich, dünn besiedelt: Abstand bei 18–39 im Vergleich zu 70–79 Jahren, je Phase',
          x = NULL, y = NULL,
          caption = '383 Kreise · Kreis-Bootstrap, punktweise 95%-Intervalle · Altersvergleich explorativ aus allen 126 Interaktionen als größter Effekt ausgewählt')
@@ -139,16 +148,18 @@ bericht_v2_abbildungen <- function() {
   k5[, typ := factor(type, 1:4, typen)]
   k5[, phase := factor(period, c('W4', 'W5', 'PostW5'), c('W4', 'W5', 'Nach W5'))]
   haupt <- wochen[outcome == 'standard' & period %in% c('W4', 'W5', 'PostW5'), .(wert = mean(mean)), by = .(type, period)]
+  landmedian <- k5[type == 4, .(m = median(mean_rate)), by = phase]
   haupt[, `:=`(typ = factor(type, 1:4, typen), phase = factor(period, c('W4', 'W5', 'PostW5'), c('W4', 'W5', 'Nach W5')))]
   f5 <- ggplot(k5, aes(x = typ, y = mean_rate, color = typ)) +
     geom_point(position = position_jitter(width = .18, height = 0, seed = 1), alpha = .35, size = 1.2, shape = 16) +
     geom_boxplot(fill = NA, outlier.shape = NA, width = .55, color = '#33444C') +
     geom_point(data = haupt, aes(y = wert), shape = 23, size = 3, fill = 'white', color = '#1F3B4D') +
+    geom_hline(data = landmedian, aes(yintercept = m), linetype = 3, linewidth = .7, color = '#2F7D4F') +
     facet_wrap(~phase, scales = 'free_y') +
     scale_color_manual(values = typfarben, guide = 'none') +
     scale_x_discrete(labels = c('Großstädte', 'Städtische\nKreise', 'Ländlich,\nverdichtet', 'Ländlich,\ndünn besiedelt')) +
-    labs(title = 'F5  Kreise desselben Typs streuen stark; die Verteilungen überlappen',
-         subtitle = 'Ein Punkt = ein Kreis (mittlere standardisierte Wochenrate in der Phase); Box = mittlere 50 %, Raute = Hauptmaß (Mittel der Wochenmittel)',
+    labs(title = 'Kreise desselben Typs streuen stark; die Verteilungen überlappen',
+         subtitle = 'Ein Punkt = ein Kreis (mittlere standardisierte Wochenrate in der Phase); Box = mittlere 50 %, Raute = Hauptmaß; gepunktet = Median ländlich, dünn besiedelt',
          x = NULL, y = 'Fälle je 100.000 und Woche', caption = paste0(fuss, '\nJede Phase hat eine eigene y-Skala. Kreise mit Typwechsel erscheinen je Zugehörigkeitsabschnitt.'))
   speichern('F5_kreisverteilung', f5, 12, 6.5)
 
@@ -195,7 +206,7 @@ bericht_v2_abbildungen <- function() {
     scale_color_manual(values = setNames(c('#1F3B4D', '#D9A23A', '#7FA65A', '#C2491D'), methodennamen), name = NULL) +
     scale_shape_manual(values = setNames(c(16, 17, 15, 18), methodennamen), name = NULL) +
     guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-    labs(title = 'F6  Großstädte liegen in jeder Variante unter den ländlichen Kreisen',
+    labs(title = 'Großstädte liegen in jeder Variante unter den ländlichen Kreisen',
          subtitle = 'Standardisiertes Ratenverhältnis erster / zweiter Typ (log-Skala) unter vier Berechnungsweisen; deskriptiv, ohne neue Tests',
          x = 'Ratenverhältnis (log-Skala)', y = NULL,
          caption = 'Bevölkerungsgewichtet: Kreise innerhalb jeder Woche nach Einwohnerzahl gewichtet (Sicht der Einwohner statt des typischen Kreises).')

@@ -1,3 +1,3 @@
-Abgeschlossen: 2026-11-25 23:06:21.708189
+Abgeschlossen: 2026-11-26 01:21:51.261378
 Kontrolle gleiche Gewichte, max. Abweichung: 6.22e-15
-Abbildungen: F1_wochenverlauf.png, F2_verhaeltnis_phasen.png, F3_verhaeltnis_alter.png, F4_altersinteraktion_phasen.png, F5_kreisverteilung.png, F6_robustheit.png
+Abbildungen: A01_altersraten.png, A02_korrelation_beispiel.png, F0a_altersanteile_2021.png, F0b_roh_vs_standardisiert.png, F1_wochenverlauf_linear.png, F1_wochenverlauf.png, F1b_korrelation_streudiagramm.png, F2_verhaeltnis_phasen.png, F2a_phasen_grossstadt_land.png, F2b_w4_w5_wochen.png, F2c_w4_w5_alter.png, F3_verhaeltnis_alter.png, F3e_altersinteraktion_rechenweg.png, F4_altersinteraktion_phasen.png, F4a_altersprofil_wellen.png, F4b_altersinteraktion_phasen.png, F4c_monate_nach_w5.png, F5_kreisverteilung.png, F6_robustheit.png
