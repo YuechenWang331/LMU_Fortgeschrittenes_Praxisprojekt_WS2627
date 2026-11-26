@@ -1,0 +1,16 @@
+phase,name,type,kw_start,y_start,kw_end,y_end,start,end,end_open
+0,sporadische Faelle,Vorphase,5,2020,9,2020,2020-01-27,2020-03-01,FALSE
+1,Erste Welle,Welle,10,2020,20,2020,2020-03-02,2020-05-17,FALSE
+2,Sommerplateau 2020,Plateau,21,2020,39,2020,2020-05-18,2020-09-27,FALSE
+2a,Sommerplateau 2020 (a),Unterphase,21,2020,30,2020,2020-05-18,2020-07-26,FALSE
+2b,Sommerplateau 2020 (b),Unterphase,31,2020,39,2020,2020-07-27,2020-09-27,FALSE
+3,Zweite Welle,Welle,40,2020,8,2021,2020-09-28,2021-02-28,FALSE
+4,Dritte Welle (Alpha),Welle,9,2021,23,2021,2021-03-01,2021-06-13,FALSE
+5,Sommerplateau 2021,Plateau,24,2021,30,2021,2021-06-14,2021-08-01,FALSE
+6,Vierte Welle (Delta),Welle,31,2021,51,2021,2021-08-02,2021-12-26,FALSE
+6a,Delta Sommer,Unterphase,31,2021,39,2021,2021-08-02,2021-10-03,FALSE
+6b,Delta Herbst/Winter,Unterphase,40,2021,51,2021,2021-10-04,2021-12-26,FALSE
+7,Fuenfte Welle (Omikron BA.1/BA.2),Welle,52,2021,21,2022,2021-12-27,2022-05-29,FALSE
+7a,Omikron BA.1,Unterphase,52,2021,8,2022,2021-12-27,2022-02-27,FALSE
+7b,Omikron BA.2,Unterphase,9,2022,21,2022,2022-02-28,2022-05-29,FALSE
+8,Sechste Welle (Omikron BA.5),Welle,22,2022,,,2022-05-30,,TRUE

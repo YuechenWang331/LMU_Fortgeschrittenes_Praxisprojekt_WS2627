@@ -1,0 +1,90 @@
+year,indicator,rows,kreise_total,kreise_match,share_unknown,file
+2021,BILABS,6692,475,400,0.046,abschlusse_flat.csv
+2022,BILABS,6692,475,400,0.046,abschlusse_flat.csv
+2020,BILABS,6692,475,400,0.045,abschlusse_flat.csv
+2023,BILABS,6692,475,400,0.045,abschlusse_flat.csv
+2021,ERWP06,3339,474,400,0,arbeitslose_flat.csv
+2022,ERWP06,3339,474,400,0,arbeitslose_flat.csv
+2023,ERWP06,3339,474,400,0,arbeitslose_flat.csv
+2020,ERWP06,3339,474,400,0,arbeitslose_flat.csv
+2022,ERW054,4293,474,400,0.01,beschaeftigte_flat.csv
+2021,ERW054,4293,474,400,0.01,beschaeftigte_flat.csv
+2020,ERW054,4293,474,400,0.01,beschaeftigte_flat.csv
+2023,ERW054,4293,474,400,0.01,beschaeftigte_flat.csv
+2021,ESML01,3339,474,400,0,grundsicherung_flat.csv
+2022,ESML01,3339,474,400,0,grundsicherung_flat.csv
+2023,ESML01,3339,474,400,0,grundsicherung_flat.csv
+2020,ESML01,3339,474,400,0,grundsicherung_flat.csv
+2023,PFL003,477,474,400,0,pflegestat_flat.csv
+2023,PFL010,477,474,400,0,pflegestat_flat.csv
+2023,PFL009,477,474,400,0,pflegestat_flat.csv
+2023,PFL004,477,474,400,0,pflegestat_flat.csv
+2021,PFL003,477,474,400,0,pflegestat_flat.csv
+2021,PFL010,477,474,400,0,pflegestat_flat.csv
+2021,PFL009,477,474,400,0,pflegestat_flat.csv
+2021,PFL004,477,474,400,0,pflegestat_flat.csv
+2021,PFL014,477,474,400,0,pflegestat_flat.csv
+2021,PFL008,477,474,400,0,pflegestat_flat.csv
+2023,PFL014,477,474,400,0,pflegestat_flat.csv
+2023,PFL008,477,474,400,0,pflegestat_flat.csv
+2021,BEV030,5247,474,400,0.04,schutzsuchende_flat.csv
+2020,BEV030,5247,474,400,0.039,schutzsuchende_flat.csv
+2023,BEV030,5247,474,400,0.039,schutzsuchende_flat.csv
+2022,BEV030,5247,474,400,0.037,schutzsuchende_flat.csv
+2020,KIN004,477,474,400,0,tageseinrichtungen_flat.csv
+2020,KIN002,2385,474,400,0,tageseinrichtungen_flat.csv
+2020,PLZ005,477,474,400,0,tageseinrichtungen_flat.csv
+2020,RZVPB1,477,474,400,0,tageseinrichtungen_flat.csv
+2021,KIN004,477,474,400,0,tageseinrichtungen_flat.csv
+2021,KIN002,2385,474,400,0,tageseinrichtungen_flat.csv
+2021,PLZ005,477,474,400,0,tageseinrichtungen_flat.csv
+2021,RZVPB1,477,474,400,0,tageseinrichtungen_flat.csv
+2022,KIN004,477,474,400,0,tageseinrichtungen_flat.csv
+2022,KIN002,2385,474,400,0,tageseinrichtungen_flat.csv
+2022,PLZ005,477,474,400,0,tageseinrichtungen_flat.csv
+2022,RZVPB1,477,474,400,0,tageseinrichtungen_flat.csv
+2023,KIN004,477,474,400,0,tageseinrichtungen_flat.csv
+2023,KIN002,2385,474,400,0,tageseinrichtungen_flat.csv
+2023,PLZ005,477,474,400,0,tageseinrichtungen_flat.csv
+2023,RZVPB1,477,474,400,0,tageseinrichtungen_flat.csv
+2021,PER005,2385,474,400,0,tageseinrichtungen_flat.csv
+2022,PER005,2385,474,400,0,tageseinrichtungen_flat.csv
+2023,PER005,2385,474,400,0,tageseinrichtungen_flat.csv
+2020,PER005,2385,474,400,0,tageseinrichtungen_flat.csv
+2022,GAST03,477,474,400,0,tourismus_flat.csv
+2022,GAST04,477,474,400,0,tourismus_flat.csv
+2022,GAST01,477,474,400,0.005,tourismus_flat.csv
+2022,GAST02,477,474,400,0,tourismus_flat.csv
+2021,GAST03,477,474,400,0,tourismus_flat.csv
+2021,GAST04,477,474,400,0,tourismus_flat.csv
+2021,GAST01,477,474,400,0,tourismus_flat.csv
+2021,GAST02,477,474,400,0,tourismus_flat.csv
+2020,GAST03,477,474,400,0,tourismus_flat.csv
+2020,GAST04,477,474,400,0,tourismus_flat.csv
+2020,GAST01,477,474,400,0.067,tourismus_flat.csv
+2020,GAST02,477,474,400,0.062,tourismus_flat.csv
+2023,GAST03,477,474,400,0,tourismus_flat.csv
+2023,GAST04,477,474,400,0,tourismus_flat.csv
+2023,GAST01,477,474,400,0,tourismus_flat.csv
+2023,GAST02,477,474,400,0,tourismus_flat.csv
+2022,FLC006,477,477,400,0,11111-0002 Gebietsfläche nach Kreise.csv
+2023,FLC006,477,477,400,0,11111-0002 Gebietsfläche nach Kreise.csv
+2020,FLC006,477,477,400,0,11111-0002 Gebietsfläche nach Kreise.csv
+2021,FLC006,477,477,400,0,11111-0002 Gebietsfläche nach Kreise.csv
+2021,BEVSTD,16218,477,400,0,"12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv"
+2024,BEVSTD,16218,477,400,0,"12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv"
+2020,BEVSTD,16218,477,400,0,"12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv"
+2022,BEVSTD,16218,477,400,0,"12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv"
+2023,BEVSTD,16218,477,400,0,"12411-0018 Bevölkerung nach Geschlecht, Altersgruppen und Kreisen.csv"
+2021,PEN001,103020,402,400,0.204,einpendelnde21_flat.csv
+2022,PEN001,103020,402,400,0.201,einpendelnde22_flat.csv
+2023,PEN001,103020,402,400,0.198,einpendelnde23_flat.csv
+2021,PEN0021,103020,402,400,0.15,auspendelnde21_flat.csv
+2021,PEN002,6868,402,400,0,auspendelnde21_flat.csv
+2021,PEN0022,6868,402,400,0.555,auspendelnde21_flat.csv
+2022,PEN0021,103020,402,400,0.148,auspendelnde22_flat.csv
+2022,PEN002,6868,402,400,0,auspendelnde22_flat.csv
+2022,PEN0022,6868,402,400,0.561,auspendelnde22_flat.csv
+2023,PEN0021,103020,402,400,0.146,auspendelnde23_flat.csv
+2023,PEN002,6868,402,400,0,auspendelnde23_flat.csv
+2023,PEN0022,6868,402,400,0.537,auspendelnde23_flat.csv

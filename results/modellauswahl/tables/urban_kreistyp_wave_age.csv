@@ -1,0 +1,225 @@
+kreistyp,phase,grp,cuminc,ratio
+1 kreisfreie Grossstadt,W1,0-5,49,1.131
+1 kreisfreie Grossstadt,W1,6-17,67,1.005
+1 kreisfreie Grossstadt,W1,18-39,241,0.988
+1 kreisfreie Grossstadt,W1,40-59,246,0.93
+1 kreisfreie Grossstadt,W1,60-69,168,0.928
+1 kreisfreie Grossstadt,W1,70-79,168,0.912
+1 kreisfreie Grossstadt,W1,80+,285,0.853
+1 kreisfreie Grossstadt,W2,0-5,1075,1.031
+1 kreisfreie Grossstadt,W2,6-17,2244,1.157
+1 kreisfreie Grossstadt,W2,18-39,3283,1.017
+1 kreisfreie Grossstadt,W2,40-59,2985,1.04
+1 kreisfreie Grossstadt,W2,60-69,1982,1.035
+1 kreisfreie Grossstadt,W2,70-79,1845,1.059
+1 kreisfreie Grossstadt,W2,80+,3733,0.996
+1 kreisfreie Grossstadt,W3,0-5,1350,1
+1 kreisfreie Grossstadt,W3,6-17,2065,1.099
+1 kreisfreie Grossstadt,W3,18-39,1876,0.932
+1 kreisfreie Grossstadt,W3,40-59,1647,0.982
+1 kreisfreie Grossstadt,W3,60-69,991,0.973
+1 kreisfreie Grossstadt,W3,70-79,724,0.991
+1 kreisfreie Grossstadt,W3,80+,566,0.853
+1 kreisfreie Grossstadt,W4,0-5,3039,1.001
+1 kreisfreie Grossstadt,W4,6-17,8237,1.029
+1 kreisfreie Grossstadt,W4,18-39,4302,0.908
+1 kreisfreie Grossstadt,W4,40-59,3531,0.924
+1 kreisfreie Grossstadt,W4,60-69,1869,0.883
+1 kreisfreie Grossstadt,W4,70-79,1369,0.88
+1 kreisfreie Grossstadt,W4,80+,1504,0.854
+1 kreisfreie Grossstadt,W5,0-5,17486,0.936
+1 kreisfreie Grossstadt,W5,6-17,35439,0.937
+1 kreisfreie Grossstadt,W5,18-39,28153,0.912
+1 kreisfreie Grossstadt,W5,40-59,21927,0.922
+1 kreisfreie Grossstadt,W5,60-69,11290,0.915
+1 kreisfreie Grossstadt,W5,70-79,7334,0.931
+1 kreisfreie Grossstadt,W5,80+,8087,0.922
+1 kreisfreie Grossstadt,W6,0-5,2111,0.939
+1 kreisfreie Grossstadt,W6,6-17,4680,0.853
+1 kreisfreie Grossstadt,W6,18-39,8412,0.936
+1 kreisfreie Grossstadt,W6,40-59,7936,0.906
+1 kreisfreie Grossstadt,W6,60-69,5288,0.941
+1 kreisfreie Grossstadt,W6,70-79,3607,0.957
+1 kreisfreie Grossstadt,W6,80+,3471,0.986
+1 kreisfreie Grossstadt,W7,0-5,954,0.837
+1 kreisfreie Grossstadt,W7,6-17,2374,0.824
+1 kreisfreie Grossstadt,W7,18-39,4638,0.864
+1 kreisfreie Grossstadt,W7,40-59,5514,0.846
+1 kreisfreie Grossstadt,W7,60-69,4529,0.875
+1 kreisfreie Grossstadt,W7,70-79,3507,0.881
+1 kreisfreie Grossstadt,W7,80+,3960,0.936
+1 kreisfreie Grossstadt,W8,0-5,438,0.953
+1 kreisfreie Grossstadt,W8,6-17,862,0.915
+1 kreisfreie Grossstadt,W8,18-39,2585,0.939
+1 kreisfreie Grossstadt,W8,40-59,3010,0.953
+1 kreisfreie Grossstadt,W8,60-69,2285,1.037
+1 kreisfreie Grossstadt,W8,70-79,2042,1.069
+1 kreisfreie Grossstadt,W8,80+,3344,1.069
+2 staedtischer Kreis,W1,0-5,44,1.028
+2 staedtischer Kreis,W1,6-17,69,1.033
+2 staedtischer Kreis,W1,18-39,269,1.103
+2 staedtischer Kreis,W1,40-59,307,1.163
+2 staedtischer Kreis,W1,60-69,214,1.182
+2 staedtischer Kreis,W1,70-79,215,1.166
+2 staedtischer Kreis,W1,80+,415,1.241
+2 staedtischer Kreis,W2,0-5,1048,1.004
+2 staedtischer Kreis,W2,6-17,1877,0.968
+2 staedtischer Kreis,W2,18-39,3238,1.003
+2 staedtischer Kreis,W2,40-59,2733,0.953
+2 staedtischer Kreis,W2,60-69,1794,0.937
+2 staedtischer Kreis,W2,70-79,1614,0.927
+2 staedtischer Kreis,W2,80+,3438,0.917
+2 staedtischer Kreis,W3,0-5,1380,1.022
+2 staedtischer Kreis,W3,6-17,1853,0.987
+2 staedtischer Kreis,W3,18-39,2076,1.031
+2 staedtischer Kreis,W3,40-59,1634,0.975
+2 staedtischer Kreis,W3,60-69,960,0.943
+2 staedtischer Kreis,W3,70-79,672,0.919
+2 staedtischer Kreis,W3,80+,604,0.91
+2 staedtischer Kreis,W4,0-5,2725,0.898
+2 staedtischer Kreis,W4,6-17,7040,0.879
+2 staedtischer Kreis,W4,18-39,4435,0.936
+2 staedtischer Kreis,W4,40-59,3401,0.89
+2 staedtischer Kreis,W4,60-69,1875,0.886
+2 staedtischer Kreis,W4,70-79,1376,0.885
+2 staedtischer Kreis,W4,80+,1516,0.861
+2 staedtischer Kreis,W5,0-5,18396,0.984
+2 staedtischer Kreis,W5,6-17,37331,0.988
+2 staedtischer Kreis,W5,18-39,31220,1.012
+2 staedtischer Kreis,W5,40-59,23900,1.005
+2 staedtischer Kreis,W5,60-69,12559,1.017
+2 staedtischer Kreis,W5,70-79,8103,1.028
+2 staedtischer Kreis,W5,80+,8780,1.001
+2 staedtischer Kreis,W6,0-5,2400,1.067
+2 staedtischer Kreis,W6,6-17,6065,1.106
+2 staedtischer Kreis,W6,18-39,9504,1.058
+2 staedtischer Kreis,W6,40-59,9349,1.067
+2 staedtischer Kreis,W6,60-69,6009,1.069
+2 staedtischer Kreis,W6,70-79,4004,1.062
+2 staedtischer Kreis,W6,80+,3656,1.038
+2 staedtischer Kreis,W7,0-5,1210,1.062
+2 staedtischer Kreis,W7,6-17,3066,1.065
+2 staedtischer Kreis,W7,18-39,5744,1.07
+2 staedtischer Kreis,W7,40-59,6971,1.07
+2 staedtischer Kreis,W7,60-69,5597,1.081
+2 staedtischer Kreis,W7,70-79,4342,1.091
+2 staedtischer Kreis,W7,80+,4500,1.063
+2 staedtischer Kreis,W8,0-5,468,1.02
+2 staedtischer Kreis,W8,6-17,989,1.05
+2 staedtischer Kreis,W8,18-39,2928,1.063
+2 staedtischer Kreis,W8,40-59,3361,1.064
+2 staedtischer Kreis,W8,60-69,2362,1.072
+2 staedtischer Kreis,W8,70-79,2022,1.058
+2 staedtischer Kreis,W8,80+,3236,1.034
+3 laendl. Kreis m. Verdichtung,W1,0-5,38,0.88
+3 laendl. Kreis m. Verdichtung,W1,6-17,69,1.034
+3 laendl. Kreis m. Verdichtung,W1,18-39,225,0.925
+3 laendl. Kreis m. Verdichtung,W1,40-59,247,0.934
+3 laendl. Kreis m. Verdichtung,W1,60-69,172,0.948
+3 laendl. Kreis m. Verdichtung,W1,70-79,167,0.907
+3 laendl. Kreis m. Verdichtung,W1,80+,288,0.862
+3 laendl. Kreis m. Verdichtung,W2,0-5,1023,0.981
+3 laendl. Kreis m. Verdichtung,W2,6-17,1801,0.929
+3 laendl. Kreis m. Verdichtung,W2,18-39,3200,0.991
+3 laendl. Kreis m. Verdichtung,W2,40-59,2973,1.036
+3 laendl. Kreis m. Verdichtung,W2,60-69,2028,1.06
+3 laendl. Kreis m. Verdichtung,W2,70-79,1822,1.046
+3 laendl. Kreis m. Verdichtung,W2,80+,4122,1.1
+3 laendl. Kreis m. Verdichtung,W3,0-5,1364,1.01
+3 laendl. Kreis m. Verdichtung,W3,6-17,1828,0.973
+3 laendl. Kreis m. Verdichtung,W3,18-39,2176,1.081
+3 laendl. Kreis m. Verdichtung,W3,40-59,1796,1.071
+3 laendl. Kreis m. Verdichtung,W3,60-69,1093,1.073
+3 laendl. Kreis m. Verdichtung,W3,70-79,798,1.091
+3 laendl. Kreis m. Verdichtung,W3,80+,765,1.153
+3 laendl. Kreis m. Verdichtung,W4,0-5,3380,1.114
+3 laendl. Kreis m. Verdichtung,W4,6-17,8861,1.107
+3 laendl. Kreis m. Verdichtung,W4,18-39,5529,1.167
+3 laendl. Kreis m. Verdichtung,W4,40-59,4514,1.182
+3 laendl. Kreis m. Verdichtung,W4,60-69,2549,1.204
+3 laendl. Kreis m. Verdichtung,W4,70-79,1889,1.215
+3 laendl. Kreis m. Verdichtung,W4,80+,2211,1.256
+3 laendl. Kreis m. Verdichtung,W5,0-5,20145,1.078
+3 laendl. Kreis m. Verdichtung,W5,6-17,40277,1.065
+3 laendl. Kreis m. Verdichtung,W5,18-39,33760,1.094
+3 laendl. Kreis m. Verdichtung,W5,40-59,25463,1.07
+3 laendl. Kreis m. Verdichtung,W5,60-69,13021,1.055
+3 laendl. Kreis m. Verdichtung,W5,70-79,8138,1.033
+3 laendl. Kreis m. Verdichtung,W5,80+,9179,1.046
+3 laendl. Kreis m. Verdichtung,W6,0-5,2234,0.994
+3 laendl. Kreis m. Verdichtung,W6,6-17,5678,1.035
+3 laendl. Kreis m. Verdichtung,W6,18-39,9181,1.022
+3 laendl. Kreis m. Verdichtung,W6,40-59,9003,1.028
+3 laendl. Kreis m. Verdichtung,W6,60-69,5586,0.994
+3 laendl. Kreis m. Verdichtung,W6,70-79,3757,0.997
+3 laendl. Kreis m. Verdichtung,W6,80+,3528,1.002
+3 laendl. Kreis m. Verdichtung,W7,0-5,1226,1.076
+3 laendl. Kreis m. Verdichtung,W7,6-17,3074,1.068
+3 laendl. Kreis m. Verdichtung,W7,18-39,5761,1.073
+3 laendl. Kreis m. Verdichtung,W7,40-59,6879,1.056
+3 laendl. Kreis m. Verdichtung,W7,60-69,5290,1.022
+3 laendl. Kreis m. Verdichtung,W7,70-79,4033,1.013
+3 laendl. Kreis m. Verdichtung,W7,80+,4235,1.001
+3 laendl. Kreis m. Verdichtung,W8,0-5,460,1.001
+3 laendl. Kreis m. Verdichtung,W8,6-17,942,1
+3 laendl. Kreis m. Verdichtung,W8,18-39,2693,0.978
+3 laendl. Kreis m. Verdichtung,W8,40-59,3033,0.96
+3 laendl. Kreis m. Verdichtung,W8,60-69,1995,0.905
+3 laendl. Kreis m. Verdichtung,W8,70-79,1716,0.898
+3 laendl. Kreis m. Verdichtung,W8,80+,2855,0.912
+4 duenn besiedelt laendl.,W1,0-5,33,0.77
+4 duenn besiedelt laendl.,W1,6-17,58,0.861
+4 duenn besiedelt laendl.,W1,18-39,201,0.823
+4 duenn besiedelt laendl.,W1,40-59,206,0.778
+4 duenn besiedelt laendl.,W1,60-69,134,0.742
+4 duenn besiedelt laendl.,W1,70-79,156,0.846
+4 duenn besiedelt laendl.,W1,80+,272,0.814
+4 duenn besiedelt laendl.,W2,0-5,985,0.944
+4 duenn besiedelt laendl.,W2,6-17,1682,0.867
+4 duenn besiedelt laendl.,W2,18-39,3076,0.953
+4 duenn besiedelt laendl.,W2,40-59,2895,1.009
+4 duenn besiedelt laendl.,W2,60-69,1971,1.03
+4 duenn besiedelt laendl.,W2,70-79,1794,1.03
+4 duenn besiedelt laendl.,W2,80+,4108,1.096
+4 duenn besiedelt laendl.,W3,0-5,1248,0.924
+4 duenn besiedelt laendl.,W3,6-17,1644,0.875
+4 duenn besiedelt laendl.,W3,18-39,2020,1.003
+4 duenn besiedelt laendl.,W3,40-59,1707,1.019
+4 duenn besiedelt laendl.,W3,60-69,1113,1.093
+4 duenn besiedelt laendl.,W3,70-79,811,1.11
+4 duenn besiedelt laendl.,W3,80+,855,1.29
+4 duenn besiedelt laendl.,W4,0-5,3509,1.156
+4 duenn besiedelt laendl.,W4,6-17,9204,1.15
+4 duenn besiedelt laendl.,W4,18-39,5865,1.238
+4 duenn besiedelt laendl.,W4,40-59,4664,1.221
+4 duenn besiedelt laendl.,W4,60-69,2567,1.213
+4 duenn besiedelt laendl.,W4,70-79,1928,1.24
+4 duenn besiedelt laendl.,W4,80+,2282,1.296
+4 duenn besiedelt laendl.,W5,0-5,20436,1.093
+4 duenn besiedelt laendl.,W5,6-17,40824,1.08
+4 duenn besiedelt laendl.,W5,18-39,33808,1.095
+4 duenn besiedelt laendl.,W5,40-59,25105,1.055
+4 duenn besiedelt laendl.,W5,60-69,12645,1.024
+4 duenn besiedelt laendl.,W5,70-79,7936,1.007
+4 duenn besiedelt laendl.,W5,80+,9467,1.079
+4 duenn besiedelt laendl.,W6,0-5,2129,0.947
+4 duenn besiedelt laendl.,W6,6-17,5248,0.957
+4 duenn besiedelt laendl.,W6,18-39,8834,0.983
+4 duenn besiedelt laendl.,W6,40-59,8478,0.968
+4 duenn besiedelt laendl.,W6,60-69,5236,0.932
+4 duenn besiedelt laendl.,W6,70-79,3482,0.924
+4 duenn besiedelt laendl.,W6,80+,3277,0.93
+4 duenn besiedelt laendl.,W7,0-5,1238,1.087
+4 duenn besiedelt laendl.,W7,6-17,3129,1.087
+4 duenn besiedelt laendl.,W7,18-39,5805,1.081
+4 duenn besiedelt laendl.,W7,40-59,6798,1.043
+4 duenn besiedelt laendl.,W7,60-69,5022,0.97
+4 duenn besiedelt laendl.,W7,70-79,3805,0.956
+4 duenn besiedelt laendl.,W7,80+,4035,0.953
+4 duenn besiedelt laendl.,W8,0-5,479,1.044
+4 duenn besiedelt laendl.,W8,6-17,969,1.029
+4 duenn besiedelt laendl.,W8,18-39,2787,1.012
+4 duenn besiedelt laendl.,W8,40-59,3054,0.967
+4 duenn besiedelt laendl.,W8,60-69,1939,0.88
+4 duenn besiedelt laendl.,W8,70-79,1649,0.863
+4 duenn besiedelt laendl.,W8,80+,2811,0.898

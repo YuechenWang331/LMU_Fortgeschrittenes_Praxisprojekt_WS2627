@@ -1,0 +1,24 @@
+Lauf: 2026-11-26 20:52 | Modus: Entwicklung
+Git-Stand bei Start: d993bd9 (sauber)
+Gelaufen: 24 25 11
+Uebersprungen: -
+Bootstrap (13): 13 nicht gelaufen
+INLA-Threads (24): 1:1
+Rang-2-Startwerte (25): 5
+R version 4.5.1 (2025-06-13)
+Plattform: aarch64-apple-darwin20
+Quarto: 1.8.26
+data.table  1.17.8
+ggplot2     4.0.1
+scales      1.4.0
+ragg        1.5.2
+MASS        7.3.65
+sandwich    3.1.1
+mgcv        1.9.3
+sf          1.0.23
+survival    3.8.3
+cluster     2.1.8.1
+glmmTMB     1.1.15.2
+TMB         1.9.25
+INLA        25.10.19
+sn          2.1.3
