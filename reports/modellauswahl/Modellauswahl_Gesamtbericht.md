@@ -36,7 +36,6 @@
 
 ## 0. Für die Gruppe: Stand in Kürze
 
-> **Ablauf:** Die Gruppe liest diesen Stand → entscheidet Modell und Kovariatensatz ([0.5](#05-was-die-gruppe-entscheiden-muss)) → das gewählte Modell wird in der Zwischenpräsentation am 04.12.2026 vorgestellt. **Bis dahin ist nichts beschlossen.**
 
 ### 0.1 Was in diesem Teil gemacht wurde
 
